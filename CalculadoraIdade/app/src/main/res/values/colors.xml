@@ -10,4 +10,5 @@
     <color name="text">#f1faee</color>
     <color name="background">#1d3557</color>
     <color name="bgText">#e63946</color>
+    <color name="azulClaro">#a8dadc</color>
 </resources>
