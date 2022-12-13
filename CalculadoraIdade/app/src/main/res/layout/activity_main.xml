@@ -51,17 +51,18 @@
         android:text="SELECIONE A DATA"
         android:textStyle="bold"
         android:textSize="18sp"
+        android:textColor="@color/text"
         />
 
     <TextView
+        android:id="@+id/tvSelectDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Data"
         android:textColor="@color/text"
         android:textSize="16sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
