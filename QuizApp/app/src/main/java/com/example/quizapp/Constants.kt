@@ -19,7 +19,7 @@ object Constants {
         val que2 = Question(
             2,
             "Qual a raça dessa foto?",
-            R.drawable.Cocker,
+            R.drawable.cocker,
             "Boiadeiro australiano",
             "Boxer",
             "Border collie", "Cocker spaniel inglês", 4
