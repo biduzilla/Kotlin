@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun clickDatePicker() {
+    private fun clickDatePicker() {
         val myCalendar = Calendar.getInstance()
         val year = myCalendar.get(Calendar.YEAR)
         val month = myCalendar.get(Calendar.MONTH)
@@ -35,16 +35,20 @@ class MainActivity : AppCompatActivity() {
                 val selectedDate = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
                 tvSelectedDate.text = selectedDate
 
-
                 val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+
                 val theDate = sdf.parse(selectedDate)
+
                 theDate?.let {
                     val selectedDateInMinutes = theDate.time / 60000
+
                     val currentDate = sdf.parse(sdf.format(System.currentTimeMillis()))
+
                     currentDate?.let {
                         val currentDateToMinutes = currentDate.time / 60000
 
                         val differenceInMinutes = currentDateToMinutes - selectedDateInMinutes
+
                         tvSelectedDateInMinutes.text = differenceInMinutes.toString()
                     }
                 }
