@@ -1,10 +1,12 @@
 package com.example.controledeprodutos
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
 import com.tsuryo.swipeablerv.SwipeableRecyclerView
 
@@ -21,6 +23,8 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
 
         rvProdutos = findViewById(R.id.produtos)
 
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
         carregaLista()
 
         configReciclerView()
@@ -39,7 +43,8 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
             }
 
             override fun onSwipedRight(position: Int) {
-
+                produtosList.removeAt(position)
+                adapterProdutos!!.notifyItemRemoved(position)
             }
         })
 
@@ -76,5 +81,10 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
 
     override fun onClickListener(produto: ProdutosKotlin) {
         Toast.makeText(this, produto.nome, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        MenuInflater(this).inflate(R.menu.menu_toolbar,menu)
+        return true
     }
 }

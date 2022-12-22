@@ -7,16 +7,42 @@
     android:background="#f76a65"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimaryVariant"
+        app:title="Controle de estoque"
+        app:subtitleTextColor="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.2"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:layout_editor_absoluteX="0dp" />
+
     <com.tsuryo.swipeablerv.SwipeableRecyclerView
         android:id="@+id/produtos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_produto"
-        app:leftBgColor="@android:color/white"
-        app:leftImage="@drawable/ic_delete"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:leftBgColor="@android:color/white"
+        app:leftImage="@drawable/ic_delete"
+        app:rightBgColor="@color/color_edit"
+        app:rightImage="@drawable/ic_edit"
+        tools:listitem="@layout/item_produto" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
