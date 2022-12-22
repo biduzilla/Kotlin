@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class AdapterProdutosKoltin(private val produtosList: MutableList<ProdutosKotlin>) :
+class AdapterProdutosKoltin(private val produtosList: MutableList<ProdutosKotlin>, private val onClickInterface:OnClick) :
     RecyclerView.Adapter<AdapterProdutosKoltin.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,10 +34,18 @@ class AdapterProdutosKoltin(private val produtosList: MutableList<ProdutosKotlin
         }
     }
 
+    interface OnClick{
+        fun onClickListener(produto:ProdutosKotlin)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val produto = produtosList[position]
         holder.tvProduto.text = produto.nome
         holder.tvEstoque.text = "Estoque: ${produto.estoque.toString()}"
         holder.tvValor.text = "$ ${produto.valor.toString()}"
+
+        holder.itemView.setOnClickListener {
+            onClickInterface.onClickListener(produto)
+        }
     }
 }
