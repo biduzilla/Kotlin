@@ -3,6 +3,9 @@ package com.example.controledeprodutos
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -16,18 +19,44 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
     private var produtosList = mutableListOf<ProdutosKotlin>()
     private var rvProdutos: SwipeableRecyclerView? = null
     private var adapterProdutos: AdapterProdutosKoltin? = null
+    private var ibAdd:ImageButton? = null
+    private var ibMore:ImageButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         rvProdutos = findViewById(R.id.produtos)
+        ibAdd = findViewById(R.id.ib_add)
+        ibMore = findViewById(R.id.ib_more)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+//        val toolbar: Toolbar = findViewById(R.id.toolbar)
+//        setSupportActionBar(toolbar)
         carregaLista()
 
         configReciclerView()
+
+        listenerClicks()
+
+    }
+
+    private fun listenerClicks() {
+        ibAdd!!.setOnClickListener{
+            Toast.makeText(this, "Add",Toast.LENGTH_SHORT).show()
+        }
+
+        ibMore!!.setOnClickListener{
+            val popupMenu:PopupMenu = PopupMenu(this, ibMore)
+            popupMenu.menuInflater.inflate(R.menu.toolbar, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener {
+                if (it.itemId == R.id.menu_sobre){
+                    Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show()
+                }
+                return@setOnMenuItemClickListener true
+            }
+            popupMenu.show()
+        }
 
     }
 
@@ -83,8 +112,19 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
         Toast.makeText(this, produto.nome, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        MenuInflater(this).inflate(R.menu.menu_toolbar,menu)
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        MenuInflater(this).inflate(R.menu.menu_toolbar,menu)
+//        return true
+//    }
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        val idMenu:Int = item.itemId
+//
+//        if (idMenu == R.id.menu_add){
+//            Toast.makeText(this,"add", Toast.LENGTH_SHORT).show()
+//        }else{
+//            Toast.makeText(this,"sobre", Toast.LENGTH_SHORT).show()
+//        }
+//        return true
+//    }
 }
