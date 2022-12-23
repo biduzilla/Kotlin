@@ -1,5 +1,6 @@
 package com.example.controledeprodutos
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
 
     private fun listenerClicks() {
         ibAdd!!.setOnClickListener{
-            Toast.makeText(this, "Add",Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, FormProdutoActivity::class.java))
         }
 
         ibMore!!.setOnClickListener{
