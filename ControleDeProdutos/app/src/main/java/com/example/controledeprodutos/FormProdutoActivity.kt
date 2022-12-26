@@ -7,56 +7,76 @@ import android.widget.EditText
 import android.widget.Toast
 
 class FormProdutoActivity : AppCompatActivity() {
-    private var editProduto:EditText? = null
-    private var editQuantidade:EditText? = null
-    private var editValor:EditText? = null
-    private var produtoDAO:ProdutoDAO? = null
+    private var editProduto: EditText? = null
+    private var editQuantidade: EditText? = null
+    private var editValor: EditText? = null
+    private var produtoDAO: ProdutoDAO? = null
+    private var produto = ProdutoEntity()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_produto)
 
         produtoDAO = ProdutoDAO(this)
-
         editProduto = findViewById(R.id.edit_produto)
         editQuantidade = findViewById(R.id.edit_quantidade)
         editValor = findViewById(R.id.edit_valor)
+
+        val bundle: Bundle? = intent.extras
+        if (bundle != null) {
+            produto = bundle.getSerializable("produto") as ProdutoEntity
+            editProduto()
+        }
     }
 
-    fun salvarProduto(view:View){
-        val nome:String  = editProduto!!.text.toString()
-        val quantidade:String  = editQuantidade!!.text.toString()
-        val valor:String  = editValor!!.text.toString()
+    private fun editProduto() {
+        editProduto!!.setText(produto.nome)
+        editQuantidade!!.setText(produto.estoque.toString())
+        editValor!!.setText(produto.valor.toString())
+    }
 
-        if (nome.isNotEmpty()){
-            if (quantidade.isNotEmpty()){
-                val qtd:Int = quantidade.toInt()
+    fun salvarProduto(view: View) {
+        val nome: String = editProduto!!.text.toString()
+        val quantidade: String = editQuantidade!!.text.toString()
+        val valor: String = editValor!!.text.toString()
 
-                if (qtd >= 1){
-                    if (valor.isNotEmpty()){
-                        val valorProduto:Double =  valor.toDouble()
-                        if (valorProduto > 0){
-                            val produto = ProdutoEntity(nome, qtd, valorProduto)
-                            produtoDAO!!.salvarProduto(produto)
+        if (nome.isNotEmpty()) {
+            if (quantidade.isNotEmpty()) {
+                val qtd: Int = quantidade.toInt()
+
+                if (qtd >= 1) {
+                    if (valor.isNotEmpty()) {
+                        val valorProduto: Double = valor.toDouble()
+                        if (valorProduto > 0) {
+
+                            produto.nome = nome
+                            produto.estoque = qtd
+                            produto.valor = valorProduto
+                            if (produto.id != 0) {
+                                produtoDAO!!.atualizaProduto(produto)
+                            } else {
+                                produtoDAO!!.salvarProduto(produto)
+                                println(produto.toString())
+                            }
                             finish()
 
-                        }else{
+                        } else {
                             editValor!!.requestFocus()
                             editValor!!.error = "Informe um valor maior que 0"
                         }
-                    }else {
+                    } else {
                         editValor!!.requestFocus()
                         editValor!!.error = "Informe o Valor do Produto"
                     }
-                }else{
+                } else {
                     editQuantidade!!.requestFocus()
                     editQuantidade!!.error = "Informe um valor maior que 0"
                 }
-            }else{
+            } else {
                 editQuantidade!!.requestFocus()
                 editQuantidade!!.error = "Informe a quantidade do produto"
             }
-        }else{
+        } else {
             editProduto!!.requestFocus()
             editProduto!!.error = "Informe o nome do produto"
         }

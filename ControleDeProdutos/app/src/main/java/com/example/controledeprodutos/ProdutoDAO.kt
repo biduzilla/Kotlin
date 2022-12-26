@@ -34,7 +34,10 @@ class ProdutoDAO(private val context: Context, private val dbHelper: DbHelper = 
             val estoque:Int = cursor.getInt(cursor.getColumnIndex("estoque"))
             val valor:Double = cursor.getDouble(cursor.getColumnIndex("valor"))
 
-            val produto = ProdutoEntity(nome,estoque,valor)
+            val produto = ProdutoEntity()
+            produto.nome = nome
+            produto.valor = valor
+            produto.estoque = estoque
             produto.id = id
 
             produtoList.add(produto)
@@ -42,5 +45,15 @@ class ProdutoDAO(private val context: Context, private val dbHelper: DbHelper = 
         return produtoList
     }
 
+    fun atualizaProduto(produto: ProdutoEntity){
+        val contentValues = ContentValues()
+        contentValues.put("id",produto.id)
+        contentValues.put("nome", produto.nome)
+        contentValues.put("estoque", produto.estoque)
+        contentValues.put("valor", produto.valor)
 
+        val where:String = "id=?"
+        write.update(DbHelper.TB_PRODUTO, contentValues, "id=" + produto.id,null)
+
+    }
 }

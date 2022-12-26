@@ -83,7 +83,9 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
     }
 
     override fun onClickListener(produto: ProdutoEntity) {
-        Toast.makeText(this, produto.nome, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, FormProdutoActivity::class.java)
+        intent.putExtra("produto",produto)
+        startActivity(intent)
     }
 
 //    private fun carregaLista() {
