@@ -1,3 +1,3 @@
 package com.example.controledeprodutos
 
-data class ProdutosKotlin(var nome:String, var estoque:Int, var valor:Double)
+data class ProdutosKotlin(val id: Int, var nome: String, var estoque: Int, var valor: Double)

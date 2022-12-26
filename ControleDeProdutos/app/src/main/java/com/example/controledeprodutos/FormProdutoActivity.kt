@@ -36,8 +36,9 @@ class FormProdutoActivity : AppCompatActivity() {
                     if (valor.isNotEmpty()){
                         val valorProduto:Double =  valor.toDouble()
                         if (valorProduto > 0){
-                            val produto = ProdutosKotlin(nome, qtd, valorProduto)
+                            val produto = ProdutoEntity(nome, qtd, valorProduto)
                             produtoDAO!!.salvarProduto(produto)
+                            finish()
 
                         }else{
                             editValor!!.requestFocus()
