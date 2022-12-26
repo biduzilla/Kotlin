@@ -5,33 +5,39 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
 import com.tsuryo.swipeablerv.SwipeableRecyclerView
+import java.text.Normalizer.Form
 
 
 class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
 
-//    private var produtosList = mutableListOf<ProdutosKotlin>()
+    private var produtosList = mutableListOf<ProdutoEntity>()
     private var rvProdutos: SwipeableRecyclerView? = null
     private var adapterProdutos: AdapterProdutosKoltin? = null
     private var ibAdd:ImageButton? = null
     private var ibMore:ImageButton? = null
     private var produtoDAO:ProdutoDAO? = null
+    private var tvInfo:TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         produtoDAO = ProdutoDAO(this)
+        produtosList = produtoDAO!!.getListProdutos()
         rvProdutos = findViewById(R.id.produtos)
         ibAdd = findViewById(R.id.ib_add)
         ibMore = findViewById(R.id.ib_more)
+        tvInfo = findViewById(R.id.tv_info)
 
 //        val toolbar: Toolbar = findViewById(R.id.toolbar)
 //        setSupportActionBar(toolbar)
@@ -64,9 +70,14 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
     }
 
     private fun configReciclerView() {
+        produtosList.clear()
+        produtosList = produtoDAO!!.getListProdutos()
+
+        verificaQtdLista()
+
         rvProdutos?.layoutManager = LinearLayoutManager(this)
         rvProdutos?.setHasFixedSize(true)
-        adapterProdutos = AdapterProdutosKoltin(produtoDAO!!.getListProdutos(), this)
+        adapterProdutos = AdapterProdutosKoltin(produtosList, this)
         rvProdutos!!.adapter = adapterProdutos
 
         rvProdutos!!.setListener(object : SwipeLeftRightCallback.Listener {
@@ -75,11 +86,27 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
             }
 
             override fun onSwipedRight(position: Int) {
-                produtoDAO!!.getListProdutos().removeAt(position)
+                produtoDAO!!.deletaProduto(produtosList[position])
+                produtosList.remove(produtosList[position])
                 adapterProdutos!!.notifyItemRemoved(position)
+
+                verificaQtdLista()
             }
         })
 
+    }
+
+    private fun verificaQtdLista(){
+        if(produtosList.size == 0){
+            tvInfo!!.visibility = View.VISIBLE
+        }else{
+            tvInfo!!.visibility = View.GONE
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        configReciclerView()
     }
 
     override fun onClickListener(produto: ProdutoEntity) {
