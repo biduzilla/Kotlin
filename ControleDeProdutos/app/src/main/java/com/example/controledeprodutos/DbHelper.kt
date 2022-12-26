@@ -12,7 +12,7 @@ class DbHelper(context: Context) :
     companion object {
         private const val DATABASE_VERSION = 1
         private const val DATABASE_NAME = "produtos.db"
-        private const val TB_PRODUTO: String = "TB_PRODUTO"
+        const val TB_PRODUTO: String = "TB_PRODUTO"
     }
 
     override fun onCreate(p0: SQLiteDatabase?) {

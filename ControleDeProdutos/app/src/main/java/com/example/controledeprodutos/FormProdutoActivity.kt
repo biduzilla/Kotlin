@@ -10,10 +10,13 @@ class FormProdutoActivity : AppCompatActivity() {
     private var editProduto:EditText? = null
     private var editQuantidade:EditText? = null
     private var editValor:EditText? = null
+    private var produtoDAO:ProdutoDAO? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_produto)
+
+        produtoDAO = ProdutoDAO(this)
 
         editProduto = findViewById(R.id.edit_produto)
         editQuantidade = findViewById(R.id.edit_quantidade)
@@ -33,7 +36,9 @@ class FormProdutoActivity : AppCompatActivity() {
                     if (valor.isNotEmpty()){
                         val valorProduto:Double =  valor.toDouble()
                         if (valorProduto > 0){
-                            Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show()
+                            val produto = ProdutosKotlin(nome, qtd, valorProduto)
+                            produtoDAO!!.salvarProduto(produto)
+
                         }else{
                             editValor!!.requestFocus()
                             editValor!!.error = "Informe um valor maior que 0"
