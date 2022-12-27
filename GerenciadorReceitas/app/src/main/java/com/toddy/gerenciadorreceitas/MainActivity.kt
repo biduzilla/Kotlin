@@ -1,72 +1,91 @@
 package com.toddy.gerenciadorreceitas
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.tsuryo.swipeablerv.SwipeLeftRightCallback
+import com.tsuryo.swipeablerv.SwipeableRecyclerView
 
+class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
 
-class MainActivity : AppCompatActivity() {
-    private var etReceita:EditText? = null
-    private var etDescricao:EditText? = null
-    private var etIngredientes:EditText? = null
+    private var recipeList = mutableListOf<Receita>()
+    private var rvReceitas: SwipeableRecyclerView? = null
+    private var adapterReceitas:AdapterReceitas? = null
+    private var ibMore:ImageButton? = null
     private var receitaDAO:ReceitaDAO? = null
-    private var btnSalvar:Button? = null
-    private var receita = Receita()
-    private var ivVoltar:ImageView? = null
+    private var llInfo:LinearLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         receitaDAO = ReceitaDAO(this)
-        etReceita = findViewById(R.id.et_receita)
-        etDescricao = findViewById(R.id.et_descricao)
-        etIngredientes = findViewById(R.id.et_ingredientes)
-        btnSalvar = findViewById(R.id.btn_salvar)
-        ivVoltar = findViewById(R.id.iv_back)
+        recipeList = receitaDAO!!.getListRecipes()
+        rvReceitas = findViewById(R.id.rv_receitas)
+        ibMore = findViewById(R.id.ib_more)
+        llInfo = findViewById(R.id.ll_info)
 
-        clickListener()
-
+        configReciclerView()
+        listenerClicks()
     }
 
-    fun clickListener(){
-        ivVoltar!!.setOnClickListener{
-            Toast.makeText(this,"voltar", Toast.LENGTH_SHORT).show()
-        }
+    override fun onStart() {
+        super.onStart()
+        configReciclerView()
     }
 
+    private fun configReciclerView(){
+        recipeList.clear()
+        recipeList = receitaDAO!!.getListRecipes()
 
-    fun salvarProduto(view: View){
-        val nomeReceita:String = etReceita!!.text.toString()
-        val descricao:String = etDescricao!!.text.toString()
-        val ingredientes:String = etIngredientes!!.text.toString()
-        if (nomeReceita.isNotEmpty()){
-            if (descricao.isNotEmpty()){
-                if (ingredientes.isNotEmpty()){
-                    if (ingredientes.contains(",")){
-                        receita.receita = nomeReceita
-                        receita.descricao = descricao
-                        receita.ingredientes = ingredientes
-                        receitaDAO!!.salvarReceita(receita)
-                    }else{
-                        etIngredientes!!.error = "Separe os ingredientes por vírgula!"
-                    }
-                }else{
-                    etIngredientes!!.error = "Escreva os ingredientes da receita!"
-                }
-            }else{
-                etDescricao!!.error = "Escreva a descrição da receita!"
+        existeReceita()
+
+        rvReceitas?.layoutManager = LinearLayoutManager(this)
+        rvReceitas?.setHasFixedSize(true)
+        adapterReceitas = AdapterReceitas(recipeList,this)
+        rvReceitas!!.adapter = adapterReceitas
+
+        rvReceitas!!.setListener(object : SwipeLeftRightCallback.Listener{
+            override fun onSwipedLeft(position: Int) {
+
             }
-        }else{
-            etReceita!!.error = "Escreva o nome da receita!"
-        }
 
+            override fun onSwipedRight(position: Int) {
+
+            }
+
+        })
     }
 
+    private fun listenerClicks(){
+        ibMore!!.setOnClickListener{
+            val popupMenu:PopupMenu = PopupMenu(this,ibMore)
+            popupMenu.menuInflater.inflate(R.menu.menu_toolbar,popupMenu.menu)
 
+            popupMenu.setOnMenuItemClickListener {
+                if (it.itemId == R.id.menu_add){
+                    startActivity(Intent(this,FormActivity::class.java))
+                }
+                return@setOnMenuItemClickListener true
+            }
+        }
+    }
 
+    private fun existeReceita(){
+        if (recipeList.size == 0){
+            llInfo!!.visibility = View.VISIBLE
+        }else{
+            llInfo!!.visibility = View.GONE
+        }
+    }
+
+    override fun onClickListener(receita: Receita) {
+        Toast.makeText(this,receita.id, Toast.LENGTH_SHORT).show()
+    }
 }

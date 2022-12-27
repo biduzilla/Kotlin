@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00CC99"
+    tools:context=".MainActivity">
+
+    <include
+        android:id="@+id/toolbar_voltar"
+        layout="@layout/toolbar_voltar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="32dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/et_receita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_full_rounded"
+            android:hint="Nome da Receita"
+            android:padding="16dp"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/hintColor" />
+
+        <EditText
+            android:id="@+id/et_descricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_full_rounded"
+            android:hint="Descrição"
+            android:padding="16dp"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/hintColor" />
+
+
+        <EditText
+            android:id="@+id/et_ingredientes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/input_full_rounded"
+            android:hint="2 colheres de milho, 1 pitada de sal..."
+            android:padding="16dp"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/hintColor" />
+
+
+        <Button
+            android:id="@+id/btn_salvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/btn_bg"
+            android:ems="12"
+            android:onClick="salvarProduto"
+            android:padding="12dp"
+            android:text="Salvar Receita"
+            android:textColor="@color/btn_text"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

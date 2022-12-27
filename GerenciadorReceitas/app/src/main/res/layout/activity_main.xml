@@ -8,66 +8,53 @@
     tools:context=".MainActivity">
 
     <include
-        android:id="@+id/toolbar_voltar"
-        layout="@layout/toolbar_voltar" />
+        android:id="@+id/toolbar_more"
+        layout="@layout/toolbar" />
+
+    <com.tsuryo.swipeablerv.SwipeableRecyclerView
+        android:layout_margin="16dp"
+        android:id="@+id/rv_receitas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_more"
+        app:rightBgColor="@color/btn_bg"
+        app:rightImage="@drawable/ic_delete"
+        tools:listitem="@layout/item_receita">
+
+    </com.tsuryo.swipeablerv.SwipeableRecyclerView>
 
     <LinearLayout
+        android:id="@+id/ll_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="32dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
 
-        <EditText
-            android:id="@+id/et_receita"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/input_full_rounded"
-            android:hint="Nome da Receita"
-            android:padding="16dp"
-            android:textColor="@color/textColor"
-            android:textColorHint="@color/hintColor" />
-
-        <EditText
-            android:id="@+id/et_descricao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/input_full_rounded"
-            android:hint="Descrição"
-            android:padding="16dp"
-            android:textColor="@color/textColor"
-            android:textColorHint="@color/hintColor" />
-
-
-        <EditText
-            android:id="@+id/et_ingredientes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/input_full_rounded"
-            android:hint="2 colheres de milho, 1 pitada de sal..."
-            android:padding="16dp"
-            android:textColor="@color/textColor"
-            android:textColorHint="@color/hintColor" />
-
-
-        <Button
-            android:id="@+id/btn_salvar"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Nenhuma Receita Cadastrada"
+            android:textColor="@color/btn_bg"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_more" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/btn_bg"
-            android:ems="12"
-            android:onClick="salvarProduto"
-            android:padding="12dp"
-            android:text="Salvar Receita"
-            android:textColor="@color/btn_text"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:src="@drawable/ic_no_recipe" />
+
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

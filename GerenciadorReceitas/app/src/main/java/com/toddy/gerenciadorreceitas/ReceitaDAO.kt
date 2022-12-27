@@ -1,7 +1,9 @@
 package com.toddy.gerenciadorreceitas
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 
@@ -24,5 +26,29 @@ class ReceitaDAO(
             Log.i("ERROR", "Error ao salvar receita")
         }
     }
+
+    @SuppressLint("Range")
+    fun getListRecipes(): MutableList<Receita> {
+        val recipeList: MutableList<Receita> = ArrayList()
+        val sql: String = "SELECT * FROM " + DbHelper.TB_RECEITAS + ";"
+        val cursor: Cursor = read.rawQuery(sql, null)
+
+        while (cursor.moveToNext()) {
+            val id: Int = cursor.getInt(cursor.getColumnIndex("id"))
+            val receita: String = cursor.getString(cursor.getColumnIndex("receita"))
+            val descricao: String = cursor.getString(cursor.getColumnIndex("descricao"))
+            val ingredientes: String = cursor.getString(cursor.getColumnIndex("ingredientes"))
+
+            val receitaTmp = Receita()
+            receitaTmp.receita = receita
+            receitaTmp.id = id
+            receitaTmp.descricao = descricao
+            receitaTmp.ingredientes = ingredientes
+
+            recipeList.add(receitaTmp)
+        }
+        return recipeList
+    }
+
 
 }
