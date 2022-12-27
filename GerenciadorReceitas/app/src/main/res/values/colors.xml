@@ -11,4 +11,5 @@
     <color name="textColor">#3772FF</color>
     <color name="btn_bg">#FDCA40</color>
     <color name="btn_text">#F75590</color>
+    <color name="toolbar_bg">#363537</color>
 </resources>
