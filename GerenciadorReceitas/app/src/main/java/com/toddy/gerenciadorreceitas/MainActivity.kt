@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 
 
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private var ingredientesList: MutableList<String> = arrayListOf()
     private var btnSalvar:Button? = null
     private var receita = Receita()
+    private var ivVoltar:ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +26,18 @@ class MainActivity : AppCompatActivity() {
         etDescricao = findViewById(R.id.et_descricao)
         etIngredientes = findViewById(R.id.et_ingredientes)
         btnSalvar = findViewById(R.id.btn_salvar)
+        ivVoltar = findViewById(R.id.iv_back)
+
+        clickListener()
 
     }
+
+    fun clickListener(){
+        ivVoltar!!.setOnClickListener{
+            Toast.makeText(this,"voltar", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     fun salvarProduto(view: View){
         val nomeReceita:String = etReceita!!.text.toString()
