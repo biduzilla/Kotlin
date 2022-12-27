@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     private var etReceita:EditText? = null
     private var etDescricao:EditText? = null
     private var etIngredientes:EditText? = null
-    private var ingredientesList: MutableList<String> = arrayListOf()
+    private var receitaDAO:ReceitaDAO? = null
     private var btnSalvar:Button? = null
     private var receita = Receita()
     private var ivVoltar:ImageView? = null
@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        receitaDAO = ReceitaDAO(this)
         etReceita = findViewById(R.id.et_receita)
         etDescricao = findViewById(R.id.et_descricao)
         etIngredientes = findViewById(R.id.et_ingredientes)
@@ -47,11 +48,10 @@ class MainActivity : AppCompatActivity() {
             if (descricao.isNotEmpty()){
                 if (ingredientes.isNotEmpty()){
                     if (ingredientes.contains(",")){
-                        ingredientesList = ingredientes.split(",") as MutableList<String>
                         receita.receita = nomeReceita
                         receita.descricao = descricao
-                        receita.ingredientes = ingredientesList
-                        Toast.makeText(this,receita.toString(),Toast.LENGTH_SHORT).show()
+                        receita.ingredientes = ingredientes
+                        receitaDAO!!.salvarReceita(receita)
                     }else{
                         etIngredientes!!.error = "Separe os ingredientes por vírgula!"
                     }
