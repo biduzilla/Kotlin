@@ -65,7 +65,6 @@ class FormProdutoActivity : AppCompatActivity() {
                                 produtoDAO!!.atualizaProduto(produto)
                             } else {
                                 produtoDAO!!.salvarProduto(produto)
-                                println(produto.toString())
                             }
                             finish()
 

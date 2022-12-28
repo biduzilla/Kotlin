@@ -61,7 +61,7 @@ class ReceitaDAO(
         contentValues.put("ingredientes", receita.ingredientes)
         contentValues.put("descricao", receita.descricao)
 
-        write.update(DbHelper.TB_RECEITAS,contentValues,"id=",null)
+        write.update(DbHelper.TB_RECEITAS,contentValues,"id=" + receita.id,null)
     }
 
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,6 +17,7 @@ class RecipeItemActivity : AppCompatActivity() {
     private var ingredientList: MutableList<String> = ArrayList()
     private var tvTxtToolbar:TextView? = null
     private var ibVoltar:ImageButton? = null
+    private var btnUpdate:Button? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +29,7 @@ class RecipeItemActivity : AppCompatActivity() {
         tvTxtToolbar = findViewById(R.id.toolbar_txt)
         tvTxtToolbar!!.text = "Minha Receita"
         ibVoltar = findViewById(R.id.iv_back)
+        btnUpdate = findViewById(R.id.btn_update)
 
         carregarReceita()
         createTVIngredientes()
@@ -49,6 +52,12 @@ class RecipeItemActivity : AppCompatActivity() {
     fun onClickListener(){
         ibVoltar?.setOnClickListener{
             startActivity(Intent(this,MainActivity::class.java))
+        }
+
+        btnUpdate?.setOnClickListener{
+            val intent = Intent(this, FormActivity::class.java)
+            intent.putExtra("receita",receita)
+            startActivity(intent)
         }
     }
 
