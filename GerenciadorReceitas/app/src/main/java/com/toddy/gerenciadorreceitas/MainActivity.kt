@@ -1,13 +1,11 @@
 package com.toddy.gerenciadorreceitas
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.PopupMenu
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
 import com.tsuryo.swipeablerv.SwipeableRecyclerView
@@ -85,7 +83,6 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
         ibMore?.setOnClickListener{
             val popupMenu = PopupMenu(this,ibMore)
             popupMenu.menuInflater.inflate(R.menu.menu_toolbar,popupMenu.menu)
-
             popupMenu.setOnMenuItemClickListener {
                 if (it.itemId == R.id.menu_add){
                    startActivity(Intent(this,FormActivity::class.java))
