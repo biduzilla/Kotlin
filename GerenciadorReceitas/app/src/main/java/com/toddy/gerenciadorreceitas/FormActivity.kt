@@ -1,5 +1,6 @@
 package com.toddy.gerenciadorreceitas
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -19,7 +20,7 @@ class FormActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_form)
 
         receitaDAO = ReceitaDAO(this)
         etReceita = findViewById(R.id.et_receita)
@@ -34,7 +35,7 @@ class FormActivity : AppCompatActivity() {
 
     fun clickListener(){
         ivVoltar!!.setOnClickListener{
-            Toast.makeText(this,"voltar", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this,MainActivity::class.java))
         }
     }
 

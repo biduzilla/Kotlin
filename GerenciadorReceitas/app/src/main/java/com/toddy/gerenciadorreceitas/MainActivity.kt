@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
 
             popupMenu.setOnMenuItemClickListener {
                 if (it.itemId == R.id.menu_add){
-                    startActivity(Intent(this,FormActivity::class.java))
+                   startActivity(Intent(this,FormActivity::class.java))
                 }
                 return@setOnMenuItemClickListener true
             }
