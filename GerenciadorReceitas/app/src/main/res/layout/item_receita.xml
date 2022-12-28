@@ -30,7 +30,7 @@
             android:layout_marginStart="20dp"
             android:text="Nome Receita"
             android:textSize="20sp"
-            android:textColor="@color/textColor"
+            android:textColor="@color/btn_bg"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="191dp" />
     </LinearLayout>

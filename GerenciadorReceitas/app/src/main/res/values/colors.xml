@@ -8,9 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="hintColor">#B43772FF</color>
-    <color name="textColor">#3772FF</color>
+    <color name="textColor">#3C91E6</color>
     <color name="btn_bg">#FDCA40</color>
-    <color name="btn_text">#F75590</color>
+    <color name="btn_text">#6F2DBD</color>
     <color name="toolbar_bg">#363537</color>
     <color name="bg_view">#00CC99</color>
 </resources>

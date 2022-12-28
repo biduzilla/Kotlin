@@ -57,7 +57,6 @@ class ProdutoDAO(
         contentValues.put("estoque", produto.estoque)
         contentValues.put("valor", produto.valor)
 
-        val where: String = "id=?"
         write.update(DbHelper.TB_PRODUTO, contentValues, "id=" + produto.id, null)
 
     }

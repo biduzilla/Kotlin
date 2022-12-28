@@ -50,5 +50,18 @@ class ReceitaDAO(
         return recipeList
     }
 
+    fun deletarReceita(receita: Receita){
+        write.delete(DbHelper.TB_RECEITAS,"id="+receita.id,null)
+    }
+
+    fun atualizarReceita(receita: Receita){
+        val contentValues = ContentValues()
+        contentValues.put("id", receita.id)
+        contentValues.put("receita", receita.receita)
+        contentValues.put("ingredientes", receita.ingredientes)
+        contentValues.put("descricao", receita.descricao)
+
+        write.update(DbHelper.TB_RECEITAS,contentValues,"id=",null)
+    }
 
 }

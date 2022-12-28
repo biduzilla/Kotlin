@@ -52,7 +52,11 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
 
         rvReceitas!!.setListener(object : SwipeLeftRightCallback.Listener{
             override fun onSwipedLeft(position: Int) {
+                receitaDAO!!.deletarReceita(recipeList[position])
+                recipeList.removeAt(position)
+                adapterReceitas!!.notifyItemRemoved(position)
 
+                existeReceita()
             }
 
             override fun onSwipedRight(position: Int) {
@@ -102,6 +106,8 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
     }
 
     override fun onClickListener(receita: Receita) {
-        Toast.makeText(this,receita.id.toString(), Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, RecipeItemActivity::class.java)
+        intent.putExtra("receita", receita)
+        startActivity(intent)
     }
 }
