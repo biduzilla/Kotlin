@@ -1,102 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_view"
     tools:context=".RecipeItemActivity">
 
-    <include layout="@layout/toolbar_voltar"
-        android:id="@+id/toolbar_voltar"/>
+    <include
+        android:id="@+id/toolbar_voltar"
+        layout="@layout/toolbar_voltar" />
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_voltar"
-        tools:layout_editor_absoluteX="-16dp" >
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_voltar">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                android:id="@+id/imageView"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:background="@drawable/iv_rounded_empty"
-                android:backgroundTint="@color/textColor"
-                android:src="@drawable/ic_recipe_item"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar_voltar" />
+            tools:layout_editor_absoluteX="-16dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_margin="32dp"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:cardCornerRadius="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/imageView">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/iv_rounded_empty"
+                    android:backgroundTint="@color/textColor"
+                    android:src="@drawable/ic_recipe_item"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar_voltar" />
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="32dp"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-                    <TextView
-                        android:layout_margin="28dp"
-                        android:id="@+id/tv_receita_nome_item"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:text="Receita Nome"
-                        android:textColor="@color/toolbar_bg"
-                        android:textSize="28sp"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-                    <TextView
-                        android:padding="16dp"
-                        android:id="@+id/tv_Receita_descricao_item"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:textSize="22sp"
-                        android:textColor="@color/toolbar_bg"
-                        android:text="Receita Descrição"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_receita_nome_item"
-                        tools:layout_editor_absoluteX="0dp" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_marginBottom="28dp"
-                        android:padding="16dp"
-                        android:id="@+id/tv_Receita_ingrediente_item"
-                        android:layout_width="match_parent"
-                        android:textSize="18sp"
-                        android:textColor="@color/toolbar_bg"
-                        android:text="Receita Ingrediente"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_receita_nome_item"
-                        tools:layout_editor_absoluteX="0dp" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_receita_nome_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="28dp"
+                            android:text="Receita Nome"
+                            android:textAlignment="center"
+                            android:textColor="@color/toolbar_bg"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
+                        <TextView
+                            android:id="@+id/tv_Receita_descricao_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            android:text="Receita Descrição"
+                            android:textColor="@color/toolbar_bg"
+                            android:textSize="22sp"
+                            app:layout_constraintTop_toBottomOf="@+id/tv_receita_nome_item"
+                            tools:layout_editor_absoluteX="0dp" />
 
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-    </ScrollView>
+                        <LinearLayout
+                            android:id="@+id/ll_ingredientes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp"></LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-
-
-
-
-
+                <Button
+                    android:layout_marginBottom="32dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="16dp"
+                    android:textSize="20sp"
+                    android:backgroundTint="@color/btn_bg"
+                    android:textColor="@color/btn_text"
+                    android:text="Alterar Receita" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+    ?
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

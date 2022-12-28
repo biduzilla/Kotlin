@@ -26,12 +26,12 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
         setContentView(R.layout.activity_main)
 
         receitaDAO = ReceitaDAO(this)
-//        recipeList = receitaDAO!!.getListRecipes()
+        recipeList = receitaDAO!!.getListRecipes()
         rvReceitas = findViewById(R.id.rv_receitas)
         ibMore = findViewById(R.id.ib_more)
         llInfo = findViewById(R.id.ll_info)
 
-        carregaLista()
+//        carregaLista()
         configReciclerView()
         listenerClicks()
     }
@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
     }
 
     private fun configReciclerView(){
-//        recipeList.clear()
-//        recipeList = receitaDAO!!.getListRecipes()
+        recipeList.clear()
+        recipeList = receitaDAO!!.getListRecipes()
 
         existeReceita()
 
@@ -64,22 +64,22 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
         })
     }
 
-    fun carregaLista(){
-        val r1 = Receita()
-        r1.id = 1
-        r1.receita = "receita"
-        r1.descricao = "desc"
-        r1.ingredientes = "ing,ing"
-
-        val r2 = Receita()
-        r2.id = 2
-        r2.receita = "receita"
-        r2.descricao = "desc"
-        r2.ingredientes = "ing,ing"
-
-        recipeList.add(r1)
-        recipeList.add(r2)
-    }
+//    fun carregaLista(){
+//        val r1 = Receita()
+//        r1.id = 1
+//        r1.receita = "receita"
+//        r1.descricao = "desc"
+//        r1.ingredientes = "ing,ing"
+//
+//        val r2 = Receita()
+//        r2.id = 2
+//        r2.receita = "receita"
+//        r2.descricao = "desc"
+//        r2.ingredientes = "ing,ing"
+//
+//        recipeList.add(r1)
+//        recipeList.add(r2)
+//    }
 
     private fun listenerClicks(){
         ibMore?.setOnClickListener{
