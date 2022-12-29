@@ -28,7 +28,7 @@ class CriarContaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_criar_conta)
-        auth = FirebaseAuth.getInstance()
+
         iniciaComponentes()
         configClicks()
     }
@@ -40,6 +40,7 @@ class CriarContaActivity : AppCompatActivity() {
     }
 
     private fun iniciaComponentes() {
+        auth = FirebaseAuth.getInstance()
         tvTitulo = findViewById(R.id.tv_titulo_toolbar)
         editNome = findViewById(R.id.edit_nome)
         editEmail = findViewById(R.id.edit_email)
@@ -51,9 +52,9 @@ class CriarContaActivity : AppCompatActivity() {
     }
 
     fun validaDados(view: View) {
-        val nome = editNome!!.text.toString()
-        val email = editEmail!!.text.toString()
-        val senha = editSenha!!.text.toString()
+        val nome = editNome!!.text.toString().trim()
+        val email = editEmail!!.text.toString().trim()
+        val senha = editSenha!!.text.toString().trim()
 
         if (nome.isNotEmpty()) {
             if (email.isNotEmpty()) {
