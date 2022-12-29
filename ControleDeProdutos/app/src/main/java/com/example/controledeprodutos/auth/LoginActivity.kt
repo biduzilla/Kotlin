@@ -44,18 +44,32 @@ class LoginActivity : AppCompatActivity() {
         val email: String = editEmail.text.toString().trim()
         val senha: String = editSenha.text.toString()
 
-        if (email.isNotEmpty()) {
-            if (senha.isNotEmpty()) {
-                progressBar.visibility = View.VISIBLE
-                validaLogin(email, senha)
-            } else {
+        when {
+            email.isEmpty() -> {
+                editEmail.requestFocus()
+                editEmail.error = "Digite seu Email"
+            }
+            senha.isEmpty() -> {
                 editSenha.requestFocus()
                 editSenha.error = "Digite sua Senha"
             }
-        } else {
-            editEmail.requestFocus()
-            editEmail.error = "Digite seu Email"
+            else -> {
+                progressBar.visibility = View.VISIBLE
+                validaLogin(email, senha)
+            }
         }
+//        if (email.isNotEmpty()) {
+//            if (senha.isNotEmpty()) {
+//                progressBar.visibility = View.VISIBLE
+//                validaLogin(email, senha)
+//            } else {
+//                editSenha.requestFocus()
+//                editSenha.error = "Digite sua Senha"
+//            }
+//        } else {
+//            editEmail.requestFocus()
+//            editEmail.error = "Digite seu Email"
+//        }
     }
 
     private fun configClicks() {

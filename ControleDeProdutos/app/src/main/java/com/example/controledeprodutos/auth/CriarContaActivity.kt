@@ -56,29 +56,53 @@ class CriarContaActivity : AppCompatActivity() {
         val email = editEmail!!.text.toString().trim()
         val senha = editSenha!!.text.toString().trim()
 
-        if (nome.isNotEmpty()) {
-            if (email.isNotEmpty()) {
-                if (senha.isNotEmpty()) {
-                    progressBar?.visibility = View.VISIBLE
-                    val usuario = Usuario()
-                    usuario.nome = nome
-                    usuario.senha = senha
-                    usuario.email = email
-
-                    salvarCadastro(usuario)
-
-                } else {
-                    editSenha!!.requestFocus()
-                    editSenha!!.error = "Informe sua Senha"
-                }
-            } else {
+        when {
+            nome.isEmpty() -> {
+                editNome!!.requestFocus()
+                editNome!!.error = "Informe seu Nome"
+            }
+            email.isEmpty() -> {
                 editEmail!!.requestFocus()
                 editEmail!!.error = "Informe seu Email"
             }
-        } else {
-            editNome!!.requestFocus()
-            editNome!!.error = "Informe seu Nome"
+            senha.isEmpty() -> {
+                editSenha!!.requestFocus()
+                editSenha!!.error = "Informe sua Senha"
+            }
+            else -> {
+                progressBar?.visibility = View.VISIBLE
+                val usuario = Usuario()
+                usuario.nome = nome
+                usuario.senha = senha
+                usuario.email = email
+
+                salvarCadastro(usuario)
+            }
         }
+
+//        if (nome.isNotEmpty()) {
+//            if (email.isNotEmpty()) {
+//                if (senha.isNotEmpty()) {
+//                    progressBar?.visibility = View.VISIBLE
+//                    val usuario = Usuario()
+//                    usuario.nome = nome
+//                    usuario.senha = senha
+//                    usuario.email = email
+//
+//                    salvarCadastro(usuario)
+//
+//                } else {
+//                    editSenha!!.requestFocus()
+//                    editSenha!!.error = "Informe sua Senha"
+//                }
+//            } else {
+//                editEmail!!.requestFocus()
+//                editEmail!!.error = "Informe seu Email"
+//            }
+//        } else {
+//            editNome!!.requestFocus()
+//            editNome!!.error = "Informe seu Nome"
+//        }
     }
 
     private fun salvarCadastro(usuario: Usuario) {

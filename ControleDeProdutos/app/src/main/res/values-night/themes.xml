@@ -17,7 +17,10 @@
     </style>
 
     <style name="styleToolbar" parent="Widget.AppCompat.ActionButton.Overflow">
-
         <item name="android:tint">#FFFFFF</item>
+    </style>
+
+    <style name="Theme.Splash.Activity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/white</item>
     </style>
 </resources>

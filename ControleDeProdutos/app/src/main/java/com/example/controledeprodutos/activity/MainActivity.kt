@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
                     }
                     R.id.menu_sair -> {
                         auth.signOut()
-                        startActivity(Intent(this, LoginActivity::class.java))
+                        startActivity(Intent(this, SplashActivity::class.java))
                     }
                 }
 
