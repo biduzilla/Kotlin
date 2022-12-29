@@ -1,4 +1,4 @@
-package com.example.controledeprodutos;
+package com.example.controledeprodutos.models;
 
 public class Produtos {
     private String nome;

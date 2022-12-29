@@ -1,17 +1,18 @@
-package com.example.controledeprodutos
+package com.example.controledeprodutos.models
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.controledeprodutos.R
 
-class AdapterProdutosKoltin(private val produtosList: MutableList<ProdutoEntity>, private val onClickInterface:OnClick) :
+class AdapterProdutosKoltin(private val produtosList: MutableList<ProdutoEntity>, private val onClickInterface: OnClick) :
     RecyclerView.Adapter<AdapterProdutosKoltin.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AdapterProdutosKoltin.ViewHolder {
+    ): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_produto, parent, false)
         return ViewHolder(view)
     }
@@ -34,7 +35,7 @@ class AdapterProdutosKoltin(private val produtosList: MutableList<ProdutoEntity>
     }
 
     interface OnClick{
-        fun onClickListener(produto:ProdutoEntity)
+        fun onClickListener(produto: ProdutoEntity)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

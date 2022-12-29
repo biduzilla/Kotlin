@@ -1,4 +1,4 @@
-package com.example.controledeprodutos
+package com.example.controledeprodutos.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
+import com.example.controledeprodutos.ProdutoDAO
+import com.example.controledeprodutos.models.ProdutoEntity
+import com.example.controledeprodutos.R
 
 class FormProdutoActivity : AppCompatActivity() {
     private var editProduto: EditText? = null
@@ -34,7 +36,7 @@ class FormProdutoActivity : AppCompatActivity() {
     }
 
     fun voltarHome(view:View){
-        startActivity(Intent(this,MainActivity::class.java))
+        startActivity(Intent(this, MainActivity::class.java))
 
     }
 

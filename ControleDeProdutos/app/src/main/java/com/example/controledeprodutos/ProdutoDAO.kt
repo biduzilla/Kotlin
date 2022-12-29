@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import com.example.controledeprodutos.models.ProdutoEntity
 
 class ProdutoDAO(
     private val context: Context,
@@ -14,7 +15,7 @@ class ProdutoDAO(
 ) {
 
     fun salvarProduto(produto: ProdutoEntity) {
-        val contentValues: ContentValues = ContentValues()
+        val contentValues = ContentValues()
         contentValues.put("nome", produto.nome)
         contentValues.put("estoque", produto.estoque)
         contentValues.put("valor", produto.valor)

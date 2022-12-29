@@ -1,21 +1,20 @@
-package com.example.controledeprodutos
+package com.example.controledeprodutos.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.controledeprodutos.models.AdapterProdutosKoltin
+import com.example.controledeprodutos.ProdutoDAO
+import com.example.controledeprodutos.models.ProdutoEntity
+import com.example.controledeprodutos.R
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
 import com.tsuryo.swipeablerv.SwipeableRecyclerView
-import java.text.Normalizer.Form
 
 
 class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
     private var adapterProdutos: AdapterProdutosKoltin? = null
     private var ibAdd:ImageButton? = null
     private var ibMore:ImageButton? = null
-    private var produtoDAO:ProdutoDAO? = null
+    private var produtoDAO: ProdutoDAO? = null
     private var tvInfo:TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

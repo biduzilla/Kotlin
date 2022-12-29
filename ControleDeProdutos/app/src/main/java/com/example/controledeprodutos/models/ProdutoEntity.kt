@@ -1,4 +1,4 @@
-package com.example.controledeprodutos
+package com.example.controledeprodutos.models
 
 class ProdutoEntity:java.io.Serializable {
      var id:Int = 0
