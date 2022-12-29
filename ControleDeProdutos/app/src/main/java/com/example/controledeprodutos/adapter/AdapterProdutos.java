@@ -1,4 +1,4 @@
-package com.example.controledeprodutos.models;
+package com.example.controledeprodutos.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.controledeprodutos.R;
+import com.example.controledeprodutos.models.Produtos;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.controledeprodutos.models
+package com.example.controledeprodutos.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.controledeprodutos.R
+import com.example.controledeprodutos.models.ProdutoEntity
 
 class AdapterProdutosKoltin(private val produtosList: MutableList<ProdutoEntity>, private val onClickInterface: OnClick) :
     RecyclerView.Adapter<AdapterProdutosKoltin.ViewHolder>() {

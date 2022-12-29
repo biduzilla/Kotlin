@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.controledeprodutos.models.AdapterProdutosKoltin
+import com.example.controledeprodutos.adapter.AdapterProdutosKoltin
 import com.example.controledeprodutos.ProdutoDAO
 import com.example.controledeprodutos.models.ProdutoEntity
 import com.example.controledeprodutos.R
