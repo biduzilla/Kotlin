@@ -27,6 +27,7 @@
             android:id="@+id/edit_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:background="@drawable/bg_edit"
             android:hint="Seu Email"
             android:inputType="textEmailAddress"
@@ -42,6 +43,7 @@
         <EditText
             android:id="@+id/edit_senha"
             android:layout_width="match_parent"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_edit"
             android:hint="Sua Senha"
@@ -71,6 +73,13 @@
                 android:textAlignment="textEnd"
                 android:textColor="@color/white" />
         </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/white"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 
