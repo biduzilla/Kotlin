@@ -4,8 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f76a65"
-    tools:context=".auth.LoginActivity">
+    android:background="@color/background_app"
+    tools:context=".auth.CriarContaActivity">
+
+    <include
+        android:id="@+id/include3"
+        layout="@layout/toolbar_voltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +22,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/include3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nome"
+            android:textColor="@color/white" />
+
+        <EditText
+            android:id="@+id/edit_nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_edit"
+            android:hint="Seu Nome"
+            android:padding="16dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,30 +70,5 @@
             android:inputType="textPassword"
             android:padding="16dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_criar_conta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Criar Conta"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_recuperar_conta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Recuperar Conta"
-                android:textAlignment="textEnd"
-                android:textColor="@color/white" />
-        </LinearLayout>
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
