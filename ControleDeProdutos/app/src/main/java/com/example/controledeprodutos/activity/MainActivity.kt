@@ -13,6 +13,8 @@ import com.example.controledeprodutos.adapter.AdapterProdutosKoltin
 import com.example.controledeprodutos.ProdutoDAO
 import com.example.controledeprodutos.models.ProdutoEntity
 import com.example.controledeprodutos.R
+import com.example.controledeprodutos.auth.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
 import com.tsuryo.swipeablerv.SwipeableRecyclerView
 
@@ -26,26 +28,26 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
     private var ibMore:ImageButton? = null
     private var produtoDAO: ProdutoDAO? = null
     private var tvInfo:TextView? = null
+    private lateinit var auth:FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        loadComponents()
+        configReciclerView()
+        listenerClicks()
+
+    }
+
+    private fun loadComponents(){
+        auth = FirebaseAuth.getInstance()
         produtoDAO = ProdutoDAO(this)
         produtosList = produtoDAO!!.getListProdutos()
         rvProdutos = findViewById(R.id.produtos)
         ibAdd = findViewById(R.id.ib_add)
         ibMore = findViewById(R.id.ib_more)
         tvInfo = findViewById(R.id.tv_info)
-
-//        val toolbar: Toolbar = findViewById(R.id.toolbar)
-//        setSupportActionBar(toolbar)
-//        carregaLista()
-
-        configReciclerView()
-
-        listenerClicks()
-
     }
 
     private fun listenerClicks() {
@@ -58,9 +60,19 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
             popupMenu.menuInflater.inflate(R.menu.toolbar, popupMenu.menu)
 
             popupMenu.setOnMenuItemClickListener {
-                if (it.itemId == R.id.menu_sobre){
-                    Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show()
+                when (it.itemId) {
+                    R.id.menu_sobre -> {
+                        Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.menu_sair -> {
+                        auth.signOut()
+                        startActivity(Intent(this, LoginActivity::class.java))
+                    }
                 }
+
+//                if (it.itemId == R.id.menu_sobre){
+//                    Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show()
+//                }
                 return@setOnMenuItemClickListener true
             }
             popupMenu.show()
@@ -114,48 +126,4 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
         startActivity(intent)
     }
 
-//    private fun carregaLista() {
-//
-//        val produto1 = ProdutosKotlin("Monitor 16g", 2, 44.5)
-//        val produto2 = ProdutosKotlin("Dogao", 25, 12.5)
-//        val produto3 = ProdutosKotlin("Tomada 3 eixos azul", 3, 1.5)
-//        val produto4 = ProdutosKotlin("Abacaxi", 5, 0.80)
-//        val produto5 = ProdutosKotlin("Melancia", 8, 0.87)
-//        val produto6 = ProdutosKotlin("Maça", 7, 0.48)
-//        val produto7 = ProdutosKotlin("Tomate", 8, 0.72)
-//        val produto8 = ProdutosKotlin("Caju", 12, 1.25)
-//
-//        produtosList.add(produto1)
-//        produtosList.add(produto2)
-//        produtosList.add(produto3)
-//        produtosList.add(produto4)
-//        produtosList.add(produto5)
-//        produtosList.add(produto6)
-//        produtosList.add(produto7)
-//
-//        produtosList.add(produto1)
-//        produtosList.add(produto2)
-//        produtosList.add(produto3)
-//        produtosList.add(produto4)
-//        produtosList.add(produto5)
-//        produtosList.add(produto6)
-//        produtosList.add(produto7)
-//
-//    }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        MenuInflater(this).inflate(R.menu.menu_toolbar,menu)
-//        return true
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val idMenu:Int = item.itemId
-//
-//        if (idMenu == R.id.menu_add){
-//            Toast.makeText(this,"add", Toast.LENGTH_SHORT).show()
-//        }else{
-//            Toast.makeText(this,"sobre", Toast.LENGTH_SHORT).show()
-//        }
-//        return true
-//    }
 }
