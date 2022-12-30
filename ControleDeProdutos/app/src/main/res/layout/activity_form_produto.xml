@@ -24,58 +24,73 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include2">
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            app:cardCornerRadius="5dp">
+
+            <ImageView
+                android:id="@+id/iv_image_produto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="abrirGaleira"
+                android:src="@drawable/logo" />
+        </androidx.cardview.widget.CardView>
+
         <TextView
+            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Produto"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/edit_produto"
-            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:background="@drawable/bg_edit"
             android:hint="Nome Produto"
             android:inputType="text"
-            android:padding="16dp" />
+            android:padding="16dp"
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Estoque"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/edit_quantidade"
             android:layout_width="match_parent"
-            android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:background="@drawable/bg_edit"
             android:hint="Quantidade Produto"
             android:inputType="number"
-            android:padding="16dp" />
+            android:padding="16dp"
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Valor"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/edit_valor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
             android:layout_margin="4dp"
             android:background="@drawable/bg_edit"
             android:hint="Valor do Produto"
             android:inputType="numberDecimal"
-            android:padding="16dp" />
+            android:padding="16dp"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btn_form"

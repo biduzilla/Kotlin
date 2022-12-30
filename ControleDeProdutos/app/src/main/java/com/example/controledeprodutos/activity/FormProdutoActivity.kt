@@ -3,12 +3,19 @@ package com.example.controledeprodutos.activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import com.example.controledeprodutos.ProdutoDAO
 import com.example.controledeprodutos.models.ProdutoEntity
 import com.example.controledeprodutos.R
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
+import java.util.jar.Manifest
 
 class FormProdutoActivity : AppCompatActivity() {
     private var editProduto: EditText? = null
@@ -16,7 +23,9 @@ class FormProdutoActivity : AppCompatActivity() {
     private var editValor: EditText? = null
     private var produtoDAO: ProdutoDAO? = null
     private var produto = ProdutoEntity()
-    private var btnForm:Button? = null
+    private var btnForm: Button? = null
+    private var ivImgProduto: ImageView? = null
+    private val REQUEST_GALERIA = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,12 +34,13 @@ class FormProdutoActivity : AppCompatActivity() {
         initComponents()
     }
 
-    private fun initComponents(){
+    private fun initComponents() {
         produtoDAO = ProdutoDAO(this)
+        ivImgProduto = findViewById(R.id.iv_image_produto)
         editProduto = findViewById(R.id.edit_produto)
         editQuantidade = findViewById(R.id.edit_quantidade)
         editValor = findViewById(R.id.edit_valor)
-        btnForm =findViewById(R.id.btn_form)
+        btnForm = findViewById(R.id.btn_form)
         val bundle: Bundle? = intent.extras
         if (bundle != null) {
             produto = bundle.getSerializable("produto") as ProdutoEntity
@@ -39,9 +49,43 @@ class FormProdutoActivity : AppCompatActivity() {
         }
     }
 
-    fun voltarHome(view:View){
+    fun voltarHome(view: View) {
         startActivity(Intent(this, MainActivity::class.java))
 
+    }
+
+    fun abrirGaleira(view: View) {
+        verificaPermicaoGaleira()
+    }
+
+    private fun verificaPermicaoGaleira() {
+        val permission: PermissionListener = object : PermissionListener {
+            override fun onPermissionGranted() {
+                openGaleria()
+            }
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                Toast.makeText(this@FormProdutoActivity, "Galeria", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        showDialogPermission(permission, listOf(android.Manifest.permission.READ_EXTERNAL_STORAGE))
+    }
+
+    private fun openGaleria() {
+        val intent: Intent =
+            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, REQUEST_GALERIA)
+
+    }
+
+    private fun showDialogPermission(listener: PermissionListener, permissoes:List<String>) {
+        TedPermission.create().setPermissionListener(listener)
+            .setDeniedMessage("Permissão negada para acessar galeria, deseja permitir?")
+            .setDeniedTitle("Permissões")
+            .setDeniedCloseButtonText("Não").setGotoSettingButtonText("Sim")
+            .setPermissions(*permissoes.toTypedArray())
+            .check()
     }
 
     private fun editProduto() {
@@ -92,5 +136,4 @@ class FormProdutoActivity : AppCompatActivity() {
             editProduto!!.error = "Informe o nome do produto"
         }
     }
-
 }
