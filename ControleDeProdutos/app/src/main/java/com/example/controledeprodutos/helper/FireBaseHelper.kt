@@ -18,7 +18,4 @@ class FireBaseHelper {
             return auth.currentUser != null
         }
     }
-//    init {
-//        this
-//    }
 }

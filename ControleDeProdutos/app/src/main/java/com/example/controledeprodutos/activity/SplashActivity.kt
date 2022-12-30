@@ -27,11 +27,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun verficarLogin() {
-//        if (auth.currentUser != null) {
-//            startActivity(Intent(this, MainActivity::class.java))
-//        } else {
-//            startActivity(Intent(this, LoginActivity::class.java))
-//        }
         when {
             FireBaseHelper.isAuth() -> {
                 startActivity(Intent(this, MainActivity::class.java))

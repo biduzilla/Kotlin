@@ -29,6 +29,7 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
 import com.tsuryo.swipeablerv.SwipeableRecyclerView
+import java.util.Collections
 
 
 class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
@@ -110,8 +111,9 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
             }
 
             override fun onSwipedRight(position: Int) {
-                produtoDAO!!.deletaProduto(produtosList[position])
+                val produto:ProdutoEntity = produtosList[position]
                 produtosList.remove(produtosList[position])
+                produto.deletarProduto()
                 adapterProdutos!!.notifyItemRemoved(position)
 
                 verificaQtdLista()
@@ -130,7 +132,6 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
         progressBar!!.visibility = View.GONE
     }
 
-
     override fun onClickListener(produto: ProdutoEntity) {
         val intent = Intent(this, FormProdutoActivity::class.java)
         intent.putExtra("produto", produto)
@@ -144,10 +145,12 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val children = snapshot.children
+                produtosList.clear()
                 children.forEach{
                     it.getValue(ProdutoEntity::class.java)?.let { it1 -> produtosList.add(it1) }
                 }
                 verificaQtdLista()
+                produtosList.reverse()
                 adapterProdutos!!.notifyDataSetChanged()
             }
 
