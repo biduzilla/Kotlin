@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
     private var tvInfo:TextView? = null
     private lateinit var auth:FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
     }
 
     private fun loadComponents(){
+
         auth = FirebaseAuth.getInstance()
         produtoDAO = ProdutoDAO(this)
         produtosList = produtoDAO!!.getListProdutos()
@@ -69,10 +71,6 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
                         startActivity(Intent(this, SplashActivity::class.java))
                     }
                 }
-
-//                if (it.itemId == R.id.menu_sobre){
-//                    Toast.makeText(this, "Sobre", Toast.LENGTH_SHORT).show()
-//                }
                 return@setOnMenuItemClickListener true
             }
             popupMenu.show()

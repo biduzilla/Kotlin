@@ -17,8 +17,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var editSenha: EditText
     private lateinit var auth: FirebaseAuth
     private lateinit var progressBar: ProgressBar
-
+    private var tvRecuperarConta: TextView? = null
     private var tvCriarConta: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -58,27 +59,19 @@ class LoginActivity : AppCompatActivity() {
                 validaLogin(email, senha)
             }
         }
-//        if (email.isNotEmpty()) {
-//            if (senha.isNotEmpty()) {
-//                progressBar.visibility = View.VISIBLE
-//                validaLogin(email, senha)
-//            } else {
-//                editSenha.requestFocus()
-//                editSenha.error = "Digite sua Senha"
-//            }
-//        } else {
-//            editEmail.requestFocus()
-//            editEmail.error = "Digite seu Email"
-//        }
     }
 
     private fun configClicks() {
         tvCriarConta!!.setOnClickListener {
             startActivity(Intent(this, CriarContaActivity::class.java))
         }
+        tvRecuperarConta!!.setOnClickListener {
+            startActivity(Intent(this, RecuperarContaActivity::class.java))
+        }
     }
 
     private fun initComponets() {
+        tvRecuperarConta = findViewById(R.id.tv_recuperar_conta)
         auth = FirebaseAuth.getInstance()
         progressBar = findViewById(R.id.progressBar)
         editEmail = findViewById(R.id.edit_email)

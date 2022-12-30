@@ -115,7 +115,7 @@ class CriarContaActivity : AppCompatActivity() {
                     startActivity(Intent(this, MainActivity::class.java))
                 } else {
                     Toast.makeText(
-                        baseContext, "Authentication failed.",
+                        this, "Error ao tentar criar conta.",
                         Toast.LENGTH_SHORT
                     ).show()
                     finish()
