@@ -7,47 +7,64 @@
     android:background="#f76a65"
     tools:context=".activity.MainActivity">
 
-<!--    <androidx.appcompat.widget.Toolbar-->
-<!--        android:id="@+id/toolbar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="?attr/colorPrimaryVariant"-->
-<!--        app:title="Controle de estoque"-->
-<!--        app:subtitleTextColor="@color/white"-->
-<!--        android:minHeight="?attr/actionBarSize"-->
-<!--        android:theme="?attr/actionBarTheme"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:titleTextColor="@color/white" />-->
+    <!--    <androidx.appcompat.widget.Toolbar-->
+    <!--        android:id="@+id/toolbar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="?attr/colorPrimaryVariant"-->
+    <!--        app:title="Controle de estoque"-->
+    <!--        app:subtitleTextColor="@color/white"-->
+    <!--        android:minHeight="?attr/actionBarSize"-->
+    <!--        android:theme="?attr/actionBarTheme"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:titleTextColor="@color/white" />-->
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imageView2"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1dp"-->
-<!--        android:alpha="0.2"-->
-<!--        android:background="@color/white"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
-<!--        tools:layout_editor_absoluteX="0dp" />-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageView2"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:alpha="0.2"-->
+    <!--        android:background="@color/white"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/toolbar"-->
+    <!--        tools:layout_editor_absoluteX="0dp" />-->
 
     <include
         android:id="@+id/include"
         layout="@layout/toolbar" />
 
-    <TextView
-        android:id="@+id/tv_info"
-        android:textSize="24sp"
-        android:textStyle="bold"
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nenhum Produto"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/produtos"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/include" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Carregando"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+
+            />
+
+
+    </LinearLayout>
 
     <com.tsuryo.swipeablerv.SwipeableRecyclerView
         android:id="@+id/produtos"
@@ -55,14 +72,15 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintVertical_bias="0.0"
         app:leftBgColor="@android:color/white"
         app:leftImage="@drawable/ic_delete"
         app:rightBgColor="@color/color_edit"
         app:rightImage="@drawable/ic_edit"
         tools:listitem="@layout/item_produto" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
