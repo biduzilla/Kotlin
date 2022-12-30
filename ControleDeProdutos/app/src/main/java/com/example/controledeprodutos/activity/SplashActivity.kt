@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.controledeprodutos.R
 import com.example.controledeprodutos.auth.LoginActivity
+import com.example.controledeprodutos.helper.FireBaseHelper
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashActivity : AppCompatActivity() {
@@ -26,10 +27,18 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun verficarLogin() {
-        if (auth.currentUser != null) {
-            startActivity(Intent(this, MainActivity::class.java))
-        } else {
-            startActivity(Intent(this, LoginActivity::class.java))
+//        if (auth.currentUser != null) {
+//            startActivity(Intent(this, MainActivity::class.java))
+//        } else {
+//            startActivity(Intent(this, LoginActivity::class.java))
+//        }
+        when {
+            FireBaseHelper.isAuth() -> {
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            else -> {
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
         }
     }
 }

@@ -1,18 +1,24 @@
 package com.example.controledeprodutos.helper
 
+import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class FireBaseHelper {
 
+    companion object {
+        val auth: FirebaseAuth = FirebaseAuth.getInstance()
+        val dateBase: DatabaseReference = FirebaseDatabase.getInstance().reference
 
-    private lateinit var auth: FirebaseAuth
-    fun getAuth(): FirebaseAuth {
-        if (auth == null) {
-            auth = FirebaseAuth.getInstance()
+        fun getIdFirebase():String?{
+            return auth.uid
         }
-        return auth
+        fun isAuth(): Boolean {
+            return auth.currentUser != null
+        }
     }
-
-
-
+    init {
+        this
+    }
 }

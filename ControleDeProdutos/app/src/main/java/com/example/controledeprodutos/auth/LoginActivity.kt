@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.controledeprodutos.R
 import com.example.controledeprodutos.activity.MainActivity
+import com.example.controledeprodutos.helper.FireBaseHelper
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
@@ -29,7 +30,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun validaLogin(email: String, senha: String) {
-        auth.signInWithEmailAndPassword(email, senha)
+//        auth.signInWithEmailAndPassword(email, senha)
+//            .addOnCompleteListener(this) {
+//                if (it.isSuccessful) {
+//                    startActivity(Intent(this, MainActivity::class.java))
+//                } else {
+//                    val error: String = it.exception!!.message.toString()
+//                    Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+//                    progressBar.visibility = View.GONE
+//                }
+//            }
+        FireBaseHelper.auth.signInWithEmailAndPassword(email, senha)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
                     startActivity(Intent(this, MainActivity::class.java))

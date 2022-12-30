@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.example.controledeprodutos.R
+import com.example.controledeprodutos.helper.FireBaseHelper
 import com.google.firebase.auth.FirebaseAuth
 
 class RecuperarContaActivity : AppCompatActivity() {
@@ -43,7 +44,7 @@ class RecuperarContaActivity : AppCompatActivity() {
     }
 
     private fun enviarEmail(email: String) {
-        auth!!.sendPasswordResetEmail(email).addOnCompleteListener(this) {
+        FireBaseHelper.auth.sendPasswordResetEmail(email).addOnCompleteListener(this) {
             when {
                 it.isSuccessful -> {
                     Toast.makeText(this, "Email Enviado com Sucesso", Toast.LENGTH_LONG).show()

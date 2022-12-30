@@ -44,7 +44,7 @@ class ProdutoDAO(
             produto.nome = nome
             produto.valor = valor
             produto.estoque = estoque
-            produto.id = id
+//            produto.id = id
 
             produtoList.add(produto)
         }

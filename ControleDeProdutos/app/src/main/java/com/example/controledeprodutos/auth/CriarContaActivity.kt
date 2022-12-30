@@ -106,7 +106,7 @@ class CriarContaActivity : AppCompatActivity() {
     }
 
     private fun salvarCadastro(usuario: Usuario) {
-        auth.createUserWithEmailAndPassword(usuario.email, usuario.senha)
+        FireBaseHelper.auth.createUserWithEmailAndPassword(usuario.email, usuario.senha)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val id: String? = auth.currentUser?.uid

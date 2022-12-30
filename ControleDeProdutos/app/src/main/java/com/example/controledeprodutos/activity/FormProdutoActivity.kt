@@ -22,6 +22,10 @@ class FormProdutoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form_produto)
 
+        initComponents()
+    }
+
+    private fun initComponents(){
         produtoDAO = ProdutoDAO(this)
         editProduto = findViewById(R.id.edit_produto)
         editQuantidade = findViewById(R.id.edit_quantidade)
@@ -63,11 +67,8 @@ class FormProdutoActivity : AppCompatActivity() {
                             produto.nome = nome
                             produto.estoque = qtd
                             produto.valor = valorProduto
-                            if (produto.id != 0) {
-                                produtoDAO!!.atualizaProduto(produto)
-                            } else {
-                                produtoDAO!!.salvarProduto(produto)
-                            }
+
+                            produto.salvarProduto()
                             finish()
 
                         } else {
