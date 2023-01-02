@@ -13,6 +13,8 @@ class ProdutoEntity(databaseReference: DatabaseReference = FireBaseHelper.dateBa
     var nome: String = ""
     var estoque: Int = 0
     var valor: Double = 0.0
+    var urlImagem: String = ""
+
 
     init {
         this.id = databaseReference.push().key!!

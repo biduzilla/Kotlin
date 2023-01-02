@@ -20,6 +20,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.controledeprodutos.ProdutoDAO
 import com.example.controledeprodutos.models.ProdutoEntity
 import com.example.controledeprodutos.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 
@@ -34,7 +39,7 @@ class FormProdutoActivity : AppCompatActivity() {
     private val REQUEST_GALERIA = 100
     private var caminhoImage: String? = null
     private var image: Bitmap? = null
-    private var resultLauncher:ActivityResultLauncher<Intent>? = null
+    private var resultLauncher: ActivityResultLauncher<Intent>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,30 +49,56 @@ class FormProdutoActivity : AppCompatActivity() {
         initComponents()
     }
 
-    private fun carregaImagem(){
-        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                val data: Intent? = it.data
-                val localImageSelect: Uri? = data?.data
-                caminhoImage = localImageSelect.toString()
-
-                image = if (Build.VERSION.SDK_INT < 28) {
-                    MediaStore.Images.Media.getBitmap(
-                        baseContext.contentResolver,
-                        localImageSelect
-                    )
-                } else {
-                    val source: ImageDecoder.Source = ImageDecoder.createSource(
-                        baseContext.contentResolver,
-                        localImageSelect!!
-                    )
-                    ImageDecoder.decodeBitmap(source)
-                }
-                Log.i("Caminho Imagem", caminhoImage!!)
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        ivImgProduto!!.setImageBitmap(image)
     }
 
+    private fun carregaImagem() {
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val data: Intent? = it.data
+                    val localImageSelect: Uri? = data?.data
+                    caminhoImage = localImageSelect.toString()
+
+                    image = if (Build.VERSION.SDK_INT < 28) {
+                        MediaStore.Images.Media.getBitmap(
+                            baseContext.contentResolver,
+                            localImageSelect
+                        )
+                    } else {
+                        val source: ImageDecoder.Source = ImageDecoder.createSource(
+                            baseContext.contentResolver,
+                            localImageSelect!!
+                        )
+                        ImageDecoder.decodeBitmap(source)
+                    }
+                    Log.i("Caminho Imagem", caminhoImage!!)
+                }
+            }
+    }
+
+    private fun salvarImagemProduto() {
+        val reference: StorageReference =
+            FirebaseStorage.getInstance().reference
+                .child("imagens")
+                .child("produtos")
+                .child(FirebaseAuth.getInstance().currentUser!!.uid)
+                .child(produto.id+".jpeg")
+
+        val uploadTask:UploadTask = reference.putFile(Uri.parse(caminhoImage))
+        uploadTask.addOnSuccessListener {
+            reference.downloadUrl.addOnCompleteListener{
+                produto.urlImagem = it.result.toString()
+                produto.salvarProduto()
+
+                finish()
+            }
+        }.addOnFailureListener {
+            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     private fun initComponents() {
         produtoDAO = ProdutoDAO(this)
@@ -101,15 +132,13 @@ class FormProdutoActivity : AppCompatActivity() {
         showDialogPermission(permission, listOf(android.Manifest.permission.READ_EXTERNAL_STORAGE))
     }
 
-
     private fun openGaleria() {
         val intent =
             Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        resultLauncher!!.launch(intent)
 
+        resultLauncher!!.launch(intent)
         //        startActivityForResult(intent, REQUEST_GALERIA)
     }
-
 
     private fun showDialogPermission(listener: PermissionListener, permissoes: List<String>) {
         TedPermission.create().setPermissionListener(listener)
@@ -144,9 +173,12 @@ class FormProdutoActivity : AppCompatActivity() {
                             produto.estoque = qtd
                             produto.valor = valorProduto
 
-                            produto.salvarProduto()
+                            if (caminhoImage==null){
+                                Toast.makeText(this,"Selecione uma Imagem",Toast.LENGTH_SHORT).show()
+                            }else{
+                                salvarImagemProduto()
+                            }
                             finish()
-
                         } else {
                             editValor!!.requestFocus()
                             editValor!!.error = "Informe um valor maior que 0"
