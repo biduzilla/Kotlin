@@ -27,6 +27,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.squareup.picasso.Picasso
 
 class FormProdutoActivity : AppCompatActivity() {
     private var editProduto: EditText? = null
@@ -153,6 +154,7 @@ class FormProdutoActivity : AppCompatActivity() {
         editProduto!!.setText(produto.nome)
         editQuantidade!!.setText(produto.estoque.toString())
         editValor!!.setText(produto.valor.toString())
+        Picasso.get().load(produto.urlImagem).into(ivImgProduto)
     }
 
     fun salvarProduto(view: View) {

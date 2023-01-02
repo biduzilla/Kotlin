@@ -148,9 +148,8 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
                 val children = snapshot.children
                 produtosList.clear()
                 children.forEach {
-                    it.getValue(ProdutoEntity::class.java)?.let { it1 ->
-                        produtosList.add(it1)
-                        Log.i("INFOTESTE", it1.urlImagem)
+                    it.getValue(ProdutoEntity::class.java)?.let { produto ->
+                        produtosList.add(produto)
                     }
                 }
                 verificaQtdLista()
