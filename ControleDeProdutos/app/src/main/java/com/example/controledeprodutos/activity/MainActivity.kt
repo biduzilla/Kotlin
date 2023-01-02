@@ -3,6 +3,7 @@ package com.example.controledeprodutos.activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
@@ -111,7 +112,7 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
             }
 
             override fun onSwipedRight(position: Int) {
-                val produto:ProdutoEntity = produtosList[position]
+                val produto: ProdutoEntity = produtosList[position]
                 produtosList.remove(produtosList[position])
                 produto.deletarProduto()
                 adapterProdutos!!.notifyItemRemoved(position)
@@ -142,12 +143,15 @@ class MainActivity : AppCompatActivity(), AdapterProdutosKoltin.OnClick {
         val ref = FirebaseDatabase.getInstance().getReference("produtos")
             .child(FirebaseAuth.getInstance().currentUser!!.uid)
 
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+        ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val children = snapshot.children
                 produtosList.clear()
-                children.forEach{
-                    it.getValue(ProdutoEntity::class.java)?.let { it1 -> produtosList.add(it1) }
+                children.forEach {
+                    it.getValue(ProdutoEntity::class.java)?.let { it1 ->
+                        produtosList.add(it1)
+                        Log.i("INFOTESTE", it1.urlImagem)
+                    }
                 }
                 verificaQtdLista()
                 produtosList.reverse()

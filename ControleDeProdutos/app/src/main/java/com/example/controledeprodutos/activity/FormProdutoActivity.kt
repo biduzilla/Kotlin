@@ -177,8 +177,9 @@ class FormProdutoActivity : AppCompatActivity() {
                                 Toast.makeText(this,"Selecione uma Imagem",Toast.LENGTH_SHORT).show()
                             }else{
                                 salvarImagemProduto()
+                                finish()
                             }
-                            finish()
+
                         } else {
                             editValor!!.requestFocus()
                             editValor!!.error = "Informe um valor maior que 0"
