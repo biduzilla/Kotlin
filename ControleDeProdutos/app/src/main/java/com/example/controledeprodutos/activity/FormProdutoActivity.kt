@@ -37,7 +37,6 @@ class FormProdutoActivity : AppCompatActivity() {
     private var produto = ProdutoEntity()
     private var btnForm: Button? = null
     private var ivImgProduto: ImageView? = null
-    private val REQUEST_GALERIA = 100
     private var caminhoImage: String? = null
     private var image: Bitmap? = null
     private var resultLauncher: ActivityResultLauncher<Intent>? = null
