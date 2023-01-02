@@ -21,7 +21,12 @@ class LoginActivity : AppCompatActivity() {
         tvCriarConta.setOnClickListener {
             startActivity(Intent(this, CriarContaActivity::class.java))
         }
+
+        tvRecuperarConta.setOnClickListener {
+            startActivity(Intent(this, RecuperarContaActivity::class.java))
+        }
     }
+
 
     private fun initComponents() {
         tvCriarConta = findViewById(R.id.tv_criar_conta)
