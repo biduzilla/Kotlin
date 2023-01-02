@@ -39,55 +39,69 @@
 
                 <EditText
                     android:id="@+id/et_nome"
-                    android:textColorHint="@color/textColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_edit"
                     android:hint="Nome"
-                    android:inputType="textEmailAddress"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:textColor="@color/azulPadrao"
+                    android:textColorHint="@color/textColor" />
 
                 <EditText
                     android:id="@+id/et_email"
-                    android:textColorHint="@color/textColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_edit"
                     android:hint="Email"
                     android:inputType="textEmailAddress"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:textColor="@color/azulPadrao"
+                    android:textColorHint="@color/textColor" />
 
                 <EditText
                     android:id="@+id/et_telefone"
-                    android:textColorHint="@color/textColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_edit"
                     android:hint="Telefone"
-                    android:padding="16dp" />
+                    android:inputType="phone"
+                    android:padding="16dp"
+                    android:textColor="@color/azulPadrao"
+                    android:textColorHint="@color/textColor" />
 
                 <EditText
+                    android:id="@+id/et_senha"
                     android:layout_width="match_parent"
-                    android:textColorHint="@color/textColor"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_edit"
                     android:hint="Senha"
                     android:inputType="textPassword"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:textColor="@color/azulPadrao"
+                    android:textColorHint="@color/textColor" />
 
                 <android.widget.Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_btn"
+                    android:onClick="validaDados"
+                    android:text="Criar Conta"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
 
-
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:indeterminateTint="@color/azulPadrao"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
