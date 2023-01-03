@@ -48,6 +48,11 @@ class FormAnuncioActivity : AppCompatActivity() {
         configClicks()
     }
 
+    override fun onResume() {
+        super.onResume()
+        ivFoto.setImageBitmap(imagem)
+    }
+
     fun veriricaPermissaoGaleira(view: View) {
         val permission: PermissionListener = object : PermissionListener {
             override fun onPermissionGranted() {
