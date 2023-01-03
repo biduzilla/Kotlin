@@ -53,6 +53,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
+                android:textColor="@color/azulPadrao"
                 android:background="@drawable/bg_edit"
                 android:hint="Titulo"
                 android:textColorHint="@color/textColor"
@@ -75,6 +76,9 @@
                     android:background="@drawable/bg_edit"
                     android:backgroundTint="@android:color/white"
                     android:hint="Descrição"
+
+                    android:paddingBottom="24dp"
+                    android:textColor="@color/azulPadrao"
                     android:textColorHint="@color/textColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -111,6 +115,7 @@
                         android:background="@drawable/bg_edit"
                         android:hint="Ex: 3"
                         android:textColorHint="@color/textColor"
+                        android:textColor="@color/azulPadrao"
                         android:inputType="number"
                         android:padding="16dp" />
                 </LinearLayout>
@@ -138,6 +143,7 @@
                         android:hint="Ex: 2 "
                         android:textColorHint="@color/textColor"
                         android:inputType="number"
+                        android:textColor="@color/azulPadrao"
                         android:padding="16dp" />
                 </LinearLayout>
 
@@ -164,6 +170,7 @@
                         android:hint="Ex: 1"
                         android:textColorHint="@color/textColor"
                         android:inputType="number"
+                        android:textColor="@color/azulPadrao"
                         android:padding="16dp" />
                 </LinearLayout>
             </LinearLayout>
@@ -177,6 +184,16 @@
                 android:checked="true"
                 android:text="Disponível"
                 android:textColor="@color/azulPadrao" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/azulPadrao"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                tools:visibility="gone"
+                />
 
         </LinearLayout>
     </ScrollView>

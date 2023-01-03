@@ -14,12 +14,14 @@ import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.toddy.casaportemporada.R
-import com.toddy.casaportemporada.model.Produto
-import java.net.URI
-import java.security.Permission
+import com.toddy.casaportemporada.model.Anuncio
 
 class FormAnuncioActivity : AppCompatActivity() {
     private lateinit var ibSalvar: ImageButton
@@ -30,12 +32,13 @@ class FormAnuncioActivity : AppCompatActivity() {
     private lateinit var etBanheiro: EditText
     private lateinit var etGaragem: EditText
     private lateinit var cbStatus: CheckBox
+    private lateinit var progressBar: ProgressBar
 
 
     private lateinit var ivFoto: ImageView
-    private lateinit var caminhoImagem: String
+    private var caminhoImagem: String? = null
     private var imagem: Bitmap? = null
-    private var produto = Produto()
+    private var anuncio = Anuncio()
 
     private var resultLauncher: ActivityResultLauncher<Intent>? = null
 
@@ -112,8 +115,12 @@ class FormAnuncioActivity : AppCompatActivity() {
     }
 
     private fun initComponets() {
-        var tituloToolbar: TextView = findViewById(R.id.tv_titulo_toolbar_voltar)
+
+        val tituloToolbar: TextView = findViewById(R.id.tv_titulo_toolbar_voltar)
         tituloToolbar.text = "Salvar Anúncio"
+
+        cbStatus = findViewById(R.id.cb_status)
+        progressBar = findViewById(R.id.progress_bar)
         ibVoltar = findViewById(R.id.ib_toolbar_voltar)
         ibSalvar = findViewById(R.id.ib_toolbar_salvar)
         ivFoto = findViewById(R.id.iv_foto)
@@ -153,14 +160,40 @@ class FormAnuncioActivity : AppCompatActivity() {
                 etGaragem.error = "Informe o número de garagens"
             }
             else -> {
-                produto.titulo = titulo
-                produto.descricao = descricao
-                produto.quarto = quarto
-                produto.banheiro = banheiro
-                produto.garagem = garagem
-                produto.status = cbStatus.isChecked
+                anuncio.titulo = titulo
+                anuncio.descricao = descricao
+                anuncio.quarto = quarto
+                anuncio.banheiro = banheiro
+                anuncio.garagem = garagem
+                anuncio.status = cbStatus.isChecked
+
+                if (caminhoImagem == null) {
+                    Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show()
+
+                } else {
+                    salvarImagemAnuncio()
+                }
 
             }
         }
+    }
+
+    private fun salvarImagemAnuncio() {
+        val reference: StorageReference = FirebaseStorage.getInstance().reference
+            .child("imagens")
+            .child("anuncios")
+            .child(anuncio.id + "jpg")
+
+        val uploadTask: UploadTask = reference.putFile(Uri.parse(caminhoImagem))
+        uploadTask.addOnSuccessListener {
+            reference.downloadUrl.addOnCompleteListener {
+                anuncio.urlImage = it.result.toString()
+                anuncio.salvarAnuncio()
+//                finish()
+            }
+        }.addOnFailureListener {
+            Toast.makeText(this, it.message.toString(), Toast.LENGTH_SHORT).show()
+        }
+
     }
 }
