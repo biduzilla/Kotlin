@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activity.FormAnuncioActivity">
 
     <include
@@ -25,7 +26,9 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_image"
                 android:layout_width="140dp"
+                android:onClick="veriricaPermissaoGaleira"
                 android:layout_height="140dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="24dp"
@@ -33,6 +36,7 @@
                 app:cardCornerRadius="5dp">
 
                 <ImageView
+                    android:id="@+id/iv_foto"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
@@ -42,6 +46,7 @@
             </androidx.cardview.widget.CardView>
 
             <EditText
+                android:id="@+id/et_titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -49,6 +54,7 @@
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/bg_edit"
                 android:hint="Titulo"
+                android:textColorHint="@color/textColor"
                 android:padding="16dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,6 +66,7 @@
                 android:background="@drawable/bg_edit">
 
                 <EditText
+                    android:id="@+id/et_descricao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -67,6 +74,7 @@
                     android:background="@drawable/bg_edit"
                     android:backgroundTint="@android:color/white"
                     android:hint="Descrição"
+                    android:textColorHint="@color/textColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -95,11 +103,14 @@
                         android:textColor="@color/azulPadrao" />
 
                     <EditText
+                        android:id="@+id/et_quarto"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:background="@drawable/bg_edit"
                         android:hint="Ex: 3"
+                        android:textColorHint="@color/textColor"
+                        android:inputType="number"
                         android:padding="16dp" />
                 </LinearLayout>
 
@@ -118,11 +129,14 @@
                         android:textColor="@color/azulPadrao" />
 
                     <EditText
+                        android:id="@+id/et_banheiro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:background="@drawable/bg_edit"
-                        android:hint="Ex: "
+                        android:hint="Ex: 2 "
+                        android:textColorHint="@color/textColor"
+                        android:inputType="number"
                         android:padding="16dp" />
                 </LinearLayout>
 
@@ -136,22 +150,25 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:gravity="center_horizontal"
                         android:text="Garagem"
                         android:textColor="@color/azulPadrao" />
 
                     <EditText
+                        android:id="@+id/et_garagem"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:background="@drawable/bg_edit"
                         android:hint="Ex: 1"
+                        android:textColorHint="@color/textColor"
+                        android:inputType="number"
                         android:padding="16dp" />
                 </LinearLayout>
             </LinearLayout>
 
             <CheckBox
+                android:id="@+id/cb_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
