@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.toddy.casaportemporada.R
-import com.toddy.casaportemporada.activity.FormAnuncioActivity
 import com.toddy.casaportemporada.activity.MainActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -72,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, senha).addOnCompleteListener {
             if (it.isSuccessful) {
                 finish()
-                startActivity(Intent(this, FormAnuncioActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
             } else {
                 val error: String? = it.exception?.message
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
