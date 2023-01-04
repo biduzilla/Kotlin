@@ -26,6 +26,7 @@ class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().refe
 
         reference.setValue(this)
     }
+
 }
 
 

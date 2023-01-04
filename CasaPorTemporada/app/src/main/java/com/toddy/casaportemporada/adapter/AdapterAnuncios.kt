@@ -12,7 +12,7 @@ import com.toddy.casaportemporada.model.Anuncio
 
 class AdapterAnuncios(
     private val anunciosList: MutableList<Anuncio>,
-    private val onClickInterface: OnClick
+//    private val onClickInterface: OnClick
 ) : RecyclerView.Adapter<AdapterAnuncios.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -41,7 +41,7 @@ class AdapterAnuncios(
 
         holder.tvTitulo!!.text = anuncio.titulo
         holder.tvDescricao!!.text = anuncio.descricao
-        holder.tvData!!.text = anuncio.titulo
+        holder.tvData!!.text = "data"
 
     }
 
