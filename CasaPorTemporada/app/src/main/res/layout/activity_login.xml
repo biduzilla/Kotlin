@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Cadastrar"
-                        android:textColor="@color/textColor" />
+                        android:textColor="@color/azulPadrao" />
 
                     <TextView
                         android:id="@+id/tv_tv_recuperar_conta"
@@ -95,7 +95,7 @@
                         android:layout_weight="1"
                         android:text="Esqueci a Senha"
                         android:textAlignment="textEnd"
-                        android:textColor="@color/textColor" />
+                        android:textColor="@color/azulPadrao" />
                 </LinearLayout>
 
                 <ProgressBar
