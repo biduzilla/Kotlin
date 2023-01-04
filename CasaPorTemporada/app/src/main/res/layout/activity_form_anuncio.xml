@@ -193,7 +193,7 @@
                 android:indeterminateTint="@color/azulPadrao"
                 android:layout_gravity="center_horizontal"
                 android:visibility="gone"
-                tools:visibility="gone"
+                tools:visibility="visible"
                 />
 
         </LinearLayout>

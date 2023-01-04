@@ -112,6 +112,9 @@ class FormAnuncioActivity : AppCompatActivity() {
         ibSalvar.setOnClickListener {
             validaDados()
         }
+        ibVoltar.setOnClickListener {
+            finish()
+        }
     }
 
     private fun initComponets() {
@@ -167,6 +170,8 @@ class FormAnuncioActivity : AppCompatActivity() {
                 anuncio.garagem = garagem
                 anuncio.status = cbStatus.isChecked
 
+                progressBar.visibility = View.VISIBLE
+
                 if (caminhoImagem == null) {
                     Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show()
 
@@ -189,9 +194,11 @@ class FormAnuncioActivity : AppCompatActivity() {
             reference.downloadUrl.addOnCompleteListener {
                 anuncio.urlImage = it.result.toString()
                 anuncio.salvarAnuncio()
-//                finish()
+                progressBar.visibility = View.GONE
+                finish()
             }
         }.addOnFailureListener {
+            progressBar.visibility = View.GONE
             Toast.makeText(this, it.message.toString(), Toast.LENGTH_SHORT).show()
         }
 
