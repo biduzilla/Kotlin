@@ -1,30 +1,30 @@
 package com.toddy.casaportemporada.activity
 
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Adapter
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.toddy.casaportemporada.R
 import com.toddy.casaportemporada.adapter.AdapterAnuncios
 import com.toddy.casaportemporada.model.Anuncio
-import org.w3c.dom.Text
+import com.tsuryo.swipeablerv.SwipeLeftRightCallback
+import com.tsuryo.swipeablerv.SwipeableRecyclerView
+
 
 class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
 
     private var anunciosList = mutableListOf<Anuncio>()
 
     private lateinit var progressBar: ProgressBar
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: SwipeableRecyclerView
     private lateinit var tvInfo: TextView
     private lateinit var adapter: AdapterAnuncios
     private lateinit var ibAdd: ImageButton
@@ -104,6 +104,32 @@ class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
         adapter = AdapterAnuncios(anunciosList,this)
 
         recyclerView.adapter = adapter
+
+        recyclerView.setListener(object : SwipeLeftRightCallback.Listener {
+            override fun onSwipedLeft(position: Int) {
+
+            }
+
+            override fun onSwipedRight(position: Int) {
+                showDialogDelete()
+            }
+        })
+    }
+
+    private fun showDialogDelete(){
+        AlertDialog.Builder(this)
+            .setTitle("Apagar Anúncio")
+            .setMessage("Deseja excluir esse anúncio?")
+            .setPositiveButton("Sim"){ _:DialogInterface,_:Int ->
+                adapter.notifyDataSetChanged()
+            }
+            .setNegativeButton("Não"){dialog:DialogInterface,_:Int ->
+                dialog.dismiss()
+                adapter.notifyDataSetChanged()
+            }
+            .show()
+
+
     }
 
     override fun onClickListener(anuncio: Anuncio) {
