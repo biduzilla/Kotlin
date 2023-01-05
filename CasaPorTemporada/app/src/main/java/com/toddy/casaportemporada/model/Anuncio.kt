@@ -8,6 +8,7 @@ import com.google.firebase.storage.FirebaseStorage
 class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().reference) :
     java.io.Serializable {
     var id: String = ""
+    var idUser: String = ""
     var titulo: String = ""
     var descricao: String = ""
     var quarto: String = ""

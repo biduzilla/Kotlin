@@ -183,6 +183,7 @@ class FormAnuncioActivity : AppCompatActivity() {
                 etGaragem.error = "Informe o número de garagens"
             }
             else -> {
+                anuncio.idUser = FirebaseAuth.getInstance().currentUser!!.uid
                 anuncio.titulo = titulo
                 anuncio.descricao = descricao
                 anuncio.quarto = quarto
