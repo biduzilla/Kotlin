@@ -43,7 +43,7 @@ class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
         recuperaAnuncios()
     }
 
-    private fun configClicks(){
+    private fun configClicks() {
         ibVoltar.setOnClickListener {
             finish()
         }
@@ -51,7 +51,6 @@ class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
             startActivity(Intent(this, FormAnuncioActivity::class.java))
         }
     }
-
 
 
     private fun initComponents() {
@@ -101,7 +100,7 @@ class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
 
-        adapter = AdapterAnuncios(anunciosList,this)
+        adapter = AdapterAnuncios(anunciosList, this)
 
         recyclerView.adapter = adapter
 
@@ -111,19 +110,20 @@ class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
             }
 
             override fun onSwipedRight(position: Int) {
-                showDialogDelete()
+                showDialogDelete(position)
             }
         })
     }
 
-    private fun showDialogDelete(){
+    private fun showDialogDelete(pos: Int) {
         AlertDialog.Builder(this)
             .setTitle("Apagar Anúncio")
             .setMessage("Deseja excluir esse anúncio?")
-            .setPositiveButton("Sim"){ _:DialogInterface,_:Int ->
-                adapter.notifyDataSetChanged()
+            .setPositiveButton("Sim") { _: DialogInterface, _: Int ->
+                anunciosList[pos].deletarAnuncio()
+                adapter.notifyItemRemoved(pos)
             }
-            .setNegativeButton("Não"){dialog:DialogInterface,_:Int ->
+            .setNegativeButton("Não") { dialog: DialogInterface, _: Int ->
                 dialog.dismiss()
                 adapter.notifyDataSetChanged()
             }
@@ -133,8 +133,8 @@ class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
     }
 
     override fun onClickListener(anuncio: Anuncio) {
-        val intent = Intent(this,FormAnuncioActivity::class.java)
-        intent.putExtra("anuncio",anuncio)
+        val intent = Intent(this, FormAnuncioActivity::class.java)
+        intent.putExtra("anuncio", anuncio)
         startActivity(intent)
     }
 }
