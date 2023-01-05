@@ -9,12 +9,9 @@ class Usuario {
     var nome: String = ""
     var telefone: String = ""
     var email: String = ""
-
     var senha: String = ""
         @Exclude
         get
-
-
     fun salvar() {
         val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
             .child("usuario")

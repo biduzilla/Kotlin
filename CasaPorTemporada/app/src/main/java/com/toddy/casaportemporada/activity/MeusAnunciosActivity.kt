@@ -52,7 +52,6 @@ class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
         }
     }
 
-
     private fun initComponents() {
         val tvTitulo: TextView = findViewById(R.id.tv_titulo_toolbar_voltar)
         tvTitulo.text = "Meus Anúncios"
@@ -66,8 +65,7 @@ class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
 
     private fun recuperaAnuncios() {
         val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
-            .child("anuncios")
-            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+            .child("anuncios").child(FirebaseAuth.getInstance().currentUser!!.uid)
 
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

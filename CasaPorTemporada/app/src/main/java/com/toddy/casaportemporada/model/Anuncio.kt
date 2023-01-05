@@ -28,6 +28,11 @@ class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().refe
             .child(this.id)
 
         reference.setValue(this)
+
+        FirebaseDatabase.getInstance().reference
+            .child("anuncios_publicos")
+            .child(this.id)
+            .setValue(this)
     }
 
     fun deletarAnuncio() {

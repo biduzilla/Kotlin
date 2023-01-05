@@ -30,8 +30,9 @@
             <ImageView
                 android:id="@+id/iv_anuncio"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:background="@android:color/darker_gray"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -95,6 +96,7 @@
                         android:background="@drawable/bg_edit"
                         android:padding="16dp"
                         android:text="Quarto"
+                        android:textAlignment="center"
                         android:textColor="@color/azulPadrao"
                         android:textColorHint="@color/textColor" />
                 </LinearLayout>
@@ -122,6 +124,7 @@
                         android:background="@drawable/bg_edit"
                         android:padding="16dp"
                         android:text="Banheiro"
+                        android:textAlignment="center"
                         android:textColor="@color/azulPadrao"
                         android:textColorHint="@color/textColor" />
                 </LinearLayout>
@@ -149,6 +152,7 @@
                         android:background="@drawable/bg_edit"
                         android:padding="16dp"
                         android:text="Garagem"
+                        android:textAlignment="center"
                         android:textColor="@color/azulPadrao"
                         android:textColorHint="@color/textColor" />
                 </LinearLayout>
@@ -166,6 +170,7 @@
                 android:drawablePadding="-40dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="0dp"
+                android:onClick="ligar"
                 android:text="Ligar"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
