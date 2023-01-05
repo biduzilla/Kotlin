@@ -1,17 +1,20 @@
 package com.toddy.casaportemporada.activity
 
-import android.app.ProgressDialog.THEME_DEVICE_DEFAULT_DARK
-import android.app.ProgressDialog.show
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,22 +24,26 @@ import com.toddy.casaportemporada.R
 import com.toddy.casaportemporada.activity.auth.LoginActivity
 import com.toddy.casaportemporada.adapter.AdapterAnuncios
 import com.toddy.casaportemporada.model.Anuncio
-import org.w3c.dom.Text
+import com.toddy.casaportemporada.model.Filtro
+
 
 class MainActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
     private lateinit var adapter: AdapterAnuncios
     private lateinit var ibMore: ImageButton
     private lateinit var tvInfo: TextView
-    private lateinit var tituloToolbar: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerView: RecyclerView
 
     private var anunciosList = mutableListOf<Anuncio>()
+    private var filtro = Filtro()
+
+    private var resultLauncher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        startResult()
         initComponents()
         configRv()
         recuperaAnuncios()
@@ -46,6 +53,64 @@ class MainActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
     override fun onResume() {
         super.onResume()
         recuperaAnuncios()
+    }
+
+    private fun startResult() {
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val data: Intent? = it.data
+                    filtro = data!!.getSerializableExtra("filtro") as Filtro
+                    if (filtro.qtdQuarto > 0 || filtro.qtdBanheiro > 0 || filtro.qtdGaragem > 0) {
+                        recuperaAnunciosFiltrados()
+                    }
+                }
+            }
+    }
+
+    private fun recuperaAnunciosFiltrados() {
+        val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
+            .child("anuncios_publicos")
+
+        reference.addListenerForSingleValueEvent(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val children = snapshot.children
+                    anunciosList.clear()
+
+//                    children.forEach {
+//                        it.getValue(Anuncio::class.java).let { anuncio ->
+//
+//                            val quarto: Int = anuncio!!.quarto.toInt()
+//                            val banheiro: Int = anuncio.banheiro.toInt()
+//                            val garagem: Int = anuncio.garagem.toInt()
+//
+//                            if (quarto >= filtro.qtdQuarto &&
+//                                banheiro >= filtro.qtdBanheiro &&
+//                                garagem >= filtro.qtdGaragem
+//                            ) {
+//                                anunciosList.add(anuncio)
+//                            }
+//                        }
+//                    }
+                }
+
+                if (anunciosList.size == 0){
+                    tvInfo.text = "Nenhum Anúncio Encontrado"
+                }else{
+                    tvInfo.text = ""
+                }
+                progressBar.visibility = View.GONE
+                anunciosList.reverse()
+                adapter.notifyDataSetChanged();
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
     }
 
     private fun configRv() {
@@ -104,7 +169,9 @@ class MainActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
 
                 when (it.itemId) {
                     R.id.menu_filtrar -> {
-                        startActivity(Intent(this, FiltrarAnunciosActivity::class.java))
+                        val intent = Intent(this, FiltrarAnunciosActivity::class.java)
+                        intent.putExtra("filtro",filtro)
+                        resultLauncher!!.launch(intent)
                     }
                     R.id.menu_meus_anuncios -> {
                         if (FirebaseAuth.getInstance().currentUser != null) {
