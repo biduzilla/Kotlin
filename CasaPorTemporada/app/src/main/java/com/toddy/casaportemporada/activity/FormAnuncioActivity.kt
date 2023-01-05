@@ -20,6 +20,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.squareup.picasso.Picasso
 import com.toddy.casaportemporada.R
 import com.toddy.casaportemporada.model.Anuncio
 
@@ -31,6 +32,7 @@ class FormAnuncioActivity : AppCompatActivity() {
     private lateinit var etQuarto: EditText
     private lateinit var etBanheiro: EditText
     private lateinit var etGaragem: EditText
+    private lateinit var tvToolBarTittle: TextView
     private lateinit var cbStatus: CheckBox
     private lateinit var progressBar: ProgressBar
 
@@ -49,11 +51,30 @@ class FormAnuncioActivity : AppCompatActivity() {
         resultLauncher()
         initComponets()
         configClicks()
+
+        val bundle: Bundle? = intent.extras
+        if (bundle != null) {
+            anuncio = bundle.getSerializable("anuncio") as Anuncio
+            configDados()
+        }
+    }
+
+    private fun configDados() {
+        tvToolBarTittle.text = "Atualizar Anúncio"
+        Picasso.get().load(anuncio.urlImage).into(ivFoto)
+        etTitulo.setText(anuncio.titulo)
+        etDescricao.setText(anuncio.descricao)
+        etQuarto.setText(anuncio.quarto)
+        etGaragem.setText(anuncio.garagem)
+        etBanheiro.setText(anuncio.banheiro)
+        cbStatus.isChecked = anuncio.status
     }
 
     override fun onResume() {
         super.onResume()
-        ivFoto.setImageBitmap(imagem)
+        if (imagem != null) {
+            ivFoto.setImageBitmap(imagem)
+        }
     }
 
     fun veriricaPermissaoGaleira(view: View) {
@@ -75,8 +96,7 @@ class FormAnuncioActivity : AppCompatActivity() {
             .setDeniedTitle("Permissões Negadas")
             .setDeniedMessage("Permissão negada para acessar galeria, deseja permitir?")
             .setDeniedCloseButtonText("Não").setGotoSettingButtonText("Sim")
-            .setPermissions(*permissoes.toTypedArray())
-            .check()
+            .setPermissions(*permissoes.toTypedArray()).check()
     }
 
     private fun resultLauncher() {
@@ -119,8 +139,8 @@ class FormAnuncioActivity : AppCompatActivity() {
 
     private fun initComponets() {
 
-        val tituloToolbar: TextView = findViewById(R.id.tv_titulo_toolbar_voltar)
-        tituloToolbar.text = "Salvar Anúncio"
+        tvToolBarTittle = findViewById(R.id.tv_titulo_toolbar_voltar)
+        tvToolBarTittle.text = "Salvar Anúncio"
 
         cbStatus = findViewById(R.id.cb_status)
         progressBar = findViewById(R.id.progress_bar)
@@ -172,22 +192,26 @@ class FormAnuncioActivity : AppCompatActivity() {
 
                 progressBar.visibility = View.VISIBLE
 
-                if (caminhoImagem == null) {
-                    Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show()
+                if (caminhoImagem != null) {
+                    salvarImagemAnuncio()
 
                 } else {
-                    salvarImagemAnuncio()
-                }
+                    if (anuncio.urlImage != "") {
+                        anuncio.salvarAnuncio()
+                        finish()
 
+                    } else {
+                        Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
 
     private fun salvarImagemAnuncio() {
-        val reference: StorageReference = FirebaseStorage.getInstance().reference
-            .child("imagens")
-            .child("anuncios")
-            .child(anuncio.id + "jpg")
+        val reference: StorageReference =
+            FirebaseStorage.getInstance().reference.child("imagens").child("anuncios")
+                .child(anuncio.id + "jpg")
 
         val uploadTask: UploadTask = reference.putFile(Uri.parse(caminhoImagem))
         uploadTask.addOnSuccessListener {

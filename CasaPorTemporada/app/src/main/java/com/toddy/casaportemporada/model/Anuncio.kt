@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().reference) {
+class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().reference):java.io.Serializable {
     var id: String = ""
     var titulo: String = ""
     var descricao: String = ""

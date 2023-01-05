@@ -9,6 +9,7 @@ import android.widget.Adapter
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -18,7 +19,7 @@ import com.toddy.casaportemporada.adapter.AdapterAnuncios
 import com.toddy.casaportemporada.model.Anuncio
 import org.w3c.dom.Text
 
-class MeusAnunciosActivity : AppCompatActivity() {
+class MeusAnunciosActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
 
     private var anunciosList = mutableListOf<Anuncio>()
 
@@ -100,8 +101,14 @@ class MeusAnunciosActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
 
-        adapter = AdapterAnuncios(anunciosList)
+        adapter = AdapterAnuncios(anunciosList,this)
 
         recyclerView.adapter = adapter
+    }
+
+    override fun onClickListener(anuncio: Anuncio) {
+        val intent = Intent(this,FormAnuncioActivity::class.java)
+        intent.putExtra("anuncio",anuncio)
+        startActivity(intent)
     }
 }
