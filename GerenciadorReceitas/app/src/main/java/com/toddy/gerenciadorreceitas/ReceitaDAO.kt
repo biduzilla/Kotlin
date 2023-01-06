@@ -42,7 +42,7 @@ class ReceitaDAO(
 
             val receitaTmp = Receita()
             receitaTmp.receita = receita
-            receitaTmp.id = id
+            receitaTmp.id = id.toString()
             receitaTmp.descricao = descricao
             receitaTmp.ingredientes = ingredientes
 

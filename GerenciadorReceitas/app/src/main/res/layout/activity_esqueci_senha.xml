@@ -54,12 +54,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:backgroundTint="@color/btn_bg"
-                android:onClick="salvarProduto"
+                android:onClick="validaDados"
                 android:padding="12dp"
                 android:text="Recuperar Senha"
                 android:textColor="@color/btn_text"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:indeterminateTint="@color/btn_bg"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </LinearLayout>
 

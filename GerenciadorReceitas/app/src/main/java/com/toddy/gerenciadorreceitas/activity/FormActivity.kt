@@ -66,31 +66,5 @@ class FormActivity : AppCompatActivity() {
         val nomeReceita: String = etReceita!!.text.toString()
         val descricao: String = etDescricao!!.text.toString()
         val ingredientes: String = etIngredientes!!.text.toString()
-        if (nomeReceita.isNotEmpty()) {
-            if (descricao.isNotEmpty()) {
-                if (ingredientes.isNotEmpty()) {
-                    if (ingredientes.contains(",")) {
-                        receita.receita = nomeReceita
-                        receita.descricao = descricao
-                        receita.ingredientes = ingredientes
-                        if (receita.id != 0) {
-                            receitaDAO?.atualizarReceita(receita)
-                        } else {
-                            receitaDAO!!.salvarReceita(receita)
-                        }
-                        startActivity(Intent(this, MainActivity::class.java))
-                    } else {
-                        etIngredientes!!.error = "Separe os ingredientes por vírgula!"
-                    }
-                } else {
-                    etIngredientes!!.error = "Escreva os ingredientes da receita!"
-                }
-            } else {
-                etDescricao!!.error = "Escreva a descrição da receita!"
-            }
-        } else {
-            etReceita!!.error = "Escreva o nome da receita!"
-        }
-
     }
 }
