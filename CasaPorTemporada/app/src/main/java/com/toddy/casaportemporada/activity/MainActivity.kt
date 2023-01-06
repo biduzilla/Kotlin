@@ -59,12 +59,11 @@ class MainActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
                     if (filtro.qtdQuarto > 0 || filtro.qtdBanheiro > 0 || filtro.qtdGaragem > 0) {
                         recuperaAnunciosFiltrados()
                     }
-//                    else {
-//                        recuperaAnuncios()
-//                    }
-                } else {
-                    recuperaAnuncios()
+                    else {
+                        recuperaAnuncios()
+                    }
                 }
+
             }
     }
 
@@ -185,6 +184,7 @@ class MainActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
                     else -> {
                         FirebaseAuth.getInstance().signOut()
                         startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
                     }
 
                 }

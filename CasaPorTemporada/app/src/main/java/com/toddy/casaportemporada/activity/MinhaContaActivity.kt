@@ -1,6 +1,7 @@
 package com.toddy.casaportemporada.activity
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.toddy.casaportemporada.R
+import com.toddy.casaportemporada.activity.auth.LoginActivity
 import com.toddy.casaportemporada.model.Usuario
 
 class MinhaContaActivity : AppCompatActivity() {
@@ -32,6 +34,12 @@ class MinhaContaActivity : AppCompatActivity() {
     private fun configClicks() {
         ibVoltar.setOnClickListener { finish() }
         ibSalvar.setOnClickListener { validaDados() }
+        val logout:Button =  findViewById(R.id.btn_sair)
+        logout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
     }
 
     private fun validaDados() {

@@ -56,12 +56,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_edit"
-                android:hint="Email"
                 android:clickable="false"
-                android:padding="16dp"
                 android:enabled="false"
+                android:hint="Email"
+                android:padding="16dp"
                 android:textColor="@color/textColor"
                 android:textColorHint="@color/textColor" />
+
+            <android.widget.Button
+                android:id="@+id/btn_sair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/bg_btn"
+                android:text="Logout"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
@@ -69,8 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:indeterminateTint="@color/azulPadrao"
-               />
+                android:indeterminateTint="@color/azulPadrao" />
         </LinearLayout>
 
 
