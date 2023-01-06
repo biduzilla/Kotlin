@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.toddy.gerenciadorreceitas.R
+import com.toddy.gerenciadorreceitas.activity.FormActivity
 import com.toddy.gerenciadorreceitas.activity.MainActivity
 
 class LoginActivity : AppCompatActivity() {

@@ -14,6 +14,10 @@ import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.toddy.gerenciadorreceitas.R
@@ -50,7 +54,7 @@ class FormActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (imagem != null){
+        if (imagem != null) {
             ivAddFoto.setImageBitmap(imagem)
         }
     }
@@ -128,7 +132,8 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun showDialogPermission(
-        permissionListener: PermissionListener, permissoes: List<String>
+        permissionListener: PermissionListener,
+        permissoes: List<String>
     ) {
         TedPermission.create().setPermissionListener(permissionListener)
             .setDeniedTitle("Permissão Negada")
@@ -142,7 +147,7 @@ class FormActivity : AppCompatActivity() {
         resultLauncher!!.launch(intent)
     }
 
-    fun salvarProduto(view: View) {
+    fun validaDados(view: View) {
         val nomeReceita: String = etReceita.text.toString()
         val descricao: String = etDescricao.text.toString()
         val ingredientes: String = etIngredientes.text.toString()
@@ -166,8 +171,45 @@ class FormActivity : AppCompatActivity() {
                 etIngredientes.error = "Separe os ingredientes por vírgula"
             }
             else -> {
+                receita.idUser = FirebaseAuth.getInstance().currentUser!!.uid
+                receita.receita = nomeReceita
+                receita.descricao = descricao
+                receita.ingredientes = ingredientes
+                receita.isSalgada = checked
 
+                progressBar.visibility = View.VISIBLE
+
+                if (caminhoImagem != null) {
+                    salvarImagemAnuncio()
+                } else {
+                    if (receita.urlImagem != "") {
+                        receita.salvarReceita()
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
+        }
+    }
+
+    private fun salvarImagemAnuncio() {
+        val reference: StorageReference = FirebaseStorage.getInstance().reference
+            .child("imagens")
+            .child("receitas")
+            .child(receita.id + "jpg")
+
+        val uploadTask: UploadTask = reference.putFile(Uri.parse(caminhoImagem))
+        uploadTask.addOnSuccessListener {
+            reference.downloadUrl.addOnCompleteListener {
+                receita.urlImagem = it.result.toString()
+                receita.salvarReceita()
+                progressBar.visibility = View.GONE
+                finish()
+            }
+        }.addOnFailureListener {
+            progressBar.visibility = View.GONE
+            Toast.makeText(this, it.message.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 }
