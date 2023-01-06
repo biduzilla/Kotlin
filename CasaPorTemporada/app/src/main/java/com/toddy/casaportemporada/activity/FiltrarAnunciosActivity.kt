@@ -34,13 +34,13 @@ class FiltrarAnunciosActivity : AppCompatActivity() {
 
         initComponets()
 
-//        val bundle: Bundle? = intent.extras
-//        if (bundle != null) {
-//            filtro = bundle.getSerializable("filtro") as Filtro
-//            if (filtro != null) {
-//                configFiltro()
-//            }
-//        }
+        val bundle: Bundle? = intent.extras
+        if (bundle != null) {
+            filtro = bundle.getSerializable("filtro") as Filtro
+            if (filtro != null) {
+                configFiltro()
+            }
+        }
 
         confClicks()
         confibSb()
@@ -121,6 +121,14 @@ class FiltrarAnunciosActivity : AppCompatActivity() {
         qtdBanheiro = 0
         qtdGaragem = 0
 
+        filtro = Filtro()
+        filtro!!.qtdQuarto = qtdQuarto
+        filtro!!.qtdBanheiro = qtdBanheiro
+        filtro!!.qtdGaragem = qtdGaragem
+
+        val intent = Intent()
+        intent.putExtra("filtro", filtro)
+        setResult(RESULT_OK, intent)
         finish()
     }
 
