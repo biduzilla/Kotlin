@@ -1,4 +1,4 @@
-package com.toddy.gerenciadorreceitas
+package com.toddy.gerenciadorreceitas.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import com.toddy.gerenciadorreceitas.R
+import com.toddy.gerenciadorreceitas.models.Receita
+import com.toddy.gerenciadorreceitas.ReceitaDAO
 
 class FormActivity : AppCompatActivity() {
     private var etReceita: EditText? = null

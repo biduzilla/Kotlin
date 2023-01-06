@@ -3,5 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_add"
-        android:title="Adicionar Receita" />
+        android:title="Minhas Receitas" />
+    <item
+        android:id="@+id/menu_sair"
+        android:title="Sair" />
 </menu>

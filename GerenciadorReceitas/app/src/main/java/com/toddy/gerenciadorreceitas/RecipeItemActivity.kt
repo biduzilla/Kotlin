@@ -8,6 +8,9 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.toddy.gerenciadorreceitas.activity.FormActivity
+import com.toddy.gerenciadorreceitas.activity.MainActivity
+import com.toddy.gerenciadorreceitas.models.Receita
 
 class RecipeItemActivity : AppCompatActivity() {
     private var tvReceitaNome: TextView? = null
@@ -51,7 +54,7 @@ class RecipeItemActivity : AppCompatActivity() {
 
     fun onClickListener(){
         ibVoltar?.setOnClickListener{
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         btnUpdate?.setOnClickListener{

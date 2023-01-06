@@ -1,16 +1,18 @@
-package com.toddy.gerenciadorreceitas
+package com.toddy.gerenciadorreceitas.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.toddy.gerenciadorreceitas.R
+import com.toddy.gerenciadorreceitas.models.Receita
 
 
-class AdapterReceitas(private val receitasList: MutableList<Receita>, private val onClickInterface:OnClick) :
+class AdapterReceitas(private val receitasList: MutableList<Receita>, private val onClickInterface: OnClick) :
     RecyclerView.Adapter<AdapterReceitas.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterReceitas.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_receita,parent,false)
         return ViewHolder(view)
     }

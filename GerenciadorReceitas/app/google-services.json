@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "501637057628",
+    "project_id": "receitas-momo",
+    "storage_bucket": "receitas-momo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501637057628:android:fe25d337c1ea8f6486aa99",
+        "android_client_info": {
+          "package_name": "com.toddy.gerenciadorreceitas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501637057628-09fm2ntlde4ci25a6a7p19v2s8v84990.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.toddy.gerenciadorreceitas",
+            "certificate_hash": "6224396519a213e903b9d6d3da7b87636e584b7c"
+          }
+        },
+        {
+          "client_id": "501637057628-15i4fj9f9rsjl7t0mtcf92s91j860dc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoJ47CPrQzcQGYiMd4j4vuIhjoAVyD78s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501637057628-15i4fj9f9rsjl7t0mtcf92s91j860dc7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

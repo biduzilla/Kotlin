@@ -1,4 +1,4 @@
-package com.toddy.gerenciadorreceitas
+package com.toddy.gerenciadorreceitas.models
 
 class Receita:java.io.Serializable {
     var id:Int = 0

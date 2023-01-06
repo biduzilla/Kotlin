@@ -1,22 +1,24 @@
-package com.toddy.gerenciadorreceitas
+package com.toddy.gerenciadorreceitas.activity
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.toddy.gerenciadorreceitas.*
+import com.toddy.gerenciadorreceitas.adapter.AdapterReceitas
+import com.toddy.gerenciadorreceitas.models.Receita
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
 import com.tsuryo.swipeablerv.SwipeableRecyclerView
 
-class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
+class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick {
 
     private var recipeList = mutableListOf<Receita>()
     private var rvReceitas: SwipeableRecyclerView? = null
-    private var adapterReceitas:AdapterReceitas? = null
+    private var adapterReceitas: AdapterReceitas? = null
     private var ibMore:ImageButton? = null
-    private var receitaDAO:ReceitaDAO? = null
+    private var receitaDAO: ReceitaDAO? = null
     private var llInfo:LinearLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,30 +68,13 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick{
         })
     }
 
-//    fun carregaLista(){
-//        val r1 = Receita()
-//        r1.id = 1
-//        r1.receita = "receita"
-//        r1.descricao = "desc"
-//        r1.ingredientes = "ing,ing"
-//
-//        val r2 = Receita()
-//        r2.id = 2
-//        r2.receita = "receita"
-//        r2.descricao = "desc"
-//        r2.ingredientes = "ing,ing"
-//
-//        recipeList.add(r1)
-//        recipeList.add(r2)
-//    }
-
     private fun listenerClicks(){
         ibMore?.setOnClickListener{
             val popupMenu = PopupMenu(this,ibMore)
             popupMenu.menuInflater.inflate(R.menu.menu_toolbar,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener {
                 if (it.itemId == R.id.menu_add){
-                   startActivity(Intent(this,FormActivity::class.java))
+                   startActivity(Intent(this, FormActivity::class.java))
                 }
                 return@setOnMenuItemClickListener true
             }
