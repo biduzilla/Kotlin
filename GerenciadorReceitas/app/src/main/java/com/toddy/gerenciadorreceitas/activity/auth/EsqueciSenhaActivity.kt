@@ -1,5 +1,6 @@
 package com.toddy.gerenciadorreceitas.activity.auth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -16,11 +17,18 @@ class EsqueciSenhaActivity : AppCompatActivity() {
         setContentView(R.layout.activity_esqueci_senha)
 
         initComponets()
+        configClicks()
+    }
+
+    private fun configClicks() {
+        ibVoltar.setOnClickListener {
+            finish()
+        }
     }
 
     private fun initComponets() {
         val toolbarTitulo: TextView = findViewById(R.id.toolbar_txt)
-        toolbarTitulo.text = "Criar Conta"
+        toolbarTitulo.text = "Recuperar Conta"
 
         edEmail = findViewById(R.id.et_email)
         ibVoltar = findViewById(R.id.iv_back)

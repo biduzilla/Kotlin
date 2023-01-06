@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nenhuma Receita Cadastrada"
-            android:textColor="@color/btn_bg"
+            android:textColor="@color/toolbar_bg"
             android:textSize="26sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +51,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
-            android:src="@drawable/ic_no_recipe" />
+            android:src="@drawable/ic_neutral" />
 
 
     </LinearLayout>

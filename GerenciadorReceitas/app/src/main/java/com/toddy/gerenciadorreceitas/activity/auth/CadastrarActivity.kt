@@ -20,13 +20,20 @@ class CadastrarActivity : AppCompatActivity() {
     private lateinit var edSenha: EditText
     private lateinit var ibVoltar: ImageButton
     private lateinit var progressBar: ProgressBar
-
     private var usuario = Usuario()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cadastrar)
 
         initComponets()
+        configClicks()
+    }
+
+    private fun configClicks() {
+        ibVoltar.setOnClickListener {
+            finish()
+        }
     }
 
     private fun initComponets() {
@@ -82,7 +89,6 @@ class CadastrarActivity : AppCompatActivity() {
                 val error: String = it.exception!!.message.toString()
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
             }
-            progressBar.visibility = View.GONE
         }
     }
 }

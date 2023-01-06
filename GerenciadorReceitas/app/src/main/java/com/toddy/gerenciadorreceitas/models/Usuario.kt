@@ -1,5 +1,6 @@
 package com.toddy.gerenciadorreceitas.models
 
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.FirebaseDatabase
 
@@ -12,9 +13,10 @@ class Usuario : java.io.Serializable {
         get
 
     fun salvar() {
-        FirebaseDatabase.getInstance().reference
+        val reference:DatabaseReference =  FirebaseDatabase.getInstance().reference
             .child("usuarios")
             .child(this.id)
-            .setValue(this)
+
+            reference.setValue(this)
     }
 }
