@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
 
     override fun onResume() {
         super.onResume()
-        recuperaAnuncios()
+//        recuperaAnuncios()
     }
 
     private fun startResult() {
@@ -73,37 +73,34 @@ class MainActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
             .child("anuncios_publicos")
 
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
-            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    val children = snapshot.children
                     anunciosList.clear()
+                    val children = snapshot.children
+                    children.forEach {
+                        it.getValue(Anuncio::class.java).let { anuncio ->
 
-//                    children.forEach {
-//                        it.getValue(Anuncio::class.java).let { anuncio ->
-//
-//                            val quarto: Int = anuncio!!.quarto.toInt()
-//                            val banheiro: Int = anuncio.banheiro.toInt()
-//                            val garagem: Int = anuncio.garagem.toInt()
-//
-//                            if (quarto >= filtro.qtdQuarto &&
-//                                banheiro >= filtro.qtdBanheiro &&
-//                                garagem >= filtro.qtdGaragem
-//                            ) {
-//                                anunciosList.add(anuncio)
-//                            }
-//                        }
-//                    }
+                            val quarto: Int = anuncio!!.quarto.toInt()
+                            val banheiro: Int = anuncio.banheiro.toInt()
+                            val garagem: Int = anuncio.garagem.toInt()
+
+                            if (quarto >= filtro.qtdQuarto &&
+                                banheiro >= filtro.qtdBanheiro &&
+                                garagem >= filtro.qtdGaragem
+                            ) {
+                                anunciosList.add(anuncio)
+                            }
+                        }
+                    }
                 }
-
-                if (anunciosList.size == 0){
+                if (anunciosList.size == 0) {
                     tvInfo.text = "Nenhum Anúncio Encontrado"
-                }else{
+                } else {
                     tvInfo.text = ""
                 }
                 progressBar.visibility = View.GONE
                 anunciosList.reverse()
-                adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -111,7 +108,38 @@ class MainActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
             }
 
         })
-    }
+}
+
+private fun recuperaAnuncios() {
+    val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
+        .child("anuncios_publicos")
+
+    reference.addListenerForSingleValueEvent(object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            if (snapshot.exists()) {
+                val children = snapshot.children
+                anunciosList.clear()
+                children.forEach {
+                    it.getValue(Anuncio::class.java).let { anuncio ->
+                        anunciosList.add(anuncio!!)
+
+                    }
+                }
+            } else {
+                tvInfo.text = "Nenhum Anúncio Cadastrado"
+            }
+
+            progressBar.visibility = View.GONE
+            anunciosList.reverse()
+            adapter.notifyDataSetChanged()
+            tvInfo.text = ""
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            TODO("Not yet implemented")
+        }
+    })
+}
 
     private fun configRv() {
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -120,103 +148,70 @@ class MainActivity : AppCompatActivity(), AdapterAnuncios.OnClick {
         recyclerView.adapter = adapter
     }
 
-    private fun recuperaAnuncios() {
-        val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
-            .child("anuncios_publicos")
+private fun initComponents() {
+    ibMore = findViewById(R.id.ib_menu)
+    progressBar = findViewById(R.id.progress_bar)
+    tvInfo = findViewById(R.id.tv_info)
+    recyclerView = findViewById(R.id.rv_anuncios)
+}
 
-        reference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    val children = snapshot.children
-                    anunciosList.clear()
-                    children.forEach {
-                        it.getValue(Anuncio::class.java).let { anuncio ->
-                            anunciosList.add(anuncio!!)
+private fun configClicks() {
+    ibMore.setOnClickListener {
+        val popupMenu: PopupMenu = PopupMenu(this, ibMore)
+        popupMenu.menuInflater.inflate(R.menu.menu_home, popupMenu.menu)
 
-                        }
-                    }
-                } else {
-                    tvInfo.text = "Nenhum Anúncio Cadastrado"
+        popupMenu.setOnMenuItemClickListener {
+
+            when (it.itemId) {
+                R.id.menu_filtrar -> {
+                    val intent = Intent(this, FiltrarAnunciosActivity::class.java)
+                    intent.putExtra("filtro", filtro)
+                    resultLauncher!!.launch(intent)
                 }
-
-                progressBar.visibility = View.GONE
-                anunciosList.reverse()
-                adapter.notifyDataSetChanged()
-                tvInfo.text = ""
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
-
-    private fun initComponents() {
-        ibMore = findViewById(R.id.ib_menu)
-        progressBar = findViewById(R.id.progress_bar)
-        tvInfo = findViewById(R.id.tv_info)
-        recyclerView = findViewById(R.id.rv_anuncios)
-    }
-
-    private fun configClicks() {
-        ibMore.setOnClickListener {
-            val popupMenu: PopupMenu = PopupMenu(this, ibMore)
-            popupMenu.menuInflater.inflate(R.menu.menu_home, popupMenu.menu)
-
-            popupMenu.setOnMenuItemClickListener {
-
-                when (it.itemId) {
-                    R.id.menu_filtrar -> {
-                        val intent = Intent(this, FiltrarAnunciosActivity::class.java)
-                        intent.putExtra("filtro",filtro)
-                        resultLauncher!!.launch(intent)
+                R.id.menu_meus_anuncios -> {
+                    if (FirebaseAuth.getInstance().currentUser != null) {
+                        startActivity(Intent(this, MeusAnunciosActivity::class.java))
+                    } else {
+                        showDialogLogin()
                     }
-                    R.id.menu_meus_anuncios -> {
-                        if (FirebaseAuth.getInstance().currentUser != null) {
-                            startActivity(Intent(this, MeusAnunciosActivity::class.java))
-                        } else {
-                            showDialogLogin()
-                        }
 
-                    }
+                }
 //                    R.id.menu_minha_conta -> {
 //                        startActivity(Intent(this, MinhaContaActivity::class.java))
 //                    }
-                    else -> {
-                        if (FirebaseAuth.getInstance().currentUser != null) {
-                            startActivity(Intent(this, MinhaContaActivity::class.java))
-                        } else {
-                            showDialogLogin()
-                        }
-
+                else -> {
+                    if (FirebaseAuth.getInstance().currentUser != null) {
+                        startActivity(Intent(this, MinhaContaActivity::class.java))
+                    } else {
+                        showDialogLogin()
                     }
 
                 }
-                return@setOnMenuItemClickListener true
+
             }
-            popupMenu.show()
+            return@setOnMenuItemClickListener true
         }
+        popupMenu.show()
     }
+}
 
-    private fun showDialogLogin() {
-        val build: AlertDialog.Builder = AlertDialog.Builder(this)
-        build.setTitle("Autentificação")
-        build.setCancelable(false)
+private fun showDialogLogin() {
+    val build: AlertDialog.Builder = AlertDialog.Builder(this)
+    build.setTitle("Autentificação")
+    build.setCancelable(false)
 
-        AlertDialog.Builder(this).setTitle("Autentificação").setCancelable(false)
-            .setMessage("Você não está logado, você quer logar novamente?")
-            .setNegativeButton("Não") { dialog: DialogInterface, which: Int -> dialog.dismiss() }
-            .setPositiveButton("Sim") { dialog: DialogInterface, which: Int ->
-                startActivity(Intent(this, LoginActivity::class.java))
+    AlertDialog.Builder(this).setTitle("Autentificação").setCancelable(false)
+        .setMessage("Você não está logado, você quer logar novamente?")
+        .setNegativeButton("Não") { dialog: DialogInterface, which: Int -> dialog.dismiss() }
+        .setPositiveButton("Sim") { dialog: DialogInterface, which: Int ->
+            startActivity(Intent(this, LoginActivity::class.java))
 
-            }.show()
-    }
+        }.show()
+}
 
-    override fun onClickListener(anuncio: Anuncio) {
-        val intent = Intent(this, DetalheAnuncioActivity::class.java)
-        intent.putExtra("anuncio", anuncio)
-        startActivity(intent)
-    }
+override fun onClickListener(anuncio: Anuncio) {
+    val intent = Intent(this, DetalheAnuncioActivity::class.java)
+    intent.putExtra("anuncio", anuncio)
+    startActivity(intent)
+}
 }
