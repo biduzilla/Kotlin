@@ -1,5 +1,6 @@
 package com.toddy.gerenciadorreceitas.models
 
+import android.annotation.SuppressLint
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.FirebaseDatabase

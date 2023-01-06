@@ -1,15 +1,21 @@
 package com.toddy.gerenciadorreceitas.activity
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.toddy.gerenciadorreceitas.R
 import com.toddy.gerenciadorreceitas.models.Receita
 import com.toddy.gerenciadorreceitas.ReceitaDAO
@@ -22,18 +28,31 @@ class FormActivity : AppCompatActivity() {
     private lateinit var etDescricao: EditText
     private lateinit var etIngredientes: EditText
     private lateinit var btnSalvar: Button
-    private var receita = Receita()
     private lateinit var ivVoltar: ImageView
     private lateinit var toolbarText: TextView
+
+    private var caminhoImagem: String? = null
+    private var imagem: Bitmap? = null
+    private var receita = Receita()
+
+    private var resultLauncher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_form)
 
+        startResult()
         initComponets()
         isUpdate()
-        editReceita()
+
         clickListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (imagem != null){
+            ivAddFoto.setImageBitmap(imagem)
+        }
     }
 
     private fun initComponets() {
@@ -59,8 +78,10 @@ class FormActivity : AppCompatActivity() {
 
         if (bundle != null) {
             receita = bundle.getSerializable("receita") as Receita
-            btnSalvar?.text = "Atualizar"
-            toolbarText?.text = "Atualizar Receita"
+            btnSalvar.text = "Atualizar"
+            toolbarText.text = "Atualizar Receita"
+
+            editReceita()
 
         }
     }
@@ -71,11 +92,60 @@ class FormActivity : AppCompatActivity() {
         }
     }
 
+    private fun startResult() {
+        resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val data: Intent? = it.data
+                    val localImage: Uri? = data?.data
+
+                    caminhoImagem = localImage.toString()
+
+                    imagem = if (Build.VERSION.SDK_INT < 28) {
+                        MediaStore.Images.Media.getBitmap(baseContext.contentResolver, localImage)
+                    } else {
+                        val source: ImageDecoder.Source =
+                            ImageDecoder.createSource(baseContext.contentResolver, localImage!!)
+                        ImageDecoder.decodeBitmap(source)
+                    }
+                    Log.i("Caminho Imagem", caminhoImagem!!)
+                }
+            }
+    }
+
+    fun verificarPermissao(view: View) {
+        val permission: PermissionListener = object : PermissionListener {
+            override fun onPermissionGranted() {
+                abrirGaleria()
+            }
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                Toast.makeText(this@FormActivity, "Error ao abrir galeria", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        showDialogPermission(permission, listOf(android.Manifest.permission.READ_EXTERNAL_STORAGE))
+    }
+
+    private fun showDialogPermission(
+        permissionListener: PermissionListener, permissoes: List<String>
+    ) {
+        TedPermission.create().setPermissionListener(permissionListener)
+            .setDeniedTitle("Permissão Negada")
+            .setDeniedMessage("Permissão negada para acessar galeria, deseja permitir?")
+            .setDeniedCloseButtonText("Não").setGotoSettingButtonText("Sim")
+            .setPermissions(*permissoes.toTypedArray()).check()
+    }
+
+    private fun abrirGaleria() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        resultLauncher!!.launch(intent)
+    }
 
     fun salvarProduto(view: View) {
-        val nomeReceita: String = etReceita!!.text.toString()
-        val descricao: String = etDescricao!!.text.toString()
-        val ingredientes: String = etIngredientes!!.text.toString()
+        val nomeReceita: String = etReceita.text.toString()
+        val descricao: String = etDescricao.text.toString()
+        val ingredientes: String = etIngredientes.text.toString()
         val checked: Boolean = checkBox.isChecked
 
         when {
@@ -91,7 +161,7 @@ class FormActivity : AppCompatActivity() {
                 etIngredientes.requestFocus()
                 etIngredientes.error = "Campo Obrigatório"
             }
-            !ingredientes.contains(",") ->{
+            !ingredientes.contains(",") -> {
                 etIngredientes.requestFocus()
                 etIngredientes.error = "Separe os ingredientes por vírgula"
             }

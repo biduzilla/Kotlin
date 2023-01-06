@@ -6,5 +6,6 @@ class Receita:java.io.Serializable {
     var receita:String = ""
     var descricao:String = ""
     var ingredientes:String = ""
+    var urlImagem:String = ""
     var isSalgada:Boolean = false
 }
