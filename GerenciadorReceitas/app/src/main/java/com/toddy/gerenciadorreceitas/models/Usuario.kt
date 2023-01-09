@@ -14,10 +14,9 @@ class Usuario : java.io.Serializable {
         get
 
     fun salvar() {
-        val reference:DatabaseReference =  FirebaseDatabase.getInstance().reference
-            .child("usuarios")
-            .child(this.id)
+        val reference: DatabaseReference =
+            FirebaseDatabase.getInstance().reference.child("usuarios").child(this.id)
 
-            reference.setValue(this)
+        reference.setValue(this)
     }
 }

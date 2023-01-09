@@ -14,8 +14,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
         android:layout_marginTop="56dp"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_voltar">
 
         <ScrollView
@@ -34,9 +34,9 @@
                     android:id="@+id/foto_receita"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/iv_rounded_empty"
                     android:backgroundTint="@color/textColor"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_recipe_item"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -45,8 +45,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
                     android:layout_margin="32dp"
+                    android:background="@android:color/transparent"
                     android:backgroundTint="@color/white"
                     app:cardCornerRadius="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -59,11 +59,24 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_receita_autor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
+                            android:text="Receita Nome"
+                            android:textColor="@color/toolbar_bg"
+                            android:textSize="22sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                        <TextView
                             android:id="@+id/tv_receita_nome_item"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_margin="28dp"
+                            android:layout_marginTop="16dp"
                             android:text="Receita Nome"
                             android:textAlignment="center"
                             android:textColor="@color/toolbar_bg"
@@ -72,6 +85,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
 
                         <TextView
                             android:id="@+id/tv_Receita_descricao_item"
@@ -89,21 +103,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:padding="16dp"></LinearLayout>
+                            android:padding="16dp">
+
+                        </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <Button
                     android:id="@+id/btn_update"
-                    android:layout_marginBottom="32dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="16dp"
-                    android:textSize="20sp"
+                    android:layout_marginBottom="32dp"
                     android:backgroundTint="@color/btn_bg"
+                    android:padding="16dp"
+                    android:text="Alterar Receita"
                     android:textColor="@color/btn_text"
-                    android:text="Alterar Receita" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
