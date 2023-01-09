@@ -97,7 +97,7 @@ class MinhasReceitasActivity : AppCompatActivity(), AdapterReceitas.OnClick {
             .setMessage("Deseja apagar essa receita?")
             .setNegativeButton("Não") { dialog: DialogInterface, _: Int ->
                 dialog.dismiss()
-                adapter.notifyItemRemoved(pos)
+                adapter.notifyDataSetChanged()
             }
             .setPositiveButton("Sim") { _: DialogInterface, _: Int ->
                 receitaList[pos].deletarReceita()

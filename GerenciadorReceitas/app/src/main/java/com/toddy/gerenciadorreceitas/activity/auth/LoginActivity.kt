@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, senha).addOnCompleteListener {
             if (it.isSuccessful) {
                 finish()
-                startActivity(Intent(this, MinhasReceitasActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
             } else {
                 val error: String? = it.exception!!.message
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show()

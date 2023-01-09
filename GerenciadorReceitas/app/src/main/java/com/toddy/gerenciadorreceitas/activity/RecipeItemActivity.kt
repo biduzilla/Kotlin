@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import com.squareup.picasso.Picasso
 import com.toddy.gerenciadorreceitas.R
@@ -19,12 +20,14 @@ class RecipeItemActivity : AppCompatActivity() {
     private var tvTxtToolbar:TextView? = null
     private var ibVoltar:ImageButton? = null
     private var btnUpdate:Button? = null
+    private var isMain:Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_item)
 
+        isMain = intent.getBooleanExtra("main",false)
         initComponets()
         carregarReceita()
         createTVIngredientes()
@@ -59,11 +62,16 @@ class RecipeItemActivity : AppCompatActivity() {
             finish()
         }
 
-        btnUpdate?.setOnClickListener{
-            val intent = Intent(this, FormActivity::class.java)
-            intent.putExtra("receita",receita)
-            startActivity(intent)
+        if (isMain){
+            btnUpdate!!.visibility = View.GONE
+        }else{
+            btnUpdate?.setOnClickListener{
+                val intent = Intent(this, FormActivity::class.java)
+                intent.putExtra("receita",receita)
+                startActivity(intent)
+            }
         }
+
     }
 
     fun carregarReceita() {
