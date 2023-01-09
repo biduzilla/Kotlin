@@ -30,17 +30,96 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick {
     private var tvInfo: TextView? = null
     private var ivSemReceitas: ImageView? = null
     private var progressBar: ProgressBar? = null
-    private var resultLauncher: ActivityResultLauncher<Intent>? = null
+    private lateinit var isSalgado: CheckBox
+    private lateinit var isDoce: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         initComponets()
         configReciclerView()
         recuperaReceita()
         listenerClicks()
+        filtro()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        recuperaReceita()
+        filtro()
+    }
+
+    private fun filtro() {
+        isSalgado.setOnClickListener {
+            if (isDoce.isChecked) {
+
+                isDoce.isChecked = false
+
+            }
+            progressBar!!.visibility = View.VISIBLE
+            recuperaReceitaFiltrada()
+        }
+
+        isDoce.setOnClickListener {
+            if (isSalgado.isChecked) {
+
+                isSalgado.isChecked = false
+
+            }
+            progressBar!!.visibility = View.VISIBLE
+            recuperaReceitaFiltrada()
+        }
+    }
+
+    fun limparFiltro(view:View){
+        progressBar!!.visibility = View.VISIBLE
+        isSalgado.isChecked = false
+        isDoce.isChecked = false
+        recuperaReceita()
+    }
+
+    fun recuperaReceitaFiltrada() {
+        val reference: DatabaseReference = FirebaseDatabase.getInstance().reference
+            .child("receitas_publicas")
+
+        reference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    recipeList.clear()
+                    val children = snapshot.children
+                    children.forEach {
+                        it.getValue(Receita::class.java).let { receita ->
+                            if (isSalgado.isChecked){
+                                if (receita!!.isSalgada){
+                                    recipeList.add(receita!!)
+                                }
+                            }
+                            if (isDoce.isChecked){
+                                if (!receita!!.isSalgada){
+                                    recipeList.add(receita!!)
+                                }
+                            }
+                        }
+                    }
+                    tvInfo!!.text = ""
+                } else {
+                    tvInfo!!.text = "Nenhuma receita cadastrada"
+                    ivSemReceitas!!.visibility = View.VISIBLE
+                }
+                progressBar!!.visibility = View.GONE
+                recipeList.reverse()
+                adapterReceitas!!.notifyDataSetChanged()
+                if (recipeList.size == 0){
+                    tvInfo!!.text = "Nenhuma receita cadastrada"
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     private fun recuperaReceita() {
@@ -52,6 +131,7 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick {
         reference.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
+                    recipeList.clear()
                     val children = snapshot.children
                     children.forEach {
                         it.getValue(Receita::class.java).let { receita ->
@@ -78,6 +158,8 @@ class MainActivity : AppCompatActivity(), AdapterReceitas.OnClick {
 
     private fun initComponets() {
         ivSemReceitas = findViewById(R.id.iv_empty_recipes)
+        isSalgado = findViewById(R.id.checkbox_salgada)
+        isDoce = findViewById(R.id.checkbox_doce)
         rvReceitas = findViewById(R.id.rv)
         ibMore = findViewById(R.id.ib_more)
         llInfo = findViewById(R.id.ll_info)

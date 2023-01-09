@@ -48,5 +48,10 @@ class Receita(reference: DatabaseReference = FirebaseDatabase.getInstance().refe
                         .delete()
                 }
             }
+
+        FirebaseDatabase.getInstance().reference
+            .child("receitas_publicas")
+            .child(this.id)
+            .removeValue()
     }
 }

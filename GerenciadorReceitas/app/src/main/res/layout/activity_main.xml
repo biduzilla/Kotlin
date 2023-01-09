@@ -9,18 +9,69 @@
 
     <include
         android:id="@+id/toolbar_more"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_margin="16dp"
+    <LinearLayout
+        android:id="@+id/filtro"
+        android:layout_margin="32dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        tools:listitem="@layout/item_receita"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_more">
+
+        <CheckBox
+            android:id="@+id/checkbox_salgada"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:buttonTint="@color/btn_bg"
+            android:text="Salgada"
+            android:textColor="@color/toolbar_bg"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <CheckBox
+            android:id="@+id/checkbox_doce"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:checked="false"
+            android:layout_weight="1"
+            android:buttonTint="@color/btn_bg"
+            android:text="Doce"
+            android:textColor="@color/toolbar_bg"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.widget.Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+android:onClick="limparFiltro"
+            android:textColor="@color/toolbar_bg"
+            android:background="@drawable/input_full_rounded_yellow"
+            android:text="Limpar" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtro"
+        tools:listitem="@layout/item_receita">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -67,6 +118,7 @@
 
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

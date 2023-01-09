@@ -48,6 +48,7 @@ class MinhasReceitasActivity : AppCompatActivity(), AdapterReceitas.OnClick {
 
     override fun onResume() {
         super.onResume()
+        receitaList.clear()
         recuperarAnuncios()
     }
 
