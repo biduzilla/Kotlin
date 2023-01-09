@@ -1,4 +1,4 @@
-package com.toddy.gerenciadorreceitas
+package com.toddy.gerenciadorreceitas.activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -8,8 +8,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.toddy.gerenciadorreceitas.activity.FormActivity
-import com.toddy.gerenciadorreceitas.activity.MainActivity
+import com.toddy.gerenciadorreceitas.R
 import com.toddy.gerenciadorreceitas.models.Receita
 
 class RecipeItemActivity : AppCompatActivity() {
@@ -54,7 +53,7 @@ class RecipeItemActivity : AppCompatActivity() {
 
     fun onClickListener(){
         ibVoltar?.setOnClickListener{
-            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
         btnUpdate?.setOnClickListener{

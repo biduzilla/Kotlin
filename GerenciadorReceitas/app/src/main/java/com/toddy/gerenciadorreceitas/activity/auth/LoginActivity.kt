@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.toddy.gerenciadorreceitas.R
 import com.toddy.gerenciadorreceitas.activity.FormActivity
 import com.toddy.gerenciadorreceitas.activity.MainActivity
+import com.toddy.gerenciadorreceitas.activity.MinhasReceitasActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -77,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, senha).addOnCompleteListener {
             if (it.isSuccessful) {
                 finish()
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, MinhasReceitasActivity::class.java))
             } else {
                 val error: String? = it.exception!!.message
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show()

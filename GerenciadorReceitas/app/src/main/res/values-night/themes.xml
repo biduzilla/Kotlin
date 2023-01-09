@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.GerenciadorReceitas" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/bg_view</item>
         <item name="colorPrimaryVariant">@color/toolbar_bg</item>
         <item name="colorOnPrimary">@color/toolbar_bg</item>
         <!-- Secondary brand color. -->
@@ -13,7 +13,8 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:itemBackground">@color/btn_bg</item>
-        <item name="android:textColor">@color/toolbar_bg</item>
+        <item name="android:textColor">@color/btn_bg</item>
+        <item name="android:textColorPrimary">@color/btn_bg</item>
 
     </style>
 

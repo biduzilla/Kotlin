@@ -72,9 +72,9 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun editReceita() {
-        etReceita?.setText(receita.receita)
-        etDescricao?.setText(receita.descricao)
-        etIngredientes?.setText(receita.ingredientes)
+        etReceita.setText(receita.receita)
+        etDescricao.setText(receita.descricao)
+        etIngredientes.setText(receita.ingredientes)
     }
 
     private fun isUpdate() {
@@ -92,7 +92,7 @@ class FormActivity : AppCompatActivity() {
 
     private fun clickListener() {
         ivVoltar.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 
@@ -184,6 +184,7 @@ class FormActivity : AppCompatActivity() {
                 } else {
                     if (receita.urlImagem != "") {
                         receita.salvarReceita()
+                        startActivity(Intent(this,MinhasReceitasActivity::class.java))
                         finish()
                     } else {
                         Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show()
