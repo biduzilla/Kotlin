@@ -42,6 +42,7 @@
                 android:background="@drawable/bg_edit"
                 android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="8dp"
+                android:textColor="@color/bg_geral"
                 android:hint="Nome"
                 android:padding="16dp"
                 android:textColorHint="@color/bg_geral" />
@@ -55,6 +56,7 @@
 
             <EditText
                 android:id="@+id/edit_email"
+                android:inputType="textEmailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -63,6 +65,7 @@
                 android:drawablePadding="8dp"
                 android:hint="Email"
                 android:padding="16dp"
+                android:textColor="@color/bg_geral"
                 android:textColorHint="@color/bg_geral" />
 
             <TextView
@@ -79,6 +82,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_edit"
                 android:drawableStart="@drawable/ic_phone"
+                android:textColor="@color/bg_geral"
                 android:drawablePadding="8dp"
                 android:hint="Telefone"
                 android:padding="16dp"
@@ -96,7 +100,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:inputType="textPassword"
                 android:background="@drawable/bg_edit"
+                android:textColor="@color/bg_geral"
                 android:drawableStart="@drawable/ic_key"
                 android:drawablePadding="8dp"
                 android:hint="Senha"
@@ -104,6 +110,7 @@
                 android:textColorHint="@color/bg_geral" />
 
             <android.widget.Button
+                android:onClick="validaDados"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
