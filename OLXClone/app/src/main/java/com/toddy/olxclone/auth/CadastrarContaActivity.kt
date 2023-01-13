@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.toddy.olxclone.R
+import com.toddy.olxclone.model.User
 
 class CadastrarContaActivity : AppCompatActivity() {
     private lateinit var edEmail: EditText
@@ -54,8 +56,32 @@ class CadastrarContaActivity : AppCompatActivity() {
                 edSenha.error = "Campo Obrigatório"
             }
             else -> {
-                Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show()
+
+                progressBar.visibility = View.VISIBLE
+
+                val user = User()
+                user.nome = nome
+                user.email = email
+                user.telefone = telefone
+                user.senha = senha
+                cadastrarUser(user)
             }
+        }
+    }
+
+    private fun cadastrarUser(user: User) {
+        val auth = FirebaseAuth.getInstance()
+        auth.createUserWithEmailAndPassword(user.email, user.senha).addOnCompleteListener {
+            if (it.isSuccessful) {
+                val id: String = it.result.user!!.uid
+                user.id = id
+                user.salvar()
+            } else {
+                val error: String? = it.exception!!.message
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+            }
+
+            progressBar.visibility = View.GONE
         }
     }
 }
