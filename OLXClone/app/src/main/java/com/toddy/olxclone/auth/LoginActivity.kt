@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.toddy.olxclone.MainActivity
 import com.toddy.olxclone.R
+import com.toddy.olxclone.utils.FirebaseHelper
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var edEmail: EditText
@@ -80,7 +81,8 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
-                    Toast.makeText(this, it.exception!!.message, Toast.LENGTH_SHORT).show()
+                    val error: String = FirebaseHelper.validaErros(it.exception?.message!!)
+                    Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
                 }
                 progressBar.visibility = View.GONE
             }

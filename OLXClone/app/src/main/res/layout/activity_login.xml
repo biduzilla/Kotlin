@@ -38,6 +38,7 @@
                 android:inputType="textEmailAddress"
                 android:background="@drawable/bg_edit"
                 android:drawableStart="@drawable/ic_email"
+                android:textColor="@color/bg_geral"
                 android:drawablePadding="8dp"
                 android:hint="Email"
                 android:padding="16dp" />
@@ -48,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:textColor="@color/bg_geral"
                 android:inputType="textPassword"
                 android:background="@drawable/bg_edit"
                 android:drawableStart="@drawable/ic_key"

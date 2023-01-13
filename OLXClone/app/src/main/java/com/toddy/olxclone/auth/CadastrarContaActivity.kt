@@ -1,12 +1,15 @@
 package com.toddy.olxclone.auth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
+import com.toddy.olxclone.MainActivity
 import com.toddy.olxclone.R
 import com.toddy.olxclone.model.User
+import com.toddy.olxclone.utils.FirebaseHelper
 
 class CadastrarContaActivity : AppCompatActivity() {
     private lateinit var edEmail: EditText
@@ -85,8 +88,10 @@ class CadastrarContaActivity : AppCompatActivity() {
                 val id: String = it.result.user!!.uid
                 user.id = id
                 user.salvar()
+                startActivity(Intent(this,MainActivity::class.java))
+                finish()
             } else {
-                val error: String? = it.exception!!.message
+                val error: String = FirebaseHelper.validaErros(it.exception?.message!!)
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
             }
 

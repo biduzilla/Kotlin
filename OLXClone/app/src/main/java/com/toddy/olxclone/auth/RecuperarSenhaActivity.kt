@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.toddy.olxclone.R
+import com.toddy.olxclone.utils.FirebaseHelper
 
 class RecuperarSenhaActivity : AppCompatActivity() {
     private lateinit var edEmail: EditText
@@ -57,7 +58,8 @@ class RecuperarSenhaActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                Toast.makeText(this, it.exception!!.message, Toast.LENGTH_SHORT).show()
+                val error: String = FirebaseHelper.validaErros(it.exception?.message!!)
+                Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
             }
             progressBar.visibility = View.GONE
         }
