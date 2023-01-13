@@ -48,6 +48,7 @@
                 android:background="@drawable/bg_edit"
                 android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="8dp"
+                android:textColor="@color/bg_geral"
                 android:hint="email"
                 android:padding="16dp"
                 android:textColorHint="@color/bg_geral" />
@@ -56,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:onClick="validaDados"
                 android:background="@drawable/bg_btn"
                 android:text="Recuperar Senha"
                 android:textAllCaps="false"
@@ -66,8 +68,9 @@
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:theme="@style/progressBar"
-                android:visibility="visible"
+                android:visibility="gone"
                 tools:visibility="visible" />
         </LinearLayout>
 
