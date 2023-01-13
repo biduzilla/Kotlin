@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
-import com.toddy.olxclone.MainActivity
+import com.toddy.olxclone.activitys.MainActivity
 import com.toddy.olxclone.R
 import com.toddy.olxclone.model.User
 import com.toddy.olxclone.utils.FirebaseHelper
@@ -88,7 +88,7 @@ class CadastrarContaActivity : AppCompatActivity() {
                 val id: String = it.result.user!!.uid
                 user.id = id
                 user.salvar()
-                startActivity(Intent(this,MainActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
                 val error: String = FirebaseHelper.validaErros(it.exception?.message!!)

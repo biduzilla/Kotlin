@@ -1,7 +1,6 @@
 package com.toddy.olxclone.auth
 
 import android.content.Intent
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -11,7 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.toddy.olxclone.MainActivity
+import com.toddy.olxclone.activitys.MainActivity
 import com.toddy.olxclone.R
 import com.toddy.olxclone.utils.FirebaseHelper
 
