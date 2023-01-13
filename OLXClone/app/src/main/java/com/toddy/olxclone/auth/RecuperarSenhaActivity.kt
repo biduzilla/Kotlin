@@ -4,11 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
-import android.widget.Toolbar
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.toddy.olxclone.R
 
@@ -16,19 +12,28 @@ class RecuperarSenhaActivity : AppCompatActivity() {
     private lateinit var edEmail: EditText
     private lateinit var progressBar: ProgressBar
     private lateinit var tituloToolbar: TextView
+    private lateinit var ibVoltar: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recuperar_senha)
 
         initComponents()
+        configClicks()
     }
 
     private fun initComponents() {
         progressBar = findViewById(R.id.progress_bar)
         tituloToolbar = findViewById(R.id.text_toolbar)
         tituloToolbar.text = "Recuperar Senha"
+        ibVoltar = findViewById(R.id.ib_voltar)
         edEmail = findViewById(R.id.edit_email)
+    }
+
+    private fun configClicks(){
+        ibVoltar.setOnClickListener {
+            finish()
+        }
     }
 
     fun validaDados(view: View) {

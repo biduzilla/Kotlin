@@ -3,9 +3,7 @@ package com.toddy.olxclone.auth
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.toddy.olxclone.R
 import com.toddy.olxclone.model.User
@@ -16,12 +14,15 @@ class CadastrarContaActivity : AppCompatActivity() {
     private lateinit var edSenha: EditText
     private lateinit var edTelefone: EditText
     private lateinit var progressBar: ProgressBar
+    private lateinit var txtToolbar: TextView
+    private lateinit var ibVoltar: ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cadastrar_conta)
 
         initComponents()
+        configClicks()
     }
 
     private fun initComponents() {
@@ -30,8 +31,16 @@ class CadastrarContaActivity : AppCompatActivity() {
         edSenha = findViewById(R.id.edit_senha)
         edTelefone = findViewById(R.id.edit_telefone)
         progressBar = findViewById(R.id.progress_bar)
+        ibVoltar = findViewById(R.id.ib_voltar)
+        txtToolbar = findViewById(R.id.text_toolbar)
+        txtToolbar.text = "Cadastrar conta"
     }
 
+    private fun configClicks(){
+        ibVoltar.setOnClickListener {
+            finish()
+        }
+    }
     fun validaDados(view: View) {
         val nome: String = edNome.text.toString()
         val email: String = edEmail.text.toString()
