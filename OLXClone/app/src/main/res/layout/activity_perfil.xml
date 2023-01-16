@@ -36,6 +36,8 @@
                 app:cardCornerRadius="10dp">
 
                 <ImageView
+                    android:scaleType="centerCrop"
+                    android:id="@+id/imagem_perfil"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_user_on" />

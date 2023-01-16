@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
@@ -29,6 +30,13 @@ class EnderecoActivity : AppCompatActivity() {
 
         initComponents()
         recuperaEndereco()
+        configClicks()
+    }
+
+    private fun configClicks(){
+        this.findViewById<ImageButton>(R.id.ib_voltar).setOnClickListener {
+            finish()
+        }
     }
 
     private fun configEndereco(endereco: Endereco){
