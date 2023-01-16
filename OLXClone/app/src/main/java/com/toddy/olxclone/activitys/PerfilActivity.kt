@@ -8,23 +8,21 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermissionActivity
 import com.gun0912.tedpermission.normal.TedPermission
+import com.santalu.maskara.widget.MaskEditText
 import com.toddy.olxclone.R
 
 class PerfilActivity : AppCompatActivity() {
     private lateinit var image: ImageView
     private lateinit var etNome: EditText
-    private lateinit var etTelefone: EditText
+    private lateinit var etTelefone: MaskEditText
     private lateinit var etEmail: EditText
     private lateinit var progressBar: ProgressBar
     private var caminhoImagem:String? = null
@@ -38,6 +36,31 @@ class PerfilActivity : AppCompatActivity() {
         initComponents()
         configClicks()
         startResult()
+    }
+
+    fun validaDados(view: View){
+        val nome:String = etNome.text.toString()
+        val telefone:String = etTelefone.unMasked
+        val email:String = etEmail.text.toString()
+
+        when{
+            nome.isEmpty() -> {
+                etNome.requestFocus()
+                etNome.error = "Campo Obrigatório"
+            }
+            telefone.isEmpty() -> {
+                etTelefone.requestFocus()
+                etTelefone.error = "Campo Obrigatório"
+            }
+            telefone.length != 11 -> {
+                etTelefone.requestFocus()
+                etTelefone.error = "Telefone Inválido"
+            }
+            else -> {
+                progressBar.visibility = View.VISIBLE
+            }
+        }
+
     }
 
     private fun startResult() {
@@ -87,6 +110,8 @@ class PerfilActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
+        this.findViewById<ImageButton>(R.id.ib_voltar).setOnClickListener { finish() }
+
         this.findViewById<TextView>(R.id.text_toolbar).text = ""
 
         image = findViewById(R.id.imagem_perfil)

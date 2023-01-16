@@ -33,13 +33,13 @@ class EnderecoActivity : AppCompatActivity() {
         configClicks()
     }
 
-    private fun configClicks(){
+    private fun configClicks() {
         this.findViewById<ImageButton>(R.id.ib_voltar).setOnClickListener {
             finish()
         }
     }
 
-    private fun configEndereco(endereco: Endereco){
+    private fun configEndereco(endereco: Endereco) {
         etCep.setText(endereco.cep)
         etUf.setText(endereco.uf)
         etMunicipio.setText(endereco.municipio)
@@ -55,11 +55,11 @@ class EnderecoActivity : AppCompatActivity() {
             .child(FirebaseAuth.getInstance().currentUser!!.uid)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()){
+                    if (snapshot.exists()) {
 
                         endereco = snapshot.getValue(Endereco::class.java)!!
                         configEndereco(endereco)
-                    }else{
+                    } else {
                         progressBar.visibility = View.GONE
                     }
                 }
@@ -110,6 +110,8 @@ class EnderecoActivity : AppCompatActivity() {
     }
 
     private fun initComponents() {
+        this.findViewById<ImageButton>(R.id.ib_voltar).setOnClickListener { finish() }
+
         val titulo: TextView = findViewById(R.id.text_toolbar)
         titulo.text = "Endereço"
 
