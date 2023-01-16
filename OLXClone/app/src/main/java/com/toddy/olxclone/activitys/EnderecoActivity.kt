@@ -6,7 +6,11 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.toddy.olxclone.R
 import com.toddy.olxclone.model.Endereco
 
@@ -17,11 +21,47 @@ class EnderecoActivity : AppCompatActivity() {
     private lateinit var etBairro: EditText
     private lateinit var progressBar: ProgressBar
 
+    private var endereco = Endereco()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_endereco)
 
         initComponents()
+        recuperaEndereco()
+    }
+
+    private fun configEndereco(endereco: Endereco){
+        etCep.setText(endereco.cep)
+        etUf.setText(endereco.uf)
+        etMunicipio.setText(endereco.municipio)
+        etBairro.setText(endereco.bairro)
+        progressBar.visibility = View.GONE
+    }
+
+
+    private fun recuperaEndereco() {
+        progressBar.visibility = View.VISIBLE
+
+        FirebaseDatabase.getInstance().reference
+            .child("enderecos")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()){
+
+                        endereco = snapshot.getValue(Endereco::class.java)!!
+                        configEndereco(endereco)
+                    }else{
+                        progressBar.visibility = View.GONE
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
     }
 
     fun validaDados(view: View) {
@@ -50,15 +90,14 @@ class EnderecoActivity : AppCompatActivity() {
             else -> {
                 progressBar.visibility = View.VISIBLE
 
-                val endereco = Endereco()
+
                 endereco.cep = cep
                 endereco.uf = uf
                 endereco.municipio = municipio
                 endereco.bairro = bairro
-                endereco.salvar()
-                progressBar.visibility = View.GONE
+                endereco.salvar(this, progressBar)
 
-                Toast.makeText(this, "Endereço salvo com sucesso",Toast.LENGTH_SHORT).show()
+
             }
         }
 
