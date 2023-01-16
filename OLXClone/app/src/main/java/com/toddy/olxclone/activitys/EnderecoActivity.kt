@@ -39,7 +39,6 @@ class EnderecoActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
     }
 
-
     private fun recuperaEndereco() {
         progressBar.visibility = View.VISIBLE
 
@@ -89,7 +88,6 @@ class EnderecoActivity : AppCompatActivity() {
             }
             else -> {
                 progressBar.visibility = View.VISIBLE
-
 
                 endereco.cep = cep
                 endereco.uf = uf
