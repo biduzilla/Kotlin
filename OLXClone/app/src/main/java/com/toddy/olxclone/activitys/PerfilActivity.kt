@@ -13,11 +13,17 @@ import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermissionActivity
 import com.gun0912.tedpermission.normal.TedPermission
 import com.santalu.maskara.widget.MaskEditText
 import com.toddy.olxclone.R
+import com.toddy.olxclone.model.User
 
 class PerfilActivity : AppCompatActivity() {
     private lateinit var image: ImageView
@@ -25,9 +31,11 @@ class PerfilActivity : AppCompatActivity() {
     private lateinit var etTelefone: MaskEditText
     private lateinit var etEmail: EditText
     private lateinit var progressBar: ProgressBar
-    private var caminhoImagem:String? = null
+    private var caminhoImagem: String? = null
 
     private var resultLauncher: ActivityResultLauncher<Intent>? = null
+
+    private var user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,14 +44,43 @@ class PerfilActivity : AppCompatActivity() {
         initComponents()
         configClicks()
         startResult()
+        recuperaPerfil()
     }
 
-    fun validaDados(view: View){
-        val nome:String = etNome.text.toString()
-        val telefone:String = etTelefone.unMasked
-        val email:String = etEmail.text.toString()
+    private fun configDados() {
+        etNome.setText(user!!.nome)
+        etTelefone.setText(user!!.telefone)
+        etEmail.setText(user!!.email)
+    }
 
-        when{
+    private fun recuperaPerfil() {
+        progressBar.visibility = View.VISIBLE
+        FirebaseDatabase.getInstance().reference
+            .child("usuarios")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        user = snapshot.getValue(User::class.java)
+                        configDados()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
+        progressBar.visibility = View.GONE
+    }
+
+    fun validaDados(view: View) {
+        val nome: String = etNome.text.toString()
+        val telefone: String = etTelefone.unMasked
+        val email: String = etEmail.text.toString()
+
+        when {
             nome.isEmpty() -> {
                 etNome.requestFocus()
                 etNome.error = "Campo Obrigatório"
@@ -58,9 +95,9 @@ class PerfilActivity : AppCompatActivity() {
             }
             else -> {
                 progressBar.visibility = View.VISIBLE
+                Toast.makeText(this,"OK", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun startResult() {
@@ -69,7 +106,8 @@ class PerfilActivity : AppCompatActivity() {
                 if (it.resultCode == Activity.RESULT_OK) {
                     val data: Intent? = it.data
                     val imagemSelecionada: Uri? = data!!.data
-                    val imagemRecuperada:Bitmap = MediaStore.Images.Media.getBitmap(contentResolver,imagemSelecionada)
+                    val imagemRecuperada: Bitmap =
+                        MediaStore.Images.Media.getBitmap(contentResolver, imagemSelecionada)
                     image.setImageBitmap(imagemRecuperada)
 
                     caminhoImagem = imagemSelecionada.toString()
