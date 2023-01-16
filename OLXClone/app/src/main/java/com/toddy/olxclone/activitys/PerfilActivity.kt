@@ -27,6 +27,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermissionActivity
 import com.gun0912.tedpermission.normal.TedPermission
 import com.santalu.maskara.widget.MaskEditText
+import com.squareup.picasso.Picasso
 import com.toddy.olxclone.R
 import com.toddy.olxclone.model.User
 
@@ -58,7 +59,7 @@ class PerfilActivity : AppCompatActivity() {
         if (imagem != null) {
             ivFoto.setImageBitmap(imagem)
         }
-        recuperaPerfil()
+        progressBar.visibility = View.GONE
     }
 
     private fun salvarImagemPerfil() {
@@ -84,6 +85,10 @@ class PerfilActivity : AppCompatActivity() {
         etNome.setText(user.nome)
         etTelefone.setText(user.telefone)
         etEmail.setText(user.email)
+
+        if (user.imagemPerfil != null){
+            Picasso.get().load(user.imagemPerfil).into(ivFoto)
+        }
     }
 
     private fun recuperaPerfil() {
@@ -104,8 +109,6 @@ class PerfilActivity : AppCompatActivity() {
                 }
 
             })
-
-        progressBar.visibility = View.GONE
     }
 
     fun validaDados(view: View) {
@@ -128,6 +131,8 @@ class PerfilActivity : AppCompatActivity() {
             }
             else -> {
                 progressBar.visibility = View.VISIBLE
+                user.nome = nome
+                user.telefone = telefone
                 if (caminhoImagem != null) {
                     salvarImagemPerfil()
                 } else {
