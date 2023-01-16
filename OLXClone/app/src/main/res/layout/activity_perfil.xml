@@ -106,7 +106,7 @@
                 android:clickable="false"
                 android:inputType="textEmailAddress"
                 android:padding="16dp"
-                android:textColor="@color/bg_geral"
+                android:textColor="@color/purple_200"
                 android:textColorHint="@color/purple_200" />
 
 
@@ -116,7 +116,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_btn"
                 android:onClick="validaDados"
-                android:text="Criar Conta"
+                android:text="Salvar Dados"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 

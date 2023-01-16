@@ -87,7 +87,7 @@ class CadastrarContaActivity : AppCompatActivity() {
             if (it.isSuccessful) {
                 val id: String = it.result.user!!.uid
                 user.id = id
-                user.salvar()
+                user.salvar(progressBar,this)
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
@@ -95,7 +95,6 @@ class CadastrarContaActivity : AppCompatActivity() {
                 Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
             }
 
-            progressBar.visibility = View.GONE
         }
     }
 }

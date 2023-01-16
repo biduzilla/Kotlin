@@ -4,7 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,6 +20,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermissionActivity
 import com.gun0912.tedpermission.normal.TedPermission
@@ -26,7 +31,7 @@ import com.toddy.olxclone.R
 import com.toddy.olxclone.model.User
 
 class PerfilActivity : AppCompatActivity() {
-    private lateinit var image: ImageView
+    private lateinit var ivFoto: ImageView
     private lateinit var etNome: EditText
     private lateinit var etTelefone: MaskEditText
     private lateinit var etEmail: EditText
@@ -35,7 +40,8 @@ class PerfilActivity : AppCompatActivity() {
 
     private var resultLauncher: ActivityResultLauncher<Intent>? = null
 
-    private var user: User? = null
+    private var imagem: Bitmap? = null
+    private var user = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +53,37 @@ class PerfilActivity : AppCompatActivity() {
         recuperaPerfil()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (imagem != null) {
+            ivFoto.setImageBitmap(imagem)
+        }
+        recuperaPerfil()
+    }
+
+    private fun salvarImagemPerfil() {
+        val storageReference: StorageReference = FirebaseStorage.getInstance().reference
+            .child("imagens")
+            .child("perfil")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid + "jpeg")
+
+        val uploadTask: UploadTask = storageReference.putFile(Uri.parse(caminhoImagem))
+        uploadTask.addOnSuccessListener {
+            storageReference.downloadUrl.addOnCompleteListener { task ->
+                val urlImagem: String = task.result.toString()
+                user.imagemPerfil = urlImagem
+                user.salvar(progressBar, this)
+
+            }
+        }.addOnFailureListener {
+            Toast.makeText(this, "Erro no upload, tente mais tarde", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun configDados() {
-        etNome.setText(user!!.nome)
-        etTelefone.setText(user!!.telefone)
-        etEmail.setText(user!!.email)
+        etNome.setText(user.nome)
+        etTelefone.setText(user.telefone)
+        etEmail.setText(user.email)
     }
 
     private fun recuperaPerfil() {
@@ -61,7 +94,7 @@ class PerfilActivity : AppCompatActivity() {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        user = snapshot.getValue(User::class.java)
+                        user = snapshot.getValue(User::class.java)!!
                         configDados()
                     }
                 }
@@ -95,7 +128,11 @@ class PerfilActivity : AppCompatActivity() {
             }
             else -> {
                 progressBar.visibility = View.VISIBLE
-                Toast.makeText(this,"OK", Toast.LENGTH_SHORT).show()
+                if (caminhoImagem != null) {
+                    salvarImagemPerfil()
+                } else {
+                    user.salvar(progressBar, this)
+                }
             }
         }
     }
@@ -105,20 +142,32 @@ class PerfilActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == Activity.RESULT_OK) {
                     val data: Intent? = it.data
-                    val imagemSelecionada: Uri? = data!!.data
-                    val imagemRecuperada: Bitmap =
-                        MediaStore.Images.Media.getBitmap(contentResolver, imagemSelecionada)
-                    image.setImageBitmap(imagemRecuperada)
+                    val imagemSelecionada: Uri? = data?.data
 
                     caminhoImagem = imagemSelecionada.toString()
+
+                    imagem = if (Build.VERSION.SDK_INT < 28) {
+                        MediaStore.Images.Media.getBitmap(
+                            baseContext.contentResolver,
+                            imagemSelecionada
+                        )
+                    } else {
+                        val source: ImageDecoder.Source = ImageDecoder.createSource(
+                            baseContext.contentResolver,
+                            imagemSelecionada!!
+                        )
+                        ImageDecoder.decodeBitmap(source)
+                    }
                 }
             }
     }
 
     private fun configClicks() {
-        image.setOnClickListener {
+        ivFoto.setOnClickListener {
             verificaPermissaoGaleria()
         }
+
+        this.findViewById<ImageButton>(R.id.ib_voltar).setOnClickListener { finish() }
     }
 
     private fun verificaPermissaoGaleria() {
@@ -152,7 +201,7 @@ class PerfilActivity : AppCompatActivity() {
 
         this.findViewById<TextView>(R.id.text_toolbar).text = ""
 
-        image = findViewById(R.id.imagem_perfil)
+        ivFoto = findViewById(R.id.imagem_perfil)
         etNome = findViewById(R.id.edit_nome)
         etTelefone = findViewById(R.id.edit_telefone)
         etEmail = findViewById(R.id.edit_email)
