@@ -48,6 +48,7 @@
 
                     <EditText
                         android:id="@+id/et_cep"
+                        android:textColorHint="@color/bg_geral"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -75,6 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:textColorHint="@color/bg_geral"
                         android:background="@drawable/bg_edit"
                         android:hint="UF"
                         android:padding="16dp"
@@ -103,6 +105,7 @@
                     android:background="@drawable/bg_edit"
                     android:hint="Cidade"
                     android:padding="16dp"
+                    android:textColorHint="@color/bg_geral"
                     android:textColor="@color/bg_geral" />
             </LinearLayout>
 
@@ -126,6 +129,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_edit"
                     android:hint="Bairro"
+                    android:textColorHint="@color/bg_geral"
                     android:padding="16dp"
                     android:textColor="@color/bg_geral" />
             </LinearLayout>
@@ -136,6 +140,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_btn"
                 android:text="Salvar"
+                android:onClick="validaDados"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
 
