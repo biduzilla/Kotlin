@@ -28,6 +28,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/iv_perfil"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
@@ -46,6 +47,7 @@
             app:layout_constraintTop_toTopOf="@+id/cardView">
 
             <TextView
+                android:id="@+id/txt_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Acesse sua conta agora"

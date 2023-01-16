@@ -17,7 +17,7 @@
             android:name=".activitys.EnderecoActivity"
             android:exported="false">
             <meta-data
-                android:name="android.app.lib_name"
+                android:name="com.toddy.olxclone.activitys.EnderecoActivity"
                 android:value="" />
         </activity>
         <activity
@@ -26,7 +26,7 @@
 
 
             <meta-data
-                android:name="android.app.lib_name"
+                android:name="com.toddy.olxclone.activitys.PerfilActivity"
                 android:value="" />
         </activity>
         <activity
