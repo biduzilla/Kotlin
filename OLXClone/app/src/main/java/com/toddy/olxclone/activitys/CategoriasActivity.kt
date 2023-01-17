@@ -1,5 +1,7 @@
 package com.toddy.olxclone.activitys
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
@@ -51,6 +53,9 @@ class CategoriasActivity : AppCompatActivity(), AdapterCategoria.OnClickListener
     }
 
     override fun OnClick(categoria: Categoria) {
-        Toast.makeText(this, categoria.nome, Toast.LENGTH_SHORT).show()
+        val intent = Intent()
+        intent.putExtra("categoriaSelecionada",categoria)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 }
