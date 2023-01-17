@@ -1,7 +1,9 @@
 package com.toddy.olxclone.activitys
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import com.blackcat.currencyedittext.CurrencyEditText
@@ -18,6 +20,11 @@ class FormActivity : AppCompatActivity() {
         setContentView(R.layout.activity_form)
 
         initComponents()
+        configClicks()
+    }
+
+    fun selecionarCategoria(view: View){
+        startActivity(Intent(this, CategoriasActivity::class.java))
     }
 
     private fun initComponents() {

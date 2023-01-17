@@ -15,6 +15,13 @@
         android:theme="@style/Theme.OLXClone"
         tools:targetApi="31">
         <activity
+            android:name=".activitys.CategoriasActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activitys.FormActivity"
             android:exported="false">
             <meta-data
