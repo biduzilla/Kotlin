@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,6 +15,13 @@
         android:theme="@style/Theme.OLXClone"
         tools:targetApi="31">
         <activity
+            android:name=".FormActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activitys.EnderecoActivity"
             android:exported="false">
             <meta-data
@@ -23,8 +31,6 @@
         <activity
             android:name=".activitys.PerfilActivity"
             android:exported="false">
-
-
             <meta-data
                 android:name="com.toddy.olxclone.activitys.PerfilActivity"
                 android:value="" />
@@ -46,8 +52,6 @@
         <activity
             android:name=".auth.LoginActivity"
             android:exported="false">
-
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -60,6 +64,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

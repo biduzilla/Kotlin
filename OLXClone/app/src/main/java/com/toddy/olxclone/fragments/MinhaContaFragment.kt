@@ -114,6 +114,7 @@ class MinhaContaFragment : Fragment() {
             startActivity(Intent(activity, cls))
         }else{
             startActivity(Intent(activity, LoginActivity::class.java))
+            activity?.finish()
         }
     }
 }
