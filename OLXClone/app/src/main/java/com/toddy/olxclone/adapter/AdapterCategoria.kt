@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.toddy.olxclone.R
 import com.toddy.olxclone.model.Categoria
+import com.toddy.olxclone.model.CategoriaData
 
 class AdapterCategoria(
     private val categoriaList: MutableList<Categoria>,
@@ -36,9 +37,10 @@ class AdapterCategoria(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val categoria = Categoria()
+        val categoria = categoriaList[position]
         categoria.caminho?.let { holder.imgCategoria.setImageResource(it) }
-        categoria.nome?.let { holder.textCategoria.text }
+        categoria.nome?.let { holder.textCategoria.text = it }
+
 
         holder.itemView.setOnClickListener {
             OnClick.OnClick(categoria)
