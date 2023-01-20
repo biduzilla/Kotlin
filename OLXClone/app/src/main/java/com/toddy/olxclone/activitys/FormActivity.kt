@@ -20,9 +20,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.santalu.maskara.widget.MaskEditText
 import com.toddy.olxclone.R
+import com.toddy.olxclone.api.CepService
 import com.toddy.olxclone.model.Categoria
 import com.toddy.olxclone.model.Endereco
+import com.toddy.olxclone.model.Local
+import okhttp3.Request
 import org.w3c.dom.Text
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 class FormActivity : AppCompatActivity() {
@@ -32,11 +37,15 @@ class FormActivity : AppCompatActivity() {
     private lateinit var btnCategoria: Button
     private lateinit var etCep: MaskEditText
     private lateinit var progressBar: ProgressBar
+    private lateinit var tvLocal: TextView
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private var retrofit: Retrofit? = null
 
     private var categoria = Categoria()
     private var endereco = Endereco()
+    private var local: Local? = null
+
     private var categoriaSelecionada: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +53,7 @@ class FormActivity : AppCompatActivity() {
         setContentView(R.layout.activity_form)
 
         initComponents()
+        initRetrofit()
         configClicks()
         startResult()
         recuperaEndereco()
@@ -90,11 +100,12 @@ class FormActivity : AppCompatActivity() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
-                val cep: String = p0.toString().replace("_","").replace("-","")
+                val cep: String = p0.toString().replace("_", "").replace("-", "")
 
-                if (cep.length == 8){
+                if (cep.length == 8) {
                     buscarEndereco(cep)
-                }else{
+                    progressBar.visibility = View.GONE
+                } else {
                     progressBar.visibility = View.GONE
                 }
 
@@ -107,9 +118,73 @@ class FormActivity : AppCompatActivity() {
         })
     }
 
-    private fun buscarEndereco(cep:String){
+    private fun buscarEndereco(cep: String) {
         progressBar.visibility = View.VISIBLE
 
+        val cepService: CepService = retrofit!!.create(CepService::class.java)
+        val call: Call<Local> = cepService.getCep(cep)
+        call.enqueue(object : Call<Local>, Callback<Local> {
+            override fun onResponse(call: Call<Local>, response: Response<Local>) {
+                if (response.isSuccessful) {
+                    local = response.body()!!
+                    if (local!!.localidade == null) {
+                        Toast.makeText(this@FormActivity, "Cep Inválido", Toast.LENGTH_SHORT).show()
+                        tvLocal.text = ""
+                    } else {
+                        configEndereco()
+                    }
+                } else {
+                    Toast.makeText(
+                        this@FormActivity,
+                        "Tente novamente mais tarde",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+
+            }
+
+            override fun onFailure(call: Call<Local>, t: Throwable) {
+                Toast.makeText(this@FormActivity, "Tente novamente mais tarde", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            override fun clone(): Call<Local> {
+                TODO("Not yet implemented")
+            }
+
+            override fun execute(): Response<Local> {
+                TODO("Not yet implemented")
+            }
+
+            override fun enqueue(callback: Callback<Local>) {
+                TODO("Not yet implemented")
+            }
+
+            override fun isExecuted(): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun cancel() {
+                TODO("Not yet implemented")
+            }
+
+            override fun isCanceled(): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun request(): Request {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+    }
+
+    private fun configEndereco() {
+        val endereco: String =
+            local!!.localidade + ", " + local!!.bairro + " - DDD " + local!!.ddd
+        tvLocal.text = endereco
     }
 
     fun selecionarCategoria(view: View) {
@@ -125,6 +200,7 @@ class FormActivity : AppCompatActivity() {
         ibVoltar = findViewById(R.id.ib_voltar)
         etCep = findViewById(R.id.et_cep)
         progressBar = findViewById(R.id.progress_bar)
+        tvLocal = findViewById(R.id.tv_local)
 
         etPreco = findViewById(R.id.et_preco)
         etPreco.locale = Locale("PT", "br")
@@ -134,5 +210,13 @@ class FormActivity : AppCompatActivity() {
         ibVoltar.setOnClickListener {
             finish()
         }
+    }
+
+    private fun initRetrofit() {
+        retrofit = Retrofit
+            .Builder()
+            .baseUrl("https://viacep.com.br/ws/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 }

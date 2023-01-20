@@ -155,13 +155,13 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/bg_edit"
-                android:text="Selecione a categoria"
-                android:textAllCaps="false"
-                android:textColor="@color/purple_200"
                 android:onClick="selecionarCategoria"
                 android:paddingStart="16dp"
-                android:textAlignment="textStart"
                 android:paddingEnd="0dp"
+                android:text="Selecione a categoria"
+                android:textAlignment="textStart"
+                android:textAllCaps="false"
+                android:textColor="@color/purple_200"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -212,35 +212,47 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_cep">
 
 
-                <com.santalu.maskara.widget.MaskEditText
-                    android:id="@+id/et_cep"
-                    android:layout_weight="1"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_edit"
-                    android:hint="CEP"
-                    android:padding="16dp"
-                    android:textColor="@color/bg_geral"
-                    android:textColorHint="@color/purple_200"
-                    android:inputType="number"
-                    app:mask="_____-___"
-                    app:maskCharacter="_"
-                    app:maskStyle="completable" />
+                    android:orientation="horizontal">
+
+                    <com.santalu.maskara.widget.MaskEditText
+                        android:id="@+id/et_cep"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_edit"
+                        android:hint="CEP"
+                        android:inputType="number"
+                        android:padding="16dp"
+                        android:textColor="@color/bg_geral"
+                        android:textColorHint="@color/purple_200"
+                        app:mask="_____-___"
+                        app:maskCharacter="_"
+                        app:maskStyle="completable" />
 
 
-                <ProgressBar
-                    android:id="@+id/progress_bar"
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:indeterminateTint="@color/bg_geral" />
+                </LinearLayout>
 
+                <TextView
+                    android:id="@+id/tv_local"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:indeterminateTint="@color/bg_geral"
-                    android:layout_weight="2"/>
+                    tools:text="Vitoria, Centro - DDD 27" />
 
             </LinearLayout>
 
