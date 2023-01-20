@@ -51,7 +51,12 @@ dependencies {
     implementation 'com.github.santalu:maskara:1.0.0'
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
     implementation 'com.squareup.picasso:picasso:2.8'
+
     //https://github.com/BlacKCaT27/CurrencyEditText
     implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
+
+    //https://medium.com/@alifyzfpires/consumindo-api-rest-com-retrofit-kotlin-no-android-abba52820cc
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
 }
