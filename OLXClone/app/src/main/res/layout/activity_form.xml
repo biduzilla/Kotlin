@@ -217,19 +217,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_cep">
 
-                <EditText
+
+                <com.santalu.maskara.widget.MaskEditText
                     android:id="@+id/et_cep"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_edit"
                     android:hint="CEP"
-                    android:textColorHint="@color/purple_200"
+                    android:padding="16dp"
                     android:textColor="@color/bg_geral"
-                    android:padding="16dp" />
+                    android:textColorHint="@color/purple_200"
+                    android:inputType="number"
+                    app:mask="_____-___"
+                    app:maskCharacter="_"
+                    app:maskStyle="completable" />
+
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:indeterminateTint="@color/bg_geral"

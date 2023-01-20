@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
@@ -17,6 +18,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.santalu.maskara.widget.MaskEditText
 import com.toddy.olxclone.R
 import com.toddy.olxclone.model.Categoria
 import com.toddy.olxclone.model.Endereco
@@ -28,7 +30,8 @@ class FormActivity : AppCompatActivity() {
     private lateinit var ibVoltar: ImageButton
     private lateinit var etPreco: CurrencyEditText
     private lateinit var btnCategoria: Button
-    private lateinit var etCep: EditText
+    private lateinit var etCep: MaskEditText
+    private lateinit var progressBar: ProgressBar
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
 
@@ -69,6 +72,7 @@ class FormActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     endereco = snapshot.getValue(Endereco::class.java)!!
                     etCep.setText(endereco.cep)
+                    progressBar.visibility = View.GONE
 
                 }
 
@@ -85,7 +89,15 @@ class FormActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-               Toast.makeText(this@FormActivity, "Endereço recuperado", Toast.LENGTH_SHORT).show()
+
+                val cep: String = p0.toString().replace("_","").replace("-","")
+
+                if (cep.length == 8){
+                    buscarEndereco(cep)
+                }else{
+                    progressBar.visibility = View.GONE
+                }
+
             }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -93,6 +105,11 @@ class FormActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun buscarEndereco(cep:String){
+        progressBar.visibility = View.VISIBLE
+
     }
 
     fun selecionarCategoria(view: View) {
@@ -107,6 +124,7 @@ class FormActivity : AppCompatActivity() {
         btnCategoria = findViewById(R.id.btn_categorias)
         ibVoltar = findViewById(R.id.ib_voltar)
         etCep = findViewById(R.id.et_cep)
+        progressBar = findViewById(R.id.progress_bar)
 
         etPreco = findViewById(R.id.et_preco)
         etPreco.locale = Locale("PT", "br")
