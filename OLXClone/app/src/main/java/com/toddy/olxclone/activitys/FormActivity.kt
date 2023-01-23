@@ -37,18 +37,18 @@ import java.util.*
 class FormActivity : AppCompatActivity() {
     private lateinit var tituloToolbar: TextView
     private lateinit var ibVoltar: ImageButton
+
+    private lateinit var ivImg1: ImageView
+    private lateinit var ivImg2: ImageView
+    private lateinit var ivImg3: ImageView
+
+    private lateinit var etTitulo: EditText
+    private lateinit var etDescricao: EditText
     private lateinit var etPreco: CurrencyEditText
     private lateinit var btnCategoria: Button
     private lateinit var etCep: MaskEditText
     private lateinit var progressBar: ProgressBar
     private lateinit var tvLocal: TextView
-    private lateinit var btnCamera: Button
-    private lateinit var btnGaleria: Button
-    private lateinit var btnClose: Button
-    private lateinit var ivImg1: ImageView
-    private lateinit var ivImg2: ImageView
-    private lateinit var ivImg3: ImageView
-
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private var retrofit: Retrofit? = null
@@ -68,6 +68,36 @@ class FormActivity : AppCompatActivity() {
         configClicks()
         startResult()
         recuperaEndereco()
+    }
+
+    fun validaDados(view: View) {
+        val titulo: String = etTitulo.text.toString()
+        val descricao: String = etDescricao.text.toString()
+        val valor: Double = (etPreco.rawValue / 100).toDouble()
+
+        when {
+            titulo.isEmpty() -> {
+                etTitulo.requestFocus()
+                etTitulo.error = "Campo obrigatório"
+            }
+            valor < 0 -> {
+                etPreco.requestFocus()
+                etPreco.error = "Valor Inválido"
+            }
+            categoriaSelecionada == null  -> {
+                Toast.makeText(this, "Selecione uma categoria", Toast.LENGTH_SHORT).show()
+            }
+            descricao.isEmpty() -> {
+                etDescricao.requestFocus()
+                etDescricao.error = "Campo obrigatório"
+            }
+            etCep.text!!.isEmpty() || local!!.localidade == null-> {
+                Toast.makeText(this, "Digite um Cep Valido", Toast.LENGTH_SHORT).show()
+            }
+            else ->
+                Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show()
+
+        }
     }
 
     private fun showBottonDialog(requestCode: Int) {
@@ -108,7 +138,6 @@ class FormActivity : AppCompatActivity() {
             "Deseja ativar a permissão?"
         )
     }
-
 
     private fun verificaPermissaoGaleria(requestCode: Int) {
         val permissionListener: PermissionListener = object : PermissionListener {
@@ -291,9 +320,9 @@ class FormActivity : AppCompatActivity() {
         etCep = findViewById(R.id.et_cep)
         progressBar = findViewById(R.id.progress_bar)
         tvLocal = findViewById(R.id.tv_local)
-//        btnCamera = findViewById(R.id.btn_camera)
-//        btnGaleria = findViewById(R.id.btn_galeira)
-//        btnClose = findViewById(R.id.btn_close)
+        etTitulo = findViewById(R.id.et_titulo)
+        etDescricao = findViewById(R.id.et_descricao)
+
         ivImg1 = findViewById(R.id.img_1)
         ivImg2 = findViewById(R.id.img_2)
         ivImg3 = findViewById(R.id.img_3)
