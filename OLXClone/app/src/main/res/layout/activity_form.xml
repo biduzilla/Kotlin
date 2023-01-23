@@ -48,6 +48,7 @@
                         app:cardCornerRadius="10dp">
 
                         <ImageView
+                            android:id="@+id/img_1"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/img_bg_form_anuncio" />
@@ -62,6 +63,7 @@
                         app:cardCornerRadius="10dp">
 
                         <ImageView
+                            android:id="@+id/img_2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/img_bg_form_anuncio" />
@@ -74,6 +76,7 @@
                         app:cardCornerRadius="10dp">
 
                         <ImageView
+                            android:id="@+id/img_3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/img_bg_form_anuncio" />

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_bottom_sheet"
+    android:layout_height="wrap_content">
+
+    <android.widget.Button
+        android:layout_marginTop="8dp"
+        android:id="@+id/btn_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="Camera"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"
+        android:paddingEnd="0dp"
+        android:drawablePadding="16dp"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
+        android:drawableStart="@drawable/ic_camera2"/>
+
+    <android.widget.Button
+        android:id="@+id/btn_galeira"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="Galeira"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"
+        android:paddingEnd="0dp"
+        android:drawablePadding="16dp"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
+        android:drawableStart="@drawable/ic_galeria"/>
+
+    <android.widget.Button
+        android:id="@+id/btn_close"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="Cancelar"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"
+        android:paddingEnd="0dp"
+        android:drawablePadding="16dp"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
+        android:drawableStart="@drawable/ic_close"/>
+
+</LinearLayout>

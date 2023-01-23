@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import com.blackcat.currencyedittext.CurrencyEditText
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -38,6 +39,13 @@ class FormActivity : AppCompatActivity() {
     private lateinit var etCep: MaskEditText
     private lateinit var progressBar: ProgressBar
     private lateinit var tvLocal: TextView
+    private lateinit var btnCamera: Button
+    private lateinit var btnGaleria: Button
+    private lateinit var btnClose: Button
+    private lateinit var ivImg1: ImageView
+    private lateinit var ivImg2: ImageView
+    private lateinit var ivImg3: ImageView
+
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private var retrofit: Retrofit? = null
@@ -57,6 +65,26 @@ class FormActivity : AppCompatActivity() {
         configClicks()
         startResult()
         recuperaEndereco()
+    }
+
+    private fun showBottonDialog(requestCode:Int) {
+        val modalBottomSheet:View = layoutInflater.inflate(R.layout.layout_botton_sheet,null)
+        val bottomSheetDialog:BottomSheetDialog = BottomSheetDialog(this,R.style.BottomSheetDialog)
+        bottomSheetDialog.setContentView(modalBottomSheet)
+        bottomSheetDialog.show()
+
+        modalBottomSheet.findViewById<Button>(R.id.btn_camera).setOnClickListener {
+            bottomSheetDialog.dismiss()
+            Toast.makeText(this, "Camera",Toast.LENGTH_SHORT).show()
+        }
+        modalBottomSheet.findViewById<Button>(R.id.btn_galeira).setOnClickListener {
+            bottomSheetDialog.dismiss()
+            Toast.makeText(this, "Galeria",Toast.LENGTH_SHORT).show()
+        }
+        modalBottomSheet.findViewById<Button>(R.id.btn_close).setOnClickListener {
+            bottomSheetDialog.dismiss()
+            Toast.makeText(this, "Close",Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun startResult() {
@@ -201,6 +229,12 @@ class FormActivity : AppCompatActivity() {
         etCep = findViewById(R.id.et_cep)
         progressBar = findViewById(R.id.progress_bar)
         tvLocal = findViewById(R.id.tv_local)
+//        btnCamera = findViewById(R.id.btn_camera)
+//        btnGaleria = findViewById(R.id.btn_galeira)
+//        btnClose = findViewById(R.id.btn_close)
+        ivImg1 = findViewById(R.id.img_1)
+        ivImg2 = findViewById(R.id.img_2)
+        ivImg3 = findViewById(R.id.img_3)
 
         etPreco = findViewById(R.id.et_preco)
         etPreco.locale = Locale("PT", "br")
@@ -209,6 +243,16 @@ class FormActivity : AppCompatActivity() {
     private fun configClicks() {
         ibVoltar.setOnClickListener {
             finish()
+        }
+
+        ivImg1.setOnClickListener {
+            showBottonDialog(0)
+        }
+        ivImg2.setOnClickListener {
+            showBottonDialog(1)
+        }
+        ivImg3.setOnClickListener {
+            showBottonDialog(2)
         }
     }
 
