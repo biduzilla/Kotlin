@@ -3,8 +3,13 @@ package com.toddy.olxclone.activitys
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -51,6 +56,7 @@ class FormActivity : AppCompatActivity() {
     private lateinit var tvLocal: TextView
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private var REQUEST_CODE: Int = 0
     private var retrofit: Retrofit? = null
 
     private var categoria = Categoria()
@@ -84,14 +90,14 @@ class FormActivity : AppCompatActivity() {
                 etPreco.requestFocus()
                 etPreco.error = "Valor Inválido"
             }
-            categoriaSelecionada == null  -> {
+            categoriaSelecionada == null -> {
                 Toast.makeText(this, "Selecione uma categoria", Toast.LENGTH_SHORT).show()
             }
             descricao.isEmpty() -> {
                 etDescricao.requestFocus()
                 etDescricao.error = "Campo obrigatório"
             }
-            etCep.text!!.isEmpty() || local!!.localidade == null-> {
+            etCep.text!!.isEmpty() || local!!.localidade == null -> {
                 Toast.makeText(this, "Digite um Cep Valido", Toast.LENGTH_SHORT).show()
             }
             else ->
@@ -158,7 +164,9 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun abrirGaleira(requestCode: Int) {
-
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        REQUEST_CODE = requestCode
+        resultLauncher.launch(intent)
     }
 
     private fun abriCamera(requestCode: Int) {
@@ -182,15 +190,78 @@ class FormActivity : AppCompatActivity() {
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == Activity.RESULT_OK) {
-                    val data: Intent? = it.data
-                    categoria = it.data!!.getSerializableExtra("categoriaSelecionada") as Categoria
-                    categoriaSelecionada = categoria.nome
-                    btnCategoria.text = categoriaSelecionada
-                } else {
+                    val bitmap0: Bitmap
+                    val bitmap1: Bitmap
+                    val bitmap2: Bitmap
 
+                    var imagemSelecionada: Uri = it.data?.data!!
+                    val caminhoImagem: String
+                    when {
+                        REQUEST_CODE <= 2 -> {
+                            caminhoImagem = imagemSelecionada.toString()
+                            when (REQUEST_CODE) {
+                                0 -> {
+                                    bitmap0 = if (Build.VERSION.SDK_INT < 28) {
+                                        MediaStore.Images.Media.getBitmap(
+                                            contentResolver,
+                                            imagemSelecionada
+                                        )
+                                    } else {
+                                        val source: ImageDecoder.Source = ImageDecoder.createSource(
+                                            contentResolver,
+                                            imagemSelecionada
+                                        )
+                                        ImageDecoder.decodeBitmap(source)
+                                    }
+                                    ivImg1.setImageBitmap(bitmap0)
+                                }
+                                1 -> {
+                                    bitmap1 = if (Build.VERSION.SDK_INT < 28) {
+                                        MediaStore.Images.Media.getBitmap(
+                                            contentResolver,
+                                            imagemSelecionada
+                                        )
+                                    } else {
+                                        val source: ImageDecoder.Source = ImageDecoder.createSource(
+                                            contentResolver,
+                                            imagemSelecionada
+                                        )
+                                        ImageDecoder.decodeBitmap(source)
+                                    }
+                                    ivImg2.setImageBitmap(bitmap1)
+                                }
+                                2 -> {
+                                    bitmap2 = if (Build.VERSION.SDK_INT < 28) {
+                                        MediaStore.Images.Media.getBitmap(
+                                            contentResolver,
+                                            imagemSelecionada
+                                        )
+                                    } else {
+                                        val source: ImageDecoder.Source = ImageDecoder.createSource(
+                                            contentResolver,
+                                            imagemSelecionada
+                                        )
+                                        ImageDecoder.decodeBitmap(source)
+                                    }
+                                    ivImg3.setImageBitmap(bitmap2)
+                                }
+                            }
+                        }
+                        REQUEST_CODE == 10 -> {
+                            if (it.resultCode == Activity.RESULT_OK) {
+//                    val data: Intent? = it.data
+                                categoria =
+                                    it.data!!.getSerializableExtra("categoriaSelecionada") as Categoria
+                                categoriaSelecionada = categoria.nome
+                                btnCategoria.text = categoriaSelecionada
+
+                            }
+                        }
+                    }
                 }
             }
     }
+
 
     private fun recuperaEndereco() {
         configCep()
@@ -308,6 +379,7 @@ class FormActivity : AppCompatActivity() {
 
     fun selecionarCategoria(view: View) {
         val intent = Intent(this, CategoriasActivity::class.java)
+        REQUEST_CODE = 10
         resultLauncher.launch(intent)
     }
 
