@@ -1,5 +1,6 @@
 package com.toddy.olxclone.activitys
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.santalu.maskara.widget.MaskEditText
 import com.toddy.olxclone.R
 import com.toddy.olxclone.api.CepService
@@ -67,24 +70,83 @@ class FormActivity : AppCompatActivity() {
         recuperaEndereco()
     }
 
-    private fun showBottonDialog(requestCode:Int) {
-        val modalBottomSheet:View = layoutInflater.inflate(R.layout.layout_botton_sheet,null)
-        val bottomSheetDialog:BottomSheetDialog = BottomSheetDialog(this,R.style.BottomSheetDialog)
+    private fun showBottonDialog(requestCode: Int) {
+        val modalBottomSheet: View = layoutInflater.inflate(R.layout.layout_botton_sheet, null)
+        val bottomSheetDialog: BottomSheetDialog =
+            BottomSheetDialog(this, R.style.BottomSheetDialog)
         bottomSheetDialog.setContentView(modalBottomSheet)
         bottomSheetDialog.show()
 
         modalBottomSheet.findViewById<Button>(R.id.btn_camera).setOnClickListener {
             bottomSheetDialog.dismiss()
-            Toast.makeText(this, "Camera",Toast.LENGTH_SHORT).show()
+            verificaPermissaoCamera(requestCode)
         }
         modalBottomSheet.findViewById<Button>(R.id.btn_galeira).setOnClickListener {
             bottomSheetDialog.dismiss()
-            Toast.makeText(this, "Galeria",Toast.LENGTH_SHORT).show()
+            verificaPermissaoGaleria(requestCode)
         }
         modalBottomSheet.findViewById<Button>(R.id.btn_close).setOnClickListener {
             bottomSheetDialog.dismiss()
-            Toast.makeText(this, "Close",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Close", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun verificaPermissaoCamera(requestCode: Int) {
+        val permissionListener: PermissionListener = object : PermissionListener {
+            override fun onPermissionGranted() {
+                abriCamera(requestCode)
+            }
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                Toast.makeText(this@FormActivity, "Permissão Negada", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+        showDialogPermission(
+            permissionListener,
+            listOf(Manifest.permission.CAMERA),
+            "Deseja ativar a permissão?"
+        )
+    }
+
+
+    private fun verificaPermissaoGaleria(requestCode: Int) {
+        val permissionListener: PermissionListener = object : PermissionListener {
+            override fun onPermissionGranted() {
+                abrirGaleira(requestCode)
+            }
+
+            override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                Toast.makeText(this@FormActivity, "Permissão Negada", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+        showDialogPermission(
+            permissionListener,
+            listOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            "Deseja ativar a permissão?"
+        )
+    }
+
+    private fun abrirGaleira(requestCode: Int) {
+
+    }
+
+    private fun abriCamera(requestCode: Int) {
+
+    }
+
+    private fun showDialogPermission(
+        permissionListener: PermissionListener,
+        permissoes: List<String>,
+        msg: String
+    ) {
+        TedPermission.create().setPermissionListener(permissionListener)
+            .setDeniedTitle("PErmissão Negada")
+            .setDeniedMessage(msg)
+            .setDeniedCloseButtonText("Não").setGotoSettingButtonText("Sim")
+            .setPermissions(*permissoes.toTypedArray())
+            .check()
     }
 
     private fun startResult() {
