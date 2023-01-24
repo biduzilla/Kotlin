@@ -26,6 +26,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.santalu.maskara.widget.MaskEditText
@@ -67,7 +70,7 @@ class FormActivity : AppCompatActivity() {
     private var anuncio = Anuncio()
     private var local: Local? = null
     private var imagemList = mutableListOf<ImagemData>()
-    private var novoAnuncio:Boolean? = null
+    private var novoAnuncio: Boolean = true
 
     private var categoriaSelecionada: String? = null
 
@@ -107,19 +110,57 @@ class FormActivity : AppCompatActivity() {
                 Toast.makeText(this, "Digite um Cep Valido", Toast.LENGTH_SHORT).show()
             }
             else ->
-                if (anuncio.id != null){
+                if (anuncio.id != null) {
                     progressBar.visibility = View.VISIBLE
-                    novoAnuncio = true
+
                     anuncio.idUser = FirebaseAuth.getInstance().currentUser!!.uid
                     anuncio.titulo = titulo
                     anuncio.valor = valor
                     anuncio.categoria = categoriaSelecionada as String
                     anuncio.descricao = descricao
                     anuncio.local = local
-                    anuncio.salvar(novoAnuncio!!)
+
+                    if (novoAnuncio) {
+                        if (imagemList.size == 3) {
+                            imagemList.forEachIndexed { index, imagem ->
+                                salvarImgFireBase(imagem, index)
+                            }
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Selecione 3 imagens para o anúncio",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                     progressBar.visibility = View.GONE
                 }
 
+        }
+    }
+
+    private fun salvarImgFireBase(imagem: ImagemData, index: Int) {
+        val storage:StorageReference = FirebaseStorage.getInstance().reference
+            .child("imagens")
+            .child("anuncios")
+            .child(anuncio.id!!)
+            .child("imagem ${index}.jpeg")
+
+        val uploadTask:UploadTask = storage.putFile(Uri.parse(imagem.caminhoImagem))
+        uploadTask.addOnSuccessListener {
+            storage.downloadUrl.addOnCompleteListener { task ->
+                if (novoAnuncio){
+                    anuncio.imagens.add(index, task.result.toString())
+                }else{
+                    anuncio.imagens[index] = task.result.toString()
+                }
+
+                if (imagemList.size == index + 1){
+                    anuncio.salvar(novoAnuncio)
+                }
+            }
+        }.addOnFailureListener{
+            Toast.makeText(this, it.message,Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -224,7 +265,6 @@ class FormActivity : AppCompatActivity() {
         } else {
             imagemList.add(imagemData)
         }
-        Log.i("INFOTESTE", imagemList.size.toString())
     }
 
     private fun startResult() {

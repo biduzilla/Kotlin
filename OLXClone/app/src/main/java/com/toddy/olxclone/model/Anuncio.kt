@@ -18,7 +18,7 @@ class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().refe
     var local: Local? = null
     var dataPublicacao: Long? = null
     var idUser: String? = null
-    var imagens: List<String> = ArrayList()
+    var imagens = mutableListOf<String>()
 
 
 
