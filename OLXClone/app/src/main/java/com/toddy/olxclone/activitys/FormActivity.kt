@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -18,8 +17,8 @@ import android.view.View
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.core.widget.addTextChangedListener
 import com.blackcat.currencyedittext.CurrencyEditText
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -34,9 +33,9 @@ import com.toddy.olxclone.R
 import com.toddy.olxclone.api.CepService
 import com.toddy.olxclone.model.Categoria
 import com.toddy.olxclone.model.Endereco
+import com.toddy.olxclone.model.ImagemData
 import com.toddy.olxclone.model.Local
 import okhttp3.Request
-import org.w3c.dom.Text
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
@@ -69,6 +68,7 @@ class FormActivity : AppCompatActivity() {
     private var categoria = Categoria()
     private var endereco = Endereco()
     private var local: Local? = null
+    private var imagemList = mutableListOf<ImagemData>()
 
     private var categoriaSelecionada: String? = null
 
@@ -189,6 +189,35 @@ class FormActivity : AppCompatActivity() {
             .check()
     }
 
+    private fun configUploads(requestCode: Int, caminho: String) {
+        val request = when (requestCode) {
+            0, 3 -> 0
+            1, 4 -> 1
+            2, 5 -> 2
+            else -> 3
+        }
+
+
+        val imagemData = ImagemData(caminho, request)
+
+        if (imagemList.size > 0) {
+            var encotrou = false
+            imagemList.forEach {
+                if (it.index == request) {
+                    encotrou = true
+                }
+            }
+            if (encotrou) {
+                imagemList[request] = imagemData
+            } else {
+                imagemList.add(imagemData)
+            }
+        } else {
+            imagemList.add(imagemData)
+        }
+        Log.i("INFOTESTE", imagemList.size.toString())
+    }
+
     private fun startResult() {
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -198,11 +227,12 @@ class FormActivity : AppCompatActivity() {
                     val bitmap2: Bitmap
                     var imagemSelecionada: Uri? = null
 
-                    it.data?.data.let {uri ->
+                    it.data?.data.let { uri ->
                         imagemSelecionada = uri
                     }
                     val caminhoImagem: String
                     when {
+                        //Galeria
                         REQUEST_CODE <= 2 -> {
                             caminhoImagem = imagemSelecionada.toString()
                             when (REQUEST_CODE) {
@@ -252,7 +282,9 @@ class FormActivity : AppCompatActivity() {
                                     ivImg3.setImageBitmap(bitmap2)
                                 }
                             }
+                            configUploads(REQUEST_CODE, caminhoImagem)
                         }
+                        //Categoria
                         REQUEST_CODE == 10 -> {
                             if (it.resultCode == Activity.RESULT_OK) {
 //                    val data: Intent? = it.data
@@ -263,6 +295,7 @@ class FormActivity : AppCompatActivity() {
 
                             }
                         }
+                        //Camera
                         else -> {
                             val file: File = File(currentPhotoPath)
                             caminhoImagem = file.toURI().toString()
@@ -277,12 +310,12 @@ class FormActivity : AppCompatActivity() {
                                     ivImg3.setImageURI(Uri.fromFile(file))
                                 }
                             }
+                            configUploads(REQUEST_CODE, caminhoImagem)
                         }
                     }
                 }
             }
     }
-
 
     private fun recuperaEndereco() {
         configCep()
