@@ -31,10 +31,7 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.santalu.maskara.widget.MaskEditText
 import com.toddy.olxclone.R
 import com.toddy.olxclone.api.CepService
-import com.toddy.olxclone.model.Categoria
-import com.toddy.olxclone.model.Endereco
-import com.toddy.olxclone.model.ImagemData
-import com.toddy.olxclone.model.Local
+import com.toddy.olxclone.model.*
 import okhttp3.Request
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
@@ -67,8 +64,10 @@ class FormActivity : AppCompatActivity() {
 
     private var categoria = Categoria()
     private var endereco = Endereco()
+    private var anuncio = Anuncio()
     private var local: Local? = null
     private var imagemList = mutableListOf<ImagemData>()
+    private var novoAnuncio:Boolean? = null
 
     private var categoriaSelecionada: String? = null
 
@@ -108,7 +107,18 @@ class FormActivity : AppCompatActivity() {
                 Toast.makeText(this, "Digite um Cep Valido", Toast.LENGTH_SHORT).show()
             }
             else ->
-                Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show()
+                if (anuncio.id != null){
+                    progressBar.visibility = View.VISIBLE
+                    novoAnuncio = true
+                    anuncio.idUser = FirebaseAuth.getInstance().currentUser!!.uid
+                    anuncio.titulo = titulo
+                    anuncio.valor = valor
+                    anuncio.categoria = categoriaSelecionada as String
+                    anuncio.descricao = descricao
+                    anuncio.local = local
+                    anuncio.salvar(novoAnuncio!!)
+                    progressBar.visibility = View.GONE
+                }
 
         }
     }
@@ -196,7 +206,6 @@ class FormActivity : AppCompatActivity() {
             2, 5 -> 2
             else -> 3
         }
-
 
         val imagemData = ImagemData(caminho, request)
 
