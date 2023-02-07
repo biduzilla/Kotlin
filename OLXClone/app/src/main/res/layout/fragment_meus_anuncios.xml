@@ -52,6 +52,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:leftBgColor="@color/blue"
         app:leftImage="@drawable/ic_edit"
+        tools:listitem="@layout/anuncio_item"
         app:rightBgColor="@color/cor_delete"
         app:rightImage="@drawable/ic_delete" />
 
