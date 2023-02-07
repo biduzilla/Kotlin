@@ -10,14 +10,14 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().reference) {
-    var id: String? = null
-    var titulo: String? = null
-    var descricao: String? = null
-    var valor: Double? = null
-    var categoria: String? = null
+    var id: String? = ""
+    var titulo: String? = ""
+    var descricao: String? = ""
+    var valor: Double? = 0.0
+    var categoria: String? = ""
     var local: Local? = null
-    var dataPublicacao: Long? = null
-    var idUser: String? = null
+    var dataPublicacao: Long? = 0
+    var idUser: String? = ""
     var imagens = mutableListOf<String>()
 
 

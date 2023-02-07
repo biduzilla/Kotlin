@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="laranja">#f78323</color>
     <color name="bg_geral">#6E09D6</color>
+    <color name="cor_delete">#e12e2e</color>
 </resources>
