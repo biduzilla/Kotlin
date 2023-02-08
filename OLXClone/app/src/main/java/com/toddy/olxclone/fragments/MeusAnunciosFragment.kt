@@ -67,6 +67,7 @@ class MeusAnunciosFragment : Fragment(), AnuncioAdapter.OnClickListener {
             anuncioRef.addListenerForSingleValueEvent(object :  ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if(snapshot.exists()){
+                        anunciosLst.clear()
                         tvInfo.text = ""
                         val children =snapshot.children
                         children.forEach {

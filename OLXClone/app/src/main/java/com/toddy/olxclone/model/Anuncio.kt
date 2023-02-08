@@ -1,5 +1,7 @@
 package com.toddy.olxclone.model
 
+import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -8,6 +10,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.toddy.olxclone.activitys.FormActivity
+import com.toddy.olxclone.activitys.MainActivity
 
 class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().reference) {
     var id: String? = ""
@@ -21,12 +25,11 @@ class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().refe
     var imagens = mutableListOf<String>()
 
 
-
     init {
         this.id = reference.push().key!!
     }
 
-    fun salvar(novoAnuncios: Boolean) {
+    fun salvar(activity: Activity, novoAnuncios: Boolean) {
         val anuncioPubRef: DatabaseReference = FirebaseDatabase.getInstance().reference
             .child("anuncios_publicos")
             .child(this.id!!)
@@ -49,7 +52,14 @@ class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().refe
             val dataAnuncioMeus: DatabaseReference = anuncioMeusRef
                 .child("dataPublicacao")
 
-            dataAnuncioMeus.setValue(ServerValue.TIMESTAMP)
+            dataAnuncioMeus.setValue(ServerValue.TIMESTAMP).addOnCompleteListener {
+                activity.finish()
+                val intent = Intent(activity, MainActivity::class.java)
+                intent.putExtra("id",2)
+                activity.startActivity(intent)
+            }
+        } else {
+            activity.finish()
         }
     }
 }

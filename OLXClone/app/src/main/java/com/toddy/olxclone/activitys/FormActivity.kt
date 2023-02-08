@@ -123,7 +123,7 @@ class FormActivity : AppCompatActivity() {
                     if (novoAnuncio) {
                         if (imagemList.size == 3) {
                             imagemList.forEachIndexed { index, imagem ->
-                                salvarImgFireBase(imagem, index)
+                                salvarImgFireBase(imagem, index - 0)
                             }
                         } else {
                             Toast.makeText(
@@ -156,7 +156,7 @@ class FormActivity : AppCompatActivity() {
                 }
 
                 if (imagemList.size == index + 1){
-                    anuncio.salvar(novoAnuncio)
+                    anuncio.salvar(this, novoAnuncio)
                 }
             }
         }.addOnFailureListener{
