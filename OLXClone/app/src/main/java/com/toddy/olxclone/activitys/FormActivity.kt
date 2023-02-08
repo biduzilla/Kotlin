@@ -32,8 +32,10 @@ import com.google.firebase.storage.UploadTask
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.santalu.maskara.widget.MaskEditText
+import com.squareup.picasso.Picasso
 import com.toddy.olxclone.R
 import com.toddy.olxclone.api.CepService
+import com.toddy.olxclone.helper.GetMask
 import com.toddy.olxclone.model.*
 import okhttp3.Request
 import retrofit2.*
@@ -79,16 +81,42 @@ class FormActivity : AppCompatActivity() {
         setContentView(R.layout.activity_form)
 
         initComponents()
+        val bundle: Bundle? = intent.extras
+
+        if (bundle != null) {
+            anuncio = bundle.getSerializable("anuncio_selecionado") as Anuncio
+            configDados()
+        }
+
         initRetrofit()
         configClicks()
         startResult()
         recuperaEndereco()
     }
 
+    private fun configDados() {
+        tituloToolbar.text = "Editar Anúncio"
+
+        categoriaSelecionada = anuncio.categoria
+        btnCategoria.text = categoriaSelecionada
+
+        etTitulo.setText(anuncio.titulo)
+        etPreco.setText(GetMask.getValor(anuncio.valor!!))
+        etDescricao.setText(anuncio.descricao)
+
+        Picasso.get().load(anuncio.imagens[0]).into(ivImg1)
+        Picasso.get().load(anuncio.imagens[1]).into(ivImg2)
+        Picasso.get().load(anuncio.imagens[2]).into(ivImg3)
+
+        novoAnuncio = false
+    }
+
     fun validaDados(view: View) {
         val titulo: String = etTitulo.text.toString()
         val descricao: String = etDescricao.text.toString()
         val valor: Double = (etPreco.rawValue / 100).toDouble()
+
+        progressBar.visibility = View.VISIBLE
 
         when {
             titulo.isEmpty() -> {
@@ -111,8 +139,6 @@ class FormActivity : AppCompatActivity() {
             }
             else ->
                 if (anuncio.id != null) {
-                    progressBar.visibility = View.VISIBLE
-
                     anuncio.idUser = FirebaseAuth.getInstance().currentUser!!.uid
                     anuncio.titulo = titulo
                     anuncio.valor = valor
@@ -132,35 +158,44 @@ class FormActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                    } else { //Edição
+                        if (imagemList.size > 0) {
+                            imagemList.forEachIndexed { index, imagem ->
+                                salvarImgFireBase(imagem, index - 0)
+                            }
+                        } else {
+                            anuncio.salvar(this, false)
+                        }
                     }
                     progressBar.visibility = View.GONE
                 }
 
         }
+        progressBar.visibility = View.GONE
     }
 
     private fun salvarImgFireBase(imagem: ImagemData, index: Int) {
-        val storage:StorageReference = FirebaseStorage.getInstance().reference
+        val storage: StorageReference = FirebaseStorage.getInstance().reference
             .child("imagens")
             .child("anuncios")
             .child(anuncio.id!!)
             .child("imagem ${index}.jpeg")
 
-        val uploadTask:UploadTask = storage.putFile(Uri.parse(imagem.caminhoImagem))
+        val uploadTask: UploadTask = storage.putFile(Uri.parse(imagem.caminhoImagem))
         uploadTask.addOnSuccessListener {
             storage.downloadUrl.addOnCompleteListener { task ->
-                if (novoAnuncio){
+                if (novoAnuncio) {
                     anuncio.imagens.add(index, task.result.toString())
-                }else{
+                } else {
                     anuncio.imagens[index] = task.result.toString()
                 }
 
-                if (imagemList.size == index + 1){
+                if (imagemList.size == index + 1) {
                     anuncio.salvar(this, novoAnuncio)
                 }
             }
-        }.addOnFailureListener{
-            Toast.makeText(this, it.message,Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
         }
     }
 
