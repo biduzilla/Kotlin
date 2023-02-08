@@ -58,7 +58,7 @@ class MeusAnunciosFragment : Fragment(), AnuncioAdapter.OnClickListener {
 
         rvAnuncios.setListener(object : SwipeLeftRightCallback.Listener {
             override fun onSwipedLeft(position: Int) {
-                //delete
+                showDialogDelete(anunciosLst[position])
             }
 
             override fun onSwipedRight(position: Int) {
@@ -79,6 +79,23 @@ class MeusAnunciosFragment : Fragment(), AnuncioAdapter.OnClickListener {
                 val intent = Intent(requireActivity(), FormActivity::class.java)
                 intent.putExtra("anuncio_selecionado", anuncio)
                 startActivity(intent)
+                anunciosAdapter.notifyDataSetChanged()
+            }
+
+        val dialog: AlertDialog = alertDialog.create()
+        dialog.show()
+    }
+
+    private fun showDialogDelete(anuncio: Anuncio) {
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Deseja deletar o anúncio?")
+            .setMessage("Sim para deletar o anúncio, Não para fechar")
+            .setNegativeButton("Fechar") { dialog, which ->
+                dialog.dismiss()
+                anunciosAdapter.notifyDataSetChanged()
+            }.setPositiveButton("Sim") { dialog, which ->
+                anunciosLst.remove(anuncio)
+                anuncio.remover(anuncio)
                 anunciosAdapter.notifyDataSetChanged()
             }
 

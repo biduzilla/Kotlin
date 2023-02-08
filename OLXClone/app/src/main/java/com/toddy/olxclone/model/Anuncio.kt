@@ -15,7 +15,8 @@ import com.google.firebase.storage.StorageReference
 import com.toddy.olxclone.activitys.FormActivity
 import com.toddy.olxclone.activitys.MainActivity
 
-class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().reference):java.io.Serializable {
+class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().reference) :
+    java.io.Serializable {
     var id: String? = ""
     var titulo: String? = ""
     var descricao: String? = ""
@@ -57,11 +58,34 @@ class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().refe
             dataAnuncioMeus.setValue(ServerValue.TIMESTAMP).addOnCompleteListener {
                 activity.finish()
                 val intent = Intent(activity, MainActivity::class.java)
-                intent.putExtra("id",2)
+                intent.putExtra("id", 2)
                 activity.startActivity(intent)
             }
         } else {
             activity.finish()
         }
+    }
+
+    fun remover(anuncio: Anuncio) {
+        val anuncioPubRef: DatabaseReference = FirebaseDatabase.getInstance().reference
+            .child("anuncios_publicos")
+            .child(this.id!!)
+        anuncioPubRef.removeValue()
+
+        val anuncioMeusRef: DatabaseReference = FirebaseDatabase.getInstance().reference
+            .child("meus_anuncios")
+            .child(FirebaseAuth.getInstance().currentUser!!.uid)
+            .child(this.id!!)
+        anuncioMeusRef.removeValue()
+
+        imagens.forEachIndexed { index, imagem ->
+            val storage: StorageReference = FirebaseStorage.getInstance().reference
+                .child("imagens")
+                .child("anuncios")
+                .child(id!!)
+                .child("imagem ${index}.jpeg")
+            storage.delete()
+        }
+
     }
 }
