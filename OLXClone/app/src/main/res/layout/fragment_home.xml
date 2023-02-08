@@ -58,6 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <android.widget.Button
+            android:id="@+id/btn_regiao"
             style="?attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,6 +75,7 @@
             android:background="?actionBarDivider" />
 
         <android.widget.Button
+            android:id="@+id/btn_categorias"
             style="?attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,6 +92,7 @@
             android:background="?actionBarDivider" />
 
         <android.widget.Button
+            android:id="@+id/btn_filtro"
             style="?attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -148,6 +151,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/anuncio_item"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"></androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout

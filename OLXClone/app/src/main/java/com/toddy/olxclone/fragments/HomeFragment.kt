@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.toddy.olxclone.R
+import com.toddy.olxclone.activitys.CategoriasActivity
 import com.toddy.olxclone.activitys.FormActivity
 import com.toddy.olxclone.adapter.AnuncioAdapter
 import com.toddy.olxclone.auth.LoginActivity
@@ -30,6 +31,10 @@ class HomeFragment : Fragment(), AnuncioAdapter.OnClickListener {
     private lateinit var tvInfo: TextView
     private lateinit var btnNovoAnuncio:Button
     private lateinit var rvAnuncios: RecyclerView
+    private lateinit var btnRegiao:Button
+    private lateinit var btnCategoria:Button
+    private lateinit var btnFiltro:Button
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,18 +57,27 @@ class HomeFragment : Fragment(), AnuncioAdapter.OnClickListener {
                 startActivity(Intent(activity, LoginActivity::class.java))
             }
         }
-    }
 
-    private fun initComponents(view:View){
-        btnNovoAnuncio = view.findViewById(R.id.btn_novo_anuncio)
-        progressBar = view.findViewById(R.id.progress_bar)
-        tvInfo = view.findViewById(R.id.tv_info)
-        rvAnuncios = view.findViewById(R.id.rv_anuncios)
+        btnCategoria.setOnClickListener {
+            val intent = Intent(requireActivity(), CategoriasActivity::class.java)
+            intent.putExtra("todas", true)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
         super.onStart()
         recuperaAnuncios()
+    }
+
+    private fun initComponents(view:View){
+        progressBar = view.findViewById(R.id.progress_bar)
+        tvInfo = view.findViewById(R.id.tv_info)
+        rvAnuncios = view.findViewById(R.id.rv_anuncios)
+        btnNovoAnuncio = view.findViewById(R.id.btn_novo_anuncio)
+        btnRegiao = view.findViewById(R.id.btn_regiao)
+        btnCategoria = view.findViewById(R.id.btn_categorias)
+        btnFiltro = view.findViewById(R.id.btn_filtro)
     }
 
     private fun confiRv() {

@@ -20,11 +20,18 @@ class CategoriasActivity : AppCompatActivity(), AdapterCategoria.OnClickListener
     private lateinit var ibVoltar: ImageButton
     private lateinit var rvCategorias: RecyclerView
 
+    private var todas = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_categorias)
 
         initComponents()
+        val bundle = intent.extras
+        if (bundle != null){
+            todas = bundle.getBoolean("todas")
+        }
+
         configClicks()
         initRV()
     }
@@ -47,7 +54,7 @@ class CategoriasActivity : AppCompatActivity(), AdapterCategoria.OnClickListener
         rvCategorias.layoutManager = LinearLayoutManager(this)
         rvCategorias.setHasFixedSize(true)
 
-        adapterCategoria = AdapterCategoria(CategoriaList.getList(false), this)
+        adapterCategoria = AdapterCategoria(CategoriaList.getList(todas), this)
 
         rvCategorias.adapter = adapterCategoria
     }
