@@ -13,7 +13,7 @@ import com.google.firebase.storage.StorageReference
 import com.toddy.olxclone.activitys.FormActivity
 import com.toddy.olxclone.activitys.MainActivity
 
-class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().reference) {
+class Anuncio(reference: DatabaseReference = FirebaseDatabase.getInstance().reference):java.io.Serializable {
     var id: String? = ""
     var titulo: String? = ""
     var descricao: String? = ""

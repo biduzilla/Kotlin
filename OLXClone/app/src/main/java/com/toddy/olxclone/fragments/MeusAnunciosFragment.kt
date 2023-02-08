@@ -1,5 +1,8 @@
 package com.toddy.olxclone.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,8 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.toddy.olxclone.R
+import com.toddy.olxclone.activitys.FormActivity
 import com.toddy.olxclone.adapter.AnuncioAdapter
 import com.toddy.olxclone.model.Anuncio
+import com.tsuryo.swipeablerv.SwipeLeftRightCallback
 import com.tsuryo.swipeablerv.SwipeableRecyclerView
 import java.util.EventListener
 
@@ -50,7 +55,37 @@ class MeusAnunciosFragment : Fragment(), AnuncioAdapter.OnClickListener {
         rvAnuncios.setHasFixedSize(true)
         anunciosAdapter = AnuncioAdapter(anunciosLst, this)
         rvAnuncios.adapter = anunciosAdapter
+
+        rvAnuncios.setListener(object : SwipeLeftRightCallback.Listener {
+            override fun onSwipedLeft(position: Int) {
+                //delete
+            }
+
+            override fun onSwipedRight(position: Int) {
+                showDialogEdit(anunciosLst[position])
+            }
+
+        })
     }
+
+    private fun showDialogEdit(anuncio: Anuncio) {
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Deseja editar o anúncio?")
+            .setMessage("Sim para editar o anúncio, Não para fechar")
+            .setNegativeButton("Fechar") { dialog, which ->
+                dialog.dismiss()
+                anunciosAdapter.notifyDataSetChanged()
+            }.setPositiveButton("Sim") { dialog, which ->
+                val intent = Intent(requireActivity(), FormActivity::class.java)
+                intent.putExtra("anuncio_selecionado", anuncio)
+                startActivity(intent)
+                anunciosAdapter.notifyDataSetChanged()
+            }
+
+        val dialog: AlertDialog = alertDialog.create()
+        dialog.show()
+    }
+
 
     private fun initComponents(view: View) {
         progressBar = view.findViewById(R.id.progress_bar)
@@ -60,33 +95,35 @@ class MeusAnunciosFragment : Fragment(), AnuncioAdapter.OnClickListener {
     }
 
     private fun recuperaAnuncios() {
-        if (FirebaseAuth.getInstance().currentUser != null){
+        if (FirebaseAuth.getInstance().currentUser != null) {
             val anuncioRef: DatabaseReference =
-                FirebaseDatabase.getInstance().reference.child("meus_anuncios").child(FirebaseAuth.getInstance().currentUser!!.uid)
+                FirebaseDatabase.getInstance().reference.child("meus_anuncios")
+                    .child(FirebaseAuth.getInstance().currentUser!!.uid)
 
-            anuncioRef.addListenerForSingleValueEvent(object :  ValueEventListener {
+            anuncioRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if(snapshot.exists()){
+                    if (snapshot.exists()) {
                         anunciosLst.clear()
                         tvInfo.text = ""
-                        val children =snapshot.children
+                        val children = snapshot.children
                         children.forEach {
-                            it.getValue(Anuncio::class.java).let {
-                                anuncio->anunciosLst.add(anuncio!!)
+                            it.getValue(Anuncio::class.java).let { anuncio ->
+                                anunciosLst.add(anuncio!!)
                             }
                         }
                         anunciosLst.reverse()
                         anunciosAdapter.notifyDataSetChanged()
                         progressBar.visibility = View.GONE
-                    }else{
+                    } else {
                         tvInfo.text = "Nenhum anúncio cadastrado"
                     }
                 }
+
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
                 }
             })
-        }else{
+        } else {
             btnLogar.visibility = View.VISIBLE
             tvInfo.text = ""
             progressBar.visibility = View.GONE

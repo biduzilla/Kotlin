@@ -11,4 +11,4 @@ data class Local(
     val gia: String = "",
     val ddd: String = "",
     val siafi: String = "",
-)
+) :java.io.Serializable
