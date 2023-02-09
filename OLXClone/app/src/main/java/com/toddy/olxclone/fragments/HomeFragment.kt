@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.toddy.olxclone.R
 import com.toddy.olxclone.activitys.CategoriasActivity
+import com.toddy.olxclone.activitys.EstadosActivity
 import com.toddy.olxclone.activitys.FormActivity
 import com.toddy.olxclone.adapter.AnuncioAdapter
 import com.toddy.olxclone.auth.LoginActivity
@@ -62,6 +63,10 @@ class HomeFragment : Fragment(), AnuncioAdapter.OnClickListener {
             val intent = Intent(requireActivity(), CategoriasActivity::class.java)
             intent.putExtra("todas", true)
             startActivity(intent)
+        }
+
+        btnRegiao.setOnClickListener {
+            startActivity(Intent(activity,EstadosActivity::class.java))
         }
     }
 
