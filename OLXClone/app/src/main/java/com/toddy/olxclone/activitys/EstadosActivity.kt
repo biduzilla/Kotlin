@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.toddy.olxclone.R
 import com.toddy.olxclone.adapter.EstadoAdapter
+import com.toddy.olxclone.helper.SPFiltro
 import com.toddy.olxclone.model.Estado
 import com.toddy.olxclone.utils.EstadoList
 
@@ -53,8 +54,8 @@ class EstadosActivity : AppCompatActivity(), EstadoAdapter.OnClickListener {
     }
 
     override fun onClickListener(estado: Estado) {
-        val intent = Intent(this, RegioesActivity::class.java)
-        intent.putExtra("estadoSelecionado", estado.uf)
-        startActivity(intent)
+       SPFiltro.setFiltro(this, "ufEstado",estado.uf)
+       SPFiltro.setFiltro(this, "nomeEstado",estado.nome)
+       startActivity(Intent(this, RegioesActivity::class.java))
     }
 }

@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.toddy.olxclone.R
 import com.toddy.olxclone.adapter.EstadoAdapter
 import com.toddy.olxclone.adapter.RegiaoAdapter
+import com.toddy.olxclone.helper.SPFiltro
 import com.toddy.olxclone.utils.RegioesList
 
 class RegioesActivity : AppCompatActivity(), RegiaoAdapter.OnClickListener {
 
     private lateinit var rvRegioes: RecyclerView
     private lateinit var adapter: RegiaoAdapter
-    private lateinit var estadoSelecionado:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,19 +25,16 @@ class RegioesActivity : AppCompatActivity(), RegiaoAdapter.OnClickListener {
 
         initComponents()
 
-         estadoSelecionado = intent.getStringExtra("estadoSelecionado")!!
 
         configRv()
         configClicks()
     }
 
-    private fun configRv(){
+    private fun configRv() {
         rvRegioes.layoutManager = LinearLayoutManager(this)
         rvRegioes.setHasFixedSize(true)
-        adapter = RegiaoAdapter(RegioesList.getList(estadoSelecionado),this)
+        adapter = RegiaoAdapter(RegioesList.getList(SPFiltro.getFiltro(this).estado!!.uf), this)
         rvRegioes.adapter = adapter
-
-
     }
 
     private fun configClicks() {
