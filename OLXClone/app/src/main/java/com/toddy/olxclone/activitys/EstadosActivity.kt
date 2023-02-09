@@ -1,5 +1,6 @@
 package com.toddy.olxclone.activitys
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -52,6 +53,8 @@ class EstadosActivity : AppCompatActivity(), EstadoAdapter.OnClickListener {
     }
 
     override fun onClickListener(estado: Estado) {
-        Toast.makeText(this, estado.nome, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, RegioesActivity::class.java)
+        intent.putExtra("estadoSelecionado", estado.uf)
+        startActivity(intent)
     }
 }

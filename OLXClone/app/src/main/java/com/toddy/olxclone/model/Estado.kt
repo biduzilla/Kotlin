@@ -5,4 +5,4 @@ data class Estado(
     var uf: String = "",
     val regiao: String = "",
     val ddd: String = ""
-)
+):java.io.Serializable
