@@ -6,28 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <FrameLayout
+        android:id="@+id/frame_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bg_geral"
-        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <SearchView
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/bg_search_view"
+            android:layout_marginTop="8dp"
+            app:queryHint="Estou procurando por..."
+            app:iconifiedByDefault="false"
+            app:queryBackground="@android:color/transparent"
             android:imeOptions="actionSearch"
-            android:searchIcon="@drawable/ic_search" />
-    </LinearLayout>
+            android:searchIcon="@drawable/ic_search"
+            android:background="@drawable/bg_search_view" />
+
+    </FrameLayout>
 
     <android.widget.Button
         android:id="@+id/btn_novo_anuncio"
@@ -55,7 +58,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/frame_search_view">
 
         <android.widget.Button
             android:id="@+id/btn_regiao"
