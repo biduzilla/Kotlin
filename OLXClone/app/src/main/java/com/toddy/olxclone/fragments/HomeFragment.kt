@@ -1,4 +1,4 @@
-package com.toddy.olxclone.fragments
+package com.toddy.olxclone.adapter.fragments
 
 import android.content.Context
 import android.content.Intent
@@ -14,15 +14,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.toddy.olxclone.R
-import com.toddy.olxclone.activitys.CategoriasActivity
-import com.toddy.olxclone.activitys.EstadosActivity
-import com.toddy.olxclone.activitys.FiltrosActivity
-import com.toddy.olxclone.activitys.FormActivity
+import com.toddy.olxclone.activitys.*
 import com.toddy.olxclone.adapter.AnuncioAdapter
 import com.toddy.olxclone.auth.LoginActivity
 import com.toddy.olxclone.helper.SPFiltro
 import com.toddy.olxclone.model.Anuncio
 import com.toddy.olxclone.model.Filtro
+import java.util.*
 
 class HomeFragment : Fragment(), AnuncioAdapter.OnClickListener {
     private lateinit var anunciosAdapter: AnuncioAdapter
@@ -45,7 +43,7 @@ class HomeFragment : Fragment(), AnuncioAdapter.OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
 
@@ -147,7 +145,7 @@ class HomeFragment : Fragment(), AnuncioAdapter.OnClickListener {
 
     override fun onStart() {
         super.onStart()
-        recuperaAnuncios()
+        configFiltros()
     }
 
     private fun initComponents(view: View) {
@@ -177,27 +175,84 @@ class HomeFragment : Fragment(), AnuncioAdapter.OnClickListener {
                 if (snapshot.exists()) {
                     anunciosLst.clear()
                     tvInfo.text = ""
+
                     val children = snapshot.children
+
                     children.forEach {
                         it.getValue(Anuncio::class.java).let { anuncio ->
                             anunciosLst.add(anuncio!!)
                         }
                     }
-                    anunciosLst.reverse()
-                    anunciosAdapter.notifyDataSetChanged()
-                    progressBar.visibility = View.GONE
-                } else {
-                    tvInfo.text = "Nenhum anúncio cadastrado"
+                    when {
+                        filtro.categoria.isNotEmpty() -> {
+                            if (filtro.categoria == "Todas as categorias") {
+                                anunciosLst.forEach {
+                                    it.categoria != filtro.categoria
+                                    anunciosLst.remove(it)
+                                }
+                            }
+                        }
+
+                        filtro.estado!!.uf.isNotEmpty() -> {
+                            anunciosLst.forEach {
+                                if (!it.local!!.uf.contains(filtro.estado!!.uf)) {
+                                    anunciosLst.remove(it)
+                                }
+                            }
+                        }
+                        filtro.estado!!.ddd.isNotEmpty() -> {
+                            anunciosLst.forEach {
+                                if (it.local!!.uf != filtro.estado!!.uf) {
+                                    anunciosLst.remove(it)
+                                }
+                            }
+                        }
+                        filtro.pesquisa.isNotEmpty() -> {
+                            anunciosLst.forEach {
+                                if (!it.titulo!!.lowercase()
+                                        .contains(filtro.pesquisa.lowercase())
+                                ) {
+                                    anunciosLst.remove(it)
+                                }
+                            }
+                        }
+                        filtro.valorMin > 0 -> {
+                            anunciosLst.forEach {
+                                if (it.valor!! < filtro.valorMin) {
+                                    anunciosLst.remove(it)
+                                }
+                            }
+                        }
+                        filtro.valorMax > 0 -> {
+                            anunciosLst.forEach {
+                                if (it.valor!! > filtro.valorMax) {
+                                    anunciosLst.remove(it)
+                                }
+                            }
+                        }
+
+                        anunciosLst.isEmpty() -> {
+                            tvInfo.text = "Nenhum Anúncio Encontrado"
+                        }
+
+                        anunciosLst.isNotEmpty() -> tvInfo.text = ""
+                        else -> tvInfo.text = "Nenhum anúncio cadastrado."
+                    }
                 }
+
+                progressBar.visibility = View.GONE
+                anunciosLst.reverse()
+                anunciosAdapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
     }
 
     override fun OnClick(anuncio: Anuncio) {
-        Toast.makeText(requireContext(), anuncio.titulo, Toast.LENGTH_SHORT).show()
+        val intent = Intent(requireContext(), DetalheAnuncioActivity::class.java)
+        intent.putExtra("anuncioSelecionado",anuncio)
+        startActivity(intent)
     }
 }

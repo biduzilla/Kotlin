@@ -1,4 +1,4 @@
-package com.toddy.olxclone.fragments
+package com.toddy.olxclone.adapter.fragments
 
 import android.app.Activity
 import android.content.Intent
@@ -62,7 +62,6 @@ class MinhaContaFragment : Fragment() {
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
                     }
                 })
         }

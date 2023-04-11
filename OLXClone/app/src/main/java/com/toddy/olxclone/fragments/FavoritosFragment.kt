@@ -1,4 +1,4 @@
-package com.toddy.olxclone.fragments
+package com.toddy.olxclone.adapter.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

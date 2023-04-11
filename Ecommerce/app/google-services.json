@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "484078096135",
+    "project_id": "ecommerce-3dd60",
+    "storage_bucket": "ecommerce-3dd60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484078096135:android:13fefffbe3997672a2ffa2",
+        "android_client_info": {
+          "package_name": "com.toddy.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484078096135-ogn5oh36e8n408j5ltrrkk31nnmdhki2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.toddy.ecommerce",
+            "certificate_hash": "6224396519a213e903b9d6d3da7b87636e584b7c"
+          }
+        },
+        {
+          "client_id": "484078096135-ijs98faptg1o9tmv93ff57duhdmqdg80.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPXh-p10IwSSsO6BUfFtNeFPDg6Bf8UHI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484078096135-ijs98faptg1o9tmv93ff57duhdmqdg80.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
