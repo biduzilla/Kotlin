@@ -5,8 +5,7 @@ import android.graphics.fonts.Font
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -40,7 +39,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             DeliveryComposeUiTheme {
                 Surface {
-
+                    ProductSection()
                 }
             }
 
@@ -48,7 +47,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview(showBackground = true)
 @Composable
 fun ProductItem() {
     Surface(shape = RoundedCornerShape(15.dp), elevation = 10.dp) {
@@ -76,12 +74,12 @@ fun ProductItem() {
                     contentDescription = "Imagem do produto",
                     Modifier
                         .size(imgSize)
-                        .offset(y = imgSize/2)
+                        .offset(y = imgSize / 2)
                         .clip(CircleShape)
                         .align(BottomCenter)
                 )
             }
-            Spacer(modifier = Modifier.height(imgSize/2))
+            Spacer(modifier = Modifier.height(imgSize / 2))
             Column(Modifier.padding(16.dp)) {
                 Text(
                     text = LoremIpsum(50).values.first(),
@@ -100,4 +98,40 @@ fun ProductItem() {
         }
 
     }
+}
+
+@Composable
+fun ProductSection() {
+    Column {
+        Text(
+            text = "Promoções",
+            Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
+            fontSize = 20.sp,
+            fontWeight = FontWeight(400)
+        )
+        Row(
+            Modifier
+                .padding(top = 16.dp, bottom = 16.dp)
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+            , horizontalArrangement =Arrangement.spacedBy(16.dp)) {
+            Spacer(modifier = Modifier)
+            ProductItem()
+            ProductItem()
+            ProductItem()
+            Spacer(modifier = Modifier)
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ProductSectionPreview() {
+    ProductSection()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProductItemPreview() {
+    ProductItem()
 }
