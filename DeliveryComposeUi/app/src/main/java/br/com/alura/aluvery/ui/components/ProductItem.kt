@@ -1,6 +1,5 @@
 package br.com.alura.aluvery.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -26,14 +25,14 @@ import br.com.alura.aluvery.extensions.toBrazilianCurrency
 import br.com.alura.aluvery.model.Product
 import br.com.alura.aluvery.ui.theme.AluveryTheme
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import java.math.BigDecimal
 
 @Composable
-fun ProductItem(product: Product) {
+fun ProductItem(product: Product, modifier: Modifier = Modifier) {
     Surface(
+        modifier,
         shape = RoundedCornerShape(15.dp),
-        elevation = 4.dp
+        elevation = 4.dp,
     ) {
         Column(
             Modifier
@@ -56,7 +55,7 @@ fun ProductItem(product: Product) {
             ) {
                 AsyncImage(
                     // TODO: ajustar imagem do produto
-                    model=product.image,
+                    model = product.image,
                     contentDescription = null,
                     Modifier
                         .size(imageSize)

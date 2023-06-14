@@ -23,10 +23,11 @@ import coil.compose.AsyncImage
 @Composable
 fun CardProductItem(
     product: Product,
-    elevation: Dp = 4.dp
-) {
+    modifier: Modifier = Modifier,
+    elevation: Dp = 4.dp,
+    ) {
     Card(
-        Modifier
+        modifier
             .fillMaxWidth()
             .heightIn(150.dp),
         elevation = elevation
