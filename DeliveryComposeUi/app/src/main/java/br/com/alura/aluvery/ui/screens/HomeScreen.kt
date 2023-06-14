@@ -18,61 +18,70 @@ import br.com.alura.aluvery.sampledata.sampleProducts
 import br.com.alura.aluvery.sampledata.sampleSections
 import br.com.alura.aluvery.ui.components.CardProductItem
 import br.com.alura.aluvery.ui.components.ProductsSection
+import br.com.alura.aluvery.ui.components.SearchTextField
 import br.com.alura.aluvery.ui.theme.AluveryTheme
 
 @Composable
 fun HomeScreen(
-    sections: Map<String, List<Product>>
+    sections: Map<String, List<Product>>,
+    searchText: String = ""
 ) {
-    var text by remember {
-        mutableStateOf("Text")
-    }
 
     Column() {
-        OutlinedTextField(
-            value = text,
-            onValueChange = { newValue ->
-                text = newValue
+        var text by remember {
+            mutableStateOf(searchText)
+        }
+
+        SearchTextField(
+            searchText = text,
+            onSearchChange = {
+                text = it
             },
             Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            shape = RoundedCornerShape(100),
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = "Icone busca"
-                )
-            },
-            label = {
-                Text("Produto")
-            },
-            placeholder = {
-                Text("O que você procura?")
-            }
+                .padding(16.dp)
+                .fillMaxWidth(),
         )
+
+        val searchedProducts = remember(text) {
+            if (text.isNotBlank()) {
+                sampleProducts.filter { product ->
+                    product.name.contains(
+                        text,
+                        ignoreCase = true,
+                    ) ||
+                            product.description?.contains(
+                                text,
+                                ignoreCase = true,
+                            ) ?: false
+                }
+            } else emptyList()
+        }
+
         LazyColumn(
             Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(bottom = 16.dp)
         ) {
-            items(sampleProducts) { p ->
-                CardProductItem(
-                    product = p,
-                    Modifier.padding(horizontal = 16.dp),
-                )
+            if (text.isNotBlank()) {
+                items(searchedProducts) { p ->
+                    CardProductItem(
+                        product = p,
+                        Modifier.padding(horizontal = 16.dp),
+                    )
+                }
+            } else {
+                for (section in sections) {
+                    val title = section.key
+                    val products = section.value
+                    item {
+                        ProductsSection(
+                            title = title,
+                            products = products
+                        )
+                    }
+                }
             }
-//            for (section in sections) {
-//                val title = section.key
-//                val products = section.value
-//                item {
-//                    ProductsSection(
-//                        title = title,
-//                        products = products
-//                    )
-//                }
-//            }
         }
     }
 }
@@ -83,6 +92,19 @@ private fun HomeScreenPreview() {
     AluveryTheme {
         Surface {
             HomeScreen(sampleSections)
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun HomeScreenWithSearchTextPreview() {
+    AluveryTheme {
+        Surface {
+            HomeScreen(
+                sampleSections,
+                searchText = "pizza",
+            )
         }
     }
 }

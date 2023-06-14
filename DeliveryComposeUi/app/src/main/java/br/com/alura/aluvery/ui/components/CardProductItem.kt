@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import br.com.alura.aluvery.R
@@ -19,13 +20,14 @@ import br.com.alura.aluvery.model.Product
 import br.com.alura.aluvery.sampledata.sampleProducts
 import br.com.alura.aluvery.ui.theme.AluveryTheme
 import coil.compose.AsyncImage
+import java.math.BigDecimal
 
 @Composable
 fun CardProductItem(
     product: Product,
     modifier: Modifier = Modifier,
     elevation: Dp = 4.dp,
-    ) {
+) {
     Card(
         modifier
             .fillMaxWidth()
@@ -55,12 +57,13 @@ fun CardProductItem(
                     text = product.price.toBrazilianCurrency()
                 )
             }
-            // TODO: adicionar descrição do produto
-            // Text(
-            //     text = product.description,
-            //     Modifier
-            //         .padding(16.dp)
-            // )
+            product.description?.let {
+                Text(
+                    text = product.description,
+                    Modifier
+                        .padding(16.dp)
+                )
+            }
         }
     }
 }
@@ -71,7 +74,25 @@ private fun CardProductItemPreview() {
     AluveryTheme {
         Surface {
             CardProductItem(
-                product = sampleProducts.random(),
+//                product = sampleProducts.random(),
+                product = Product("teste", BigDecimal("9.99"))
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CardProductItemWithDescriptionPreview() {
+    AluveryTheme {
+        Surface {
+            CardProductItem(
+//                product = sampleProducts.random(),
+                product = Product(
+                    "teste",
+                    BigDecimal("9.99"),
+                    description = LoremIpsum(50).values.first()
+                )
             )
         }
     }
