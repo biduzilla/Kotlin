@@ -73,5 +73,7 @@ fun App(onFabClicked: () -> Unit = {}, content: @Composable () -> Unit = {}) {
 @Preview
 @Composable
 fun AppPreview() {
-    App()
+    App {
+        HomeScreen(sections = sampleSections)
+    }
 }
