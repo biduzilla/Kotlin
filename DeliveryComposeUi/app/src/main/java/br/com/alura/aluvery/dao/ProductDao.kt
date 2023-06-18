@@ -1,17 +1,18 @@
 package br.com.alura.aluvery.dao
 
-import androidx.compose.runtime.mutableStateListOf
 import br.com.alura.aluvery.model.Product
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class ProductDao {
 
     companion object {
-//        private val products = mutableListOf<Product>(*sampleProducts.toTypedArray())
-        private val products = mutableStateListOf<Product>()
+        //        private val products = mutableListOf<Product>(*sampleProducts.toTypedArray())
+        private val products = MutableStateFlow<List<Product>>(emptyList())
     }
 
-    fun products() = products.toList()
+    fun products() = products.asStateFlow()
     fun save(p: Product) {
-        products.add(p)
+        products.value = products.value + p
     }
 }
