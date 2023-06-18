@@ -5,46 +5,33 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.alura.aluvery.model.Product
+import br.com.alura.aluvery.sampledata.sampleCandies
+import br.com.alura.aluvery.sampledata.sampleDrinks
 import br.com.alura.aluvery.sampledata.sampleProducts
 import br.com.alura.aluvery.sampledata.sampleSections
 import br.com.alura.aluvery.ui.components.CardProductItem
 import br.com.alura.aluvery.ui.components.ProductsSection
 import br.com.alura.aluvery.ui.components.SearchTextField
+import br.com.alura.aluvery.ui.states.HomeScreenUiState
 import br.com.alura.aluvery.ui.theme.AluveryTheme
+import br.com.alura.aluvery.ui.viewmodels.HomScreenViewModel
 
-class HomeScreenUiState(
-    val sections: Map<String, List<Product>> = emptyMap(),
-    searchText: String = ""
+
+
+@Composable
+fun HomeScreen(
+    viewModel: HomScreenViewModel
 ) {
-    var text by mutableStateOf(searchText)
-        private set
 
-    val searchedProducts
-        get() =
-            if (text.isNotBlank()) {
-                sampleProducts.filter { product ->
-                    product.name.contains(
-                        text,
-                        ignoreCase = true,
-                    ) ||
-                            product.description?.contains(
-                                text,
-                                ignoreCase = true,
-                            ) ?: false
-                }
-            } else emptyList()
+    val state = viewModel.uiState
 
-    fun isShowSections(): Boolean {
-        return text.isNotBlank()
-    }
+    HomeScreen(state = state)
 
-    val onSearchChange: (String) -> Unit = { searchText ->
-        text = searchText
-    }
 }
 
 @Composable
@@ -53,13 +40,11 @@ fun HomeScreen(
 ) {
 
     Column() {
-        val searchedProducts = remember(state.text) {
-            state.searchedProducts
-        }
+        val searchedProducts = state.searchProducts
         val sections = state.sections
 
         SearchTextField(
-            searchText = state.text,
+            searchText = state.searchText,
             onSearchChange = state.onSearchChange,
             Modifier
                 .padding(16.dp)
