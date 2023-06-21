@@ -66,8 +66,9 @@ fun NoteScreen(
                 onTextChange = {
                     if (it.all { char ->
                             char.isLetter() || char.isWhitespace()
-                        }) title = it.trim()
+                        }) title = it
                 })
+
             InputText(modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 16.dp),
@@ -76,8 +77,9 @@ fun NoteScreen(
                 onTextChange = {
                     if (it.all { char ->
                             char.isLetter() || char.isWhitespace()
-                        }) description = it.trim()
-                })
+                        }) description = it
+                }
+            )
 
             ButtonCompose(
                 modifier = Modifier
@@ -89,14 +91,17 @@ fun NoteScreen(
                     if (title.isNotEmpty() && description.isNotEmpty()) {
                         onAddNote(
                             Note(
-                                title = title,
-                                description = description,
+                                title = title.trim(),
+                                description = description.trim(),
                             )
                         )
                         title = ""
                         description = ""
 
                         Toast.makeText(context, "Note Add", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Nota não pode ser vazia", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 })
 

@@ -11,10 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import kotlin.math.max
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -40,8 +38,7 @@ fun InputText(
         },
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Text,
-            capitalization = KeyboardCapitalization.Sentences
+            keyboardType = KeyboardType.Ascii,
         ),
         keyboardActions = KeyboardActions(onDone = {
             onImeAction()

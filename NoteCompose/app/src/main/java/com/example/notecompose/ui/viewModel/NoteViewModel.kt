@@ -1,10 +1,8 @@
 package com.example.notecompose.ui.viewModel
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.notecompose.data.NoteDataSource
 import com.example.notecompose.model.Note
 import com.example.notecompose.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,14 +22,12 @@ class NoteViewModel @Inject constructor(private val repository: NoteRepository) 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getAllNotes().distinctUntilChanged().collect { listNotes ->
-                if (listNotes.isNotEmpty()) {
-                    _noteList.value = listNotes
-                } else {
-                    Log.i("infoteste", "Lista de notas Vazias - NoteViewModel")
+                if (listNotes.isEmpty()) {
+                    Log.d("NOTEVIEWMODEL", "note list is empty!!!")
                 }
+                _noteList.value = listNotes
             }
         }
-//        noteList.addAll(NoteDataSource().loadNotes())
     }
 
     fun addNote(note: Note) = viewModelScope.launch { repository.addNote(note) }
