@@ -78,7 +78,8 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
     //https://developer.android.com/jetpack/compose/libraries
-    debugImplementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
 }
