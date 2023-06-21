@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.notecompose.ui.screens.NoteScreen
@@ -34,8 +35,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NotesApp(noteViewModel: NoteViewModel = viewModel()) {
-    val notesList = noteViewModel.getAllNotes()
+fun NotesApp(noteViewModel: NoteViewModel) {
+    val notesList = noteViewModel.noteList.collectAsState().value
 
     NoteScreen(
         notes = notesList,
@@ -43,6 +44,6 @@ fun NotesApp(noteViewModel: NoteViewModel = viewModel()) {
             noteViewModel.addNote(it)
         },
         onRemoveNote = {
-            noteViewModel.removeNote(it)
+            noteViewModel.deleteNote(it)
         })
 }

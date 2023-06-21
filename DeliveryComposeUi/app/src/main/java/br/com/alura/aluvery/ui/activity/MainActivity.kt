@@ -24,9 +24,6 @@ import br.com.alura.aluvery.ui.theme.AluveryTheme
 import br.com.alura.aluvery.ui.viewmodels.HomScreenViewModel
 
 class MainActivity : ComponentActivity() {
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

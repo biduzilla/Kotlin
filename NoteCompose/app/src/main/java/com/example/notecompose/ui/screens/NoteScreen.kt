@@ -2,8 +2,10 @@ package com.example.notecompose.ui.screens
 
 import android.content.res.Resources.Theme
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -50,25 +52,38 @@ fun NoteScreen(
                     contentDescription = null,
                     Modifier.padding(horizontal = 8.dp)
                 )
-            }, backgroundColor = MaterialTheme.colors.primary
+            }, backgroundColor = MaterialTheme.colors.onSecondary
         )
         Column(
             Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            InputText(text = title, label = "Título", onTextChange = {
-                if (it.all { char ->
-                        char.isLetter() || char.isWhitespace()
-                    }) title = it.trim()
-            })
-            InputText(text = description, label = "Descrição", onTextChange = {
-                if (it.all { char ->
-                        char.isLetter() || char.isWhitespace()
-                    }) description = it.trim()
-            })
+            InputText(modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp),
+                text = title,
+                label = "Título",
+                onTextChange = {
+                    if (it.all { char ->
+                            char.isLetter() || char.isWhitespace()
+                        }) title = it.trim()
+                })
+            InputText(modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp, horizontal = 16.dp),
+                text = description,
+                label = "Descrição",
+                onTextChange = {
+                    if (it.all { char ->
+                            char.isLetter() || char.isWhitespace()
+                        }) description = it.trim()
+                })
 
             ButtonCompose(
-                modifier = Modifier.padding(vertical = 8.dp),
+                modifier = Modifier
+                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                    .height(50.dp)
+                    .fillMaxWidth(),
                 text = "Salvar",
                 onClick = {
                     if (title.isNotEmpty() && description.isNotEmpty()) {
