@@ -1,8 +1,6 @@
 package com.example.notecompose.ui.screens
 
-import android.content.res.Resources.Theme
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,20 +13,34 @@ import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.notecompose.ui.components.InputText
 import com.example.notecompose.data.NoteDataSource
 import com.example.notecompose.model.Note
 import com.example.notecompose.ui.components.ButtonCompose
+import com.example.notecompose.ui.components.InputText
 import com.example.notecompose.ui.components.NoteItem
+import com.example.notecompose.ui.state.NoteScreenUiState
+import com.example.notecompose.ui.viewModel.NoteViewModel
+
+//@Composable
+//fun NoteScreen(viewModel: NoteViewModel) {
+//
+//    val state by viewModel.uiState.collectAsState()
+//    NoteScreen(state = state, onAddNote = {
+//        viewModel.salvarNota()
+//    }, onRemoveNote = {
+//        viewModel.removerNota(it)
+//    })
+//}
 
 @Composable
 fun NoteScreen(
+//    state: NoteScreenUiState = NoteScreenUiState(),
     notes: List<Note>,
     onAddNote: (Note) -> Unit,
+//    onAddNote: () -> Unit,
     onRemoveNote: (Note) -> Unit
 ) {
     var title by remember {
@@ -67,6 +79,7 @@ fun NoteScreen(
                     if (it.all { char ->
                             char.isLetter() || char.isWhitespace()
                         }) title = it
+//                    state.onTitleChange
                 })
 
             InputText(modifier = Modifier
@@ -78,6 +91,7 @@ fun NoteScreen(
                     if (it.all { char ->
                             char.isLetter() || char.isWhitespace()
                         }) description = it
+//                    state.onDescriptionChange
                 }
             )
 
@@ -97,6 +111,7 @@ fun NoteScreen(
                         )
                         title = ""
                         description = ""
+//                        onAddNote()
 
                         Toast.makeText(context, "Note Add", Toast.LENGTH_SHORT).show()
                     } else {
@@ -125,7 +140,7 @@ fun NoteScreen(
 fun NoteScreenPreview() {
     NoteScreen(
         notes = NoteDataSource().loadNotes(),
-        onAddNote = {},
+        onAddNote = { },
         onRemoveNote = {},
     )
 }

@@ -26,8 +26,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val noteViewModel:NoteViewModel by viewModels()
+                    val noteViewModel: NoteViewModel by viewModels()
                     NotesApp(noteViewModel)
+//                    NoteScreen(viewModel = noteViewModel)
                 }
             }
         }
