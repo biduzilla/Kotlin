@@ -1,6 +1,7 @@
 package com.example.quizcompose.di
 
 import com.example.quizcompose.network.QuestionApi
+import com.example.quizcompose.repository.QuestionRepository
 import com.example.quizcompose.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -23,4 +24,8 @@ object AppModule {
             .build()
             .create(QuestionApi::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideQuestionRepository(api: QuestionApi) = QuestionRepository(api)
 }
