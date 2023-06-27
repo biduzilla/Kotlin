@@ -19,8 +19,8 @@ fun AsyncImagePerfil(
         contentDescription = stringResource(id = R.string.foto_perfil_contato),
         modifier = modifier,
         model = ImageRequest.Builder(LocalContext.current).data(urlImagem).build(),
-        placeholder = painterResource(id = R.drawable.ic_launcher_foreground),
-        error = painterResource(id = R.drawable.ic_launcher_foreground),
+        placeholder = painterResource(id = R.drawable.placeholder),
+        error = painterResource(id = R.drawable.placeholder),
         contentScale = ContentScale.Crop
     )
 }

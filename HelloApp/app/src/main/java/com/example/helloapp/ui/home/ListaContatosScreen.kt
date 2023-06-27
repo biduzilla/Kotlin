@@ -44,7 +44,7 @@ fun ListaContatosScreen(
 
         LazyColumn(modifier.padding(paddingValues)) {
             items(state.contatos) { contato ->
-                ContatoItem(contato = contato){idContato->
+                ContatoItem(contato = contato) { idContato ->
                     onClickAbreDetalhes(idContato)
                 }
             }
