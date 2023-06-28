@@ -14,14 +14,15 @@ import javax.inject.Inject
 @HiltViewModel
 class QuestionViewModel @Inject constructor(private val repository: QuestionRepository) :
     ViewModel() {
-    val data: MutableState<DataOrException<ArrayList<QuestionItem>, Boolean, Exception>> =
-        mutableStateOf(DataOrException(null, true, Exception("")))
+    val data: MutableState<DataOrException<ArrayList<QuestionItem>,
+            Boolean, Exception>> = mutableStateOf(
+        DataOrException(null, true, Exception("")) )
 
     init {
-        getAllQuestion()
+        getAllQuestions()
     }
 
-    private fun getAllQuestion() {
+    private fun getAllQuestions() {
         viewModelScope.launch {
             data.value.loading = true
             data.value = repository.getAllQuestions()
@@ -29,5 +30,11 @@ class QuestionViewModel @Inject constructor(private val repository: QuestionRepo
                 data.value.loading = false
             }
         }
+
     }
+    fun getTotalQuestionCount(): Int {
+        return data.value.data?.toMutableList()?.size!!
+    }
+
+
 }
