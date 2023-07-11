@@ -1,10 +1,11 @@
-package com.example.cleanarchitecturenoteapp.di
+package com.example.cleanarchitecturenoteapp.feature_note.presentation.di
 
 import android.app.Application
 import androidx.room.Room
 import com.example.cleanarchitecturenoteapp.feature_note.data.data_source.NoteDatabase
 import com.example.cleanarchitecturenoteapp.feature_note.data.repository.NoteRepositoryImpl
 import com.example.cleanarchitecturenoteapp.feature_note.domain.repository.NoteRepository
+import com.example.cleanarchitecturenoteapp.feature_note.domain.use_case.AddNote
 import com.example.cleanarchitecturenoteapp.feature_note.domain.use_case.DeleteNote
 import com.example.cleanarchitecturenoteapp.feature_note.domain.use_case.GetNotes
 import com.example.cleanarchitecturenoteapp.feature_note.domain.use_case.NotesUseCases
@@ -39,7 +40,8 @@ object AppModule {
     fun provideNotesUseCase(repository: NoteRepository): NotesUseCases {
         return NotesUseCases(
             getNotes = GetNotes(repository),
-            deleteNote = DeleteNote(repository)
+            deleteNote = DeleteNote(repository),
+            addNote = AddNote(repository)
         )
     }
 }
